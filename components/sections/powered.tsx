@@ -3,7 +3,7 @@ import Link from "next/link";
 const technos = [
   {
     title: "Next.js 14",
-    href: "https://nextjs.org/",
+    href: "",
     icon: (
       <svg
         className="h-6 w-auto"
@@ -23,7 +23,7 @@ const technos = [
   },
   {
     title: "Prisma",
-    href: "https://www.prisma.io/",
+    href: "",
     icon: (
       <svg
         className="h-9 w-auto"
@@ -39,7 +39,7 @@ const technos = [
   },
   {
     title: "Neon",
-    href: "https://neon.tech/",
+    href: "",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +80,7 @@ const technos = [
   },
   {
     title: "Auth.js",
-    href: "https://authjs.dev/",
+    href: "",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -95,7 +95,7 @@ const technos = [
   },
   {
     title: "Resend",
-    href: "https://resend.com/",
+    href: "",
     icon: (
       <svg
         width="60"
@@ -133,7 +133,7 @@ const technos = [
   },
   {
     title: "shadcn/ui",
-    href: "https://ui.shadcn.com/",
+    href: "",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +168,7 @@ const technos = [
   },
   {
     title: "Stripe",
-    href: "https://stripe.com/",
+    href: "",
     icon: (
       <svg
         className="h-8 w-auto"

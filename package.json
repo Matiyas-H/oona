@@ -73,6 +73,7 @@
     "next-contentlayer": "^0.3.4",
     "next-themes": "^0.3.0",
     "nodemailer": "^6.9.13",
+    "npm-check-updates": "^16.14.18",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-day-picker": "^8.10.0",
@@ -87,6 +88,7 @@
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.0",
+    "vercel": "^33.7.0",
     "zod": "^3.22.4",
     "zustand": "^4.5.2"
   },
