@@ -9,18 +9,18 @@ export const infos: InfoLdg[] = [
     list: [
       {
         title: "Collaborative",
-        description: "Work together with your team members in real-time.",
+        description: " Empower your team with an AI assistant that complements human skills and knowledge.",
         icon: "laptop",
       },
       {
         title: "Innovative",
-        description: "Stay ahead of the curve with access constant updates.",
+        description: "Stay ahead with AI that leverages the latest advancements and continuously learns",
         icon: "settings",
       },
       {
         title: "Scalable",
         description:
-          "Our platform offers the scalability needed to adapt to your needs.",
+          "Solutions that grow with your business, ensuring long-term ROI",
         icon: "search",
       },
     ],

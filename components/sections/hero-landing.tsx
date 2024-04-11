@@ -31,7 +31,7 @@ export async function HeroLanding() {
           )}
           target="_blank"
         >
-          <span className="mr-3">🎉</span> We are a part of Antler H1 batch{" "}
+          <span className="mr-3">🎉</span> We are a part of Antler NOR-6 batch{" "}
           {/* <Icons.twitter className="ml-2 size-3.5" /> */}
         </Link>
 
