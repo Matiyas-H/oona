@@ -24,11 +24,11 @@ export function BentoGrid() {
                       />
                     </svg>
                     <span className="text-gradient_indigo-purple mx-auto block w-fit font-heading text-5xl">
-                      Built for
+                      Built for&apos;
                     </span>
                   </div>
                   <h2 className="mt-6 text-center font-heading text-3xl md:text-4xl lg:text-[40px]">
-                    Your Business
+                    Your Business&apos;
                   </h2>
                 </div>
               </div>
