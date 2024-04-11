@@ -191,12 +191,12 @@ export function Powered() {
   return (
     <section className="py-14 text-muted-foreground">
       <div className="container max-w-7xl">
-        <h2 className="text-center text-sm font-semibold uppercase">
+        {/* <h2 className="text-center text-sm font-semibold uppercase">
           Powered by
-        </h2>
+        </h2> */}
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-10 gap-y-8 lg:gap-16">
-          {technos.map((feature) => (
+          {/* {technos.map((feature) => (
             <Link
               target="_blank"
               key={feature.title}
@@ -206,7 +206,7 @@ export function Powered() {
             >
               {feature.icon}
             </Link>
-          ))}
+          ))} */}
         </div>
       </div>
     </section>
