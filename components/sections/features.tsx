@@ -13,7 +13,7 @@ export function Features() {
           <HeaderSection
             label="Features"
             title="Discover all features."
-            subtitle="Discover how our AI's comprehensive features can solve your business challenges and drive growth."
+            subtitle="Discover how our AI is comprehensive features can solve your business challenges and drive growth."
           />
 
           <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

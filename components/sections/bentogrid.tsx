@@ -119,8 +119,7 @@ export function BentoGrid() {
                       Secure by default
                     </h2>
                     <p className="text-muted-foreground">
-                      Security that's non-negotiable, privacy that&apos;s
-                      paramount
+                      Security that is non-negotiable, privacy that is paramount
                     </p>
                   </div>
                 </div>
@@ -343,7 +342,7 @@ export function BentoGrid() {
                     <div className="relative flex h-full flex-col justify-center space-y-6 py-6">
                       <div className="relative flex w-[calc(50%+0.875rem)] items-center justify-end gap-2">
                         <span className="block h-fit rounded-md border bg-muted/50 px-2 py-1 text-xs">
-                          Glodie
+                          Elton
                         </span>
                         <div className="size-7 ring-4 ring-background">
                           <Image
@@ -366,12 +365,12 @@ export function BentoGrid() {
                           />
                         </div>
                         <span className="block h-fit rounded-md border bg-muted/50 px-2 py-1 text-xs">
-                          M. Irung
+                          Kalle
                         </span>
                       </div>
                       <div className="relative flex w-[calc(50%+0.875rem)] items-center justify-end gap-2">
                         <span className="block h-fit rounded-md border bg-muted/50 px-2 py-1 text-xs">
-                          B. Ng
+                          Olli
                         </span>
                         <div className="size-7 ring-4 ring-background">
                           <Image
