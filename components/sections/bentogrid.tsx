@@ -119,7 +119,8 @@ export function BentoGrid() {
                       Secure by default
                     </h2>
                     <p className="text-muted-foreground">
-                      Security that's non-negotiable, privacy that's paramount
+                      Security that's non-negotiable, privacy that&apos;s
+                      paramount
                     </p>
                   </div>
                 </div>

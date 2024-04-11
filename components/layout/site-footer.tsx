@@ -53,10 +53,8 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               target="_blank"
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
-            >
-              ]
-            </Link>
-            . Illustrations by{" "}
+            ></Link>
+            Illustrations by{" "}
             <Link
               href="https://popsy.co"
               target="_blank"

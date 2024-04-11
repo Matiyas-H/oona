@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 
-import { Icons } from "@/components/shared/icons";
-import { Modal } from "@/components/shared/modal";
-import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { useSigninModal } from "@/hooks/use-signin-modal";
-import { signIn } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/shared/icons";
+import { Modal } from "@/components/shared/modal";
 
 export const SignInModal = () => {
   const signInModal = useSigninModal();
@@ -22,8 +22,7 @@ export const SignInModal = () => {
           </a>
           <h3 className="font-urban text-2xl font-bold">Sign In</h3>
           <p className="text-sm text-gray-500">
-            This is strictly for demo purposes - only your email and profile
-            picture will be stored.
+            Only your email and profile picture will be stored.
           </p>
         </div>
 
@@ -37,7 +36,7 @@ export const SignInModal = () => {
                 // TODO: fix this without setTimeOut(), modal closes too quickly. Idea: update value before redirect
                 setTimeout(() => {
                   signInModal.onClose();
-                }, 1000)
+                }, 1000),
               );
             }}
           >
