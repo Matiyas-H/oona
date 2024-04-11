@@ -2,9 +2,9 @@ import { InfoLdg } from "types";
 
 export const infos: InfoLdg[] = [
   {
-    title: "Empower your projects",
+    title: "Your Team + AI",
     description:
-      "Unlock the full potential of your projects with our open-source SaaS platform. Collaborate seamlessly, innovate effortlessly, and scale limitlessly.",
+      "Let our conversational AI handle the routine, so your people can focus on what they do best. Global reach guaranteed.",
     image: "/images/work-from-home.jpg",
     list: [
       {
@@ -28,7 +28,7 @@ export const infos: InfoLdg[] = [
   {
     title: "Seamless Integration",
     description:
-      "Integrate our open-source SaaS seamlessly into your existing workflows. Effortlessly connect with your favorite tools and services for a streamlined experience.",
+      "Integrate our solution seamlessly into your existing workflows. Effortlessly connect with your favorite tools and services for a streamlined experience.",
     image: "/images/work-from-home.jpg",
     list: [
       {
@@ -54,38 +54,38 @@ export const infos: InfoLdg[] = [
 
 export const features = [
   {
-    title: "Feature 1",
+    title: "Multilingual Mastery",
     description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
+      "Break down language barriers. Our AI communicates seamlessly in multiple languages, opening your business to a global audience.",
     link: "/",
   },
   {
-    title: "Feature 2",
+    title: "Action-Oriented AI",
     description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
+      "Go beyond chatbots. Our AI connects to your systems, automates tasks, and gets things done – saving you time and money.",
     link: "/",
   },
   {
-    title: "Feature 3",
+    title: "Continuous Learning",
     description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
+      "The AI that gets smarter. As it interacts and gathers data, our AI continuously improves, optimizing processes over time.",
     link: "/",
   },
   {
-    title: "Feature 4",
+    title: "Effortless Integration",
     description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
+      "Your tech, your way. Our AI integrates effortlessly with your current systems, letting you leverage the tools you already have",
     link: "/",
   },
   {
-    title: "Feature 5",
+    title: "User-Driven Customization",
     description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
+      "The AI that adapts to you. Build custom workflows, automate unique tasks, and tailor the AI to your specific business needs.",
   },
   {
-    title: "Feature 6",
+    title: "Hybrid Deployment Options",
     description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
+      "On-premise, cloud, or a hybrid approach – your choice. We offer flexible deployment solutions to fit your infrastructure and security requirements.",
     link: "/",
   },
 ];
