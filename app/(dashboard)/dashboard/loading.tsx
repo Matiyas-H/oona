@@ -1,13 +1,13 @@
-import { CardSkeleton } from "@/components/shared/card-skeleton"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { CardSkeleton } from "@/components/shared/card-skeleton";
 
 export default function DashboardLoading() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Posts" text="Create and manage posts.">
-        <Button>Fake button</Button>
+        <Button>Create your first Oona agent</Button>
       </DashboardHeader>
       <div className="divide-border-200 divide-y rounded-md border">
         <CardSkeleton />
@@ -16,5 +16,5 @@ export default function DashboardLoading() {
         <CardSkeleton />
       </div>
     </DashboardShell>
-  )
+  );
 }
