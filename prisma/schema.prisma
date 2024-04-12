@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://svelto_owner:eDwQL1KT5ORd@ep-yellow-wind-a2x75kr8.eu-central-1.aws.neon.tech/oona-ai?sslmode=require"
+  url      = env("DATABASE_URL")
 }
 
 model Account {
