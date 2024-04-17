@@ -36,9 +36,9 @@ export async function HeroLanding() {
         </Link>
 
         <h1 className="text-balance font-urban text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[66px]">
-          AI That Works Alongside Your Team{" "}
+          Conversations That Feel Human,{" "}
           <span className="text-gradient_indigo-purple font-extrabold">
-            Your Business, Faster and Smarter
+            Results That Transform Your Business
           </span>
         </h1>
 
@@ -46,8 +46,8 @@ export async function HeroLanding() {
           className="max-w-2xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
           style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
         >
-          Conversational AI that understands multiple languages, integrates with
-          your systems, and gets things done – instantly.
+          Oona understands multiple languages, integrates with your systems, and
+          gets things done – instantly.
         </p>
 
         <div

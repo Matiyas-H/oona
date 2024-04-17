@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/classnames-order */
 import Image from "next/image";
 import { InfoLdg } from "@/types";
 

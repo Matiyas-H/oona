@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/classnames-order */
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
