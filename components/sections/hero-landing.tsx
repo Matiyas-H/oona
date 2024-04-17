@@ -65,7 +65,7 @@ export async function HeroLanding() {
             <Icons.arrowRight className="size-4" />
           </Link>
           <Link
-            href="#"
+            href="Tel:+358454903036"
             target="_blank"
             rel="noreferrer"
             className={cn(
@@ -77,7 +77,7 @@ export async function HeroLanding() {
               "px-5",
             )}
           >
-            <span>Get started</span>
+            <span>Try Oona</span>
             <Icons.arrowRight className="size-4" />
           </Link>
           <Link
