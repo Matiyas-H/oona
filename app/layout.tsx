@@ -1,14 +1,14 @@
 import "@/styles/globals.css";
 
 import { fontHeading, fontSans, fontUrban } from "@/assets/fonts";
+import { Analytics } from "@/public/images/blog/components/analytics";
+import { ModalProvider } from "@/public/images/blog/components/modal-provider";
+import { TailwindIndicator } from "@/public/images/blog/components/tailwind-indicator";
+import { Toaster } from "@/public/images/blog/components/ui/toaster";
 import { ThemeProvider } from "next-themes";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/toaster";
-import { Analytics } from "@/components/analytics";
-import { ModalProvider } from "@/components/modal-provider";
-import { TailwindIndicator } from "@/components/tailwind-indicator";
 
 interface RootLayoutProps {
   children: React.ReactNode;

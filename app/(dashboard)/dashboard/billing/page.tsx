@@ -1,12 +1,16 @@
 import { redirect } from "next/navigation";
+import { BillingInfo } from "@/public/images/blog/components/billing-info";
+import { DashboardHeader } from "@/public/images/blog/components/dashboard/header";
+import { DashboardShell } from "@/public/images/blog/components/dashboard/shell";
+import { Icons } from "@/public/images/blog/components/shared/icons";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/public/images/blog/components/ui/alert";
 
 import { getCurrentUser } from "@/lib/session";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { BillingInfo } from "@/components/billing-info";
-import { DashboardHeader } from "@/components/dashboard/header";
-import { DashboardShell } from "@/components/dashboard/shell";
-import { Icons } from "@/components/shared/icons";
 
 export const metadata = {
   title: "Billing",

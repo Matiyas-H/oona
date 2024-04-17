@@ -1,6 +1,6 @@
-import { CardSkeleton } from "@/components/shared/card-skeleton"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
+import { DashboardHeader } from "@/public/images/blog/components/dashboard/header";
+import { DashboardShell } from "@/public/images/blog/components/dashboard/shell";
+import { CardSkeleton } from "@/public/images/blog/components/shared/card-skeleton";
 
 export default function DashboardBillingLoading() {
   return (
@@ -13,5 +13,5 @@ export default function DashboardBillingLoading() {
         <CardSkeleton />
       </div>
     </DashboardShell>
-  )
+  );
 }
