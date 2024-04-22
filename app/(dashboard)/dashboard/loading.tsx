@@ -1,7 +1,7 @@
-import { DashboardHeader } from "@/public/images/blog/components/dashboard/header";
-import { DashboardShell } from "@/public/images/blog/components/dashboard/shell";
-import { CardSkeleton } from "@/public/images/blog/components/shared/card-skeleton";
-import { Button } from "@/public/images/blog/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { CardSkeleton } from "@/components/shared/card-skeleton";
 
 export default function DashboardLoading() {
   return (

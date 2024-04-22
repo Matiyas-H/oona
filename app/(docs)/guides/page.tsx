@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { DocsPageHeader } from "@/public/images/blog/components/docs/page-header";
 import { allGuides } from "contentlayer/generated";
 import { compareDesc } from "date-fns";
 
 import { formatDate } from "@/lib/utils";
+import { DocsPageHeader } from "@/components/docs/page-header";
 
 export const metadata = {
   title: "Guides",

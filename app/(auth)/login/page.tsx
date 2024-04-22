@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { UserAuthForm } from "@/public/images/blog/components/forms/user-auth-form";
-import { Icons } from "@/public/images/blog/components/shared/icons";
-import { buttonVariants } from "@/public/images/blog/components/ui/button";
 
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { UserAuthForm } from "@/components/forms/user-auth-form";
+import { Icons } from "@/components/shared/icons";
 
 export const metadata: Metadata = {
   title: "Login",

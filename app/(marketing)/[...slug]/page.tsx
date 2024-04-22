@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
-import { Mdx } from "@/public/images/blog/components/content/mdx-components";
 import { allPages } from "contentlayer/generated";
+
+import { Mdx } from "@/components/content/mdx-components";
 
 import "@/styles/mdx.css";
 

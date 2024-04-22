@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
-import { DashboardHeader } from "@/public/images/blog/components/dashboard/header";
-import { DashboardShell } from "@/public/images/blog/components/dashboard/shell";
-import { UserNameForm } from "@/public/images/blog/components/forms/user-name-form";
 
 import { getCurrentUser } from "@/lib/session";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
+import { UserNameForm } from "@/components/forms/user-name-form";
 
 export const metadata = {
   title: "Settings",

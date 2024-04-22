@@ -1,6 +1,7 @@
-import { BlogPosts } from "@/public/images/blog/components/blog-posts";
 import { allPosts } from "contentlayer/generated";
 import { compareDesc } from "date-fns";
+
+import { BlogPosts } from "@/components/blog-posts";
 
 export const metadata = {
   title: "Blog",

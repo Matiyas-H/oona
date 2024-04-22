@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
-import { Mdx } from "@/public/images/blog/components/content/mdx-components";
-import { DocsPageHeader } from "@/public/images/blog/components/docs/page-header";
-import { DocsPager } from "@/public/images/blog/components/docs/pager";
-import { DashboardTableOfContents } from "@/public/images/blog/components/shared/toc";
 import { allDocs } from "contentlayer/generated";
 
 import { getTableOfContents } from "@/lib/toc";
+import { Mdx } from "@/components/content/mdx-components";
+import { DocsPageHeader } from "@/components/docs/page-header";
+import { DocsPager } from "@/components/docs/pager";
+import { DashboardTableOfContents } from "@/components/shared/toc";
 
 import "@/styles/mdx.css";
 

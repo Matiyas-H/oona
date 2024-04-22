@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { DocsSearch } from "@/public/images/blog/components/docs/search";
-import { DocsSidebarNav } from "@/public/images/blog/components/docs/sidebar-nav";
-import { NavBar } from "@/public/images/blog/components/layout/navbar";
-import { SiteFooter } from "@/public/images/blog/components/layout/site-footer";
-import { Icons } from "@/public/images/blog/components/shared/icons";
 
 import { docsConfig } from "@/config/docs";
 import { siteConfig } from "@/config/site";
 import { getCurrentUser } from "@/lib/session";
+import { DocsSearch } from "@/components/docs/search";
+import { DocsSidebarNav } from "@/components/docs/sidebar-nav";
+import { NavBar } from "@/components/layout/navbar";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { Icons } from "@/components/shared/icons";
 
 interface DocsLayoutProps {
   children: React.ReactNode;
