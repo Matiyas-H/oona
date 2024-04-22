@@ -1,20 +1,20 @@
-import { redirect } from "next/navigation"
+import { redirect } from "next/navigation";
+import { DashboardHeader } from "@/public/images/blog/components/dashboard/header";
+import { DashboardShell } from "@/public/images/blog/components/dashboard/shell";
+import { UserNameForm } from "@/public/images/blog/components/forms/user-name-form";
 
-import { getCurrentUser } from "@/lib/session"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { DashboardShell } from "@/components/dashboard/shell"
-import { UserNameForm } from "@/components/forms/user-name-form"
+import { getCurrentUser } from "@/lib/session";
 
 export const metadata = {
   title: "Settings",
   description: "Manage account and website settings.",
-}
+};
 
 export default async function SettingsPage() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
 
   if (!user) {
-    redirect("/login")
+    redirect("/login");
   }
 
   return (
@@ -27,5 +27,5 @@ export default async function SettingsPage() {
         <UserNameForm user={{ id: user.id, name: user.name || "" }} />
       </div>
     </DashboardShell>
-  )
+  );
 }
