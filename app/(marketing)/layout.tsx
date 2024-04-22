@@ -20,7 +20,7 @@ export default async function MarketingLayout({
         <NavBar user={user} items={marketingConfig.mainNav} scroll={true} />
       </Suspense>
       <main className="flex-1">{children}</main>
-      {/* <SiteFooter /> */}
+      <SiteFooter />
     </div>
   );
 }
