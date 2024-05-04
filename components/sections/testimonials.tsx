@@ -1,6 +1,10 @@
+import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { SubscriptionPlan, UserSubscriptionPlan } from "@/types";
 
 import { testimonials } from "@/config/landing";
+import { useSigninModal } from "@/hooks/use-signin-modal";
 import {
   Accordion,
   AccordionContent,
@@ -8,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { HeaderSection } from "@/components/shared/header-section";
+import { Icons } from "@/components/shared/icons";
 
 const pricingFaqData = [
   {
@@ -41,6 +46,7 @@ const pricingFaqData = [
       "We offer a 14-day free trial for both the Pro Monthly and Pro Annual plans. It's a great way to experience all the features before committing to a paid subscription.",
   },
 ];
+
 export function Testimonials() {
   return (
     <section>
@@ -48,8 +54,7 @@ export function Testimonials() {
         <HeaderSection
           label="Testimonials"
           title="What our clients are sharing."
-          subtitle="Discover the glowing feedback from our delighted customers
-            worldwide."
+          subtitle="Discover the glowing feedback from our delighted customers worldwide."
         />
 
         <div className="column-1 gap-5 space-y-5 md:columns-2 lg:columns-3 xl:columns-4">
@@ -85,7 +90,6 @@ export function Testimonials() {
           ))}
         </div>
       </div>
-
       <section>
         <section className="container max-w-4xl py-2">
           <HeaderSection

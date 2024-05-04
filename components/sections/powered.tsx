@@ -197,7 +197,7 @@ export function Powered() {
         </h2>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-10 gap-y-8 lg:gap-16">
-          {technos.map((feature) => (
+          {/* {technos.map((feature) => (
             <Link
               target="_blank"
               key={feature.title}
@@ -207,7 +207,13 @@ export function Powered() {
             >
               {feature.icon}
             </Link>
-          ))}
+          ))} */}
+          <h2 className="text-balance text-center font-urban text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[40px]">
+            Conversations That Feel Human,{" "}
+            <span className="text-color-red font-extrabold">
+              Results That Transform Your Business
+            </span>
+          </h2>
         </div>
       </div>
     </section>

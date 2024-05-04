@@ -4,7 +4,7 @@ import Image from "next/image";
 export function BentoGrid() {
   return (
     <section>
-      <div className="py-32">
+      <div className="py-25">
         <div className="container max-w-7xl">
           <div className="relative">
             <div className="relative z-10 grid grid-cols-6 gap-3">
