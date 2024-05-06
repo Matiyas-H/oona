@@ -46,8 +46,8 @@ export async function HeroLanding() {
           className="max-w-2xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
           style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
         >
-          Svelto understands multiple languages, integrates with your systems, and
-          gets things done – instantly.
+          Provide instant, personalized support 24/7 while reducing costs and
+          increasing efficiency
         </p>
 
         <div

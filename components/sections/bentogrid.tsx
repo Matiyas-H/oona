@@ -246,12 +246,11 @@ export function BentoGrid() {
                       </svg>
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-lg font-medium text-foreground">
-                        Effortless Scaling
+                      <h2 className="text-bold text-lg font-medium text-foreground">
+                        24/7 Availability
                       </h2>
                       <p className="text-muted-foreground">
-                        Adapt and grow with your business needs, from startups
-                        to enterprises.
+                        Provide round-the-clock assistance to your customers.
                       </p>
                     </div>
                   </div>
@@ -332,10 +331,10 @@ export function BentoGrid() {
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-lg font-medium text-foreground">
-                        Automate the Boring Stuff
+                        Multilingual Capabilities
                       </h2>
                       <p className="text-muted-foreground">
-                        AI handles the routine, so your people can shine.
+                        Serve customers in their preferred language.
                       </p>
                     </div>
                   </div>

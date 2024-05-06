@@ -193,7 +193,7 @@ export function Powered() {
     <section className="py-14 text-muted-foreground">
       <div className="container max-w-7xl">
         <h2 className="text-center text-sm font-semibold uppercase">
-          Our site Powered by
+          Tailored to Your Business
         </h2>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-10 gap-y-8 lg:gap-16">
@@ -209,9 +209,9 @@ export function Powered() {
             </Link>
           ))} */}
           <h2 className="text-balance text-center font-urban text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[40px]">
-            Conversations That Feel Human,{" "}
+            Elevate Your Customer Service with AI-Powered Voice Assistants
             <span className="text-color-red font-extrabold">
-              Results That Transform Your Business
+              {/* Results That Transform Your Business */}
             </span>
           </h2>
         </div>

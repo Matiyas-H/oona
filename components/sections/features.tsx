@@ -13,13 +13,13 @@ export function Features() {
           <HeaderSection
             label="Features"
             title="Discover all features."
-            subtitle="Discover how our AI is comprehensive features can solve your business challenges and drive growth."
+            subtitle="Discover how our voice AI is comprehensive features can solve your business challenges and drive growth."
           />
 
           <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
               <div
-                className="group relative overflow-hidden rounded-2xl border bg-background p-5 md:p-8"
+                className="group relative overflow-hidden rounded-2xl border bg-background p-5 font-bold md:p-8"
                 key={feature.title}
               >
                 {" "}
