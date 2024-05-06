@@ -33,12 +33,12 @@ export function NewsletterForm() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     form.reset();
     toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+      title: "Thank you for subscribing",
+      // description: (
+      //   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+      //     <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+      //   </pre>
+      // ),
     });
   }
 
@@ -58,7 +58,7 @@ export function NewsletterForm() {
                 <Input
                   type="email"
                   className="rounded-full px-4"
-                  placeholder="janedoe@example.com"
+                  placeholder="firstname.lastname@email.com"
                   {...field}
                 />
               </FormControl>

@@ -57,7 +57,11 @@ export async function HeroLanding() {
           <Link
             href="/pricing"
             className={cn(
-              buttonVariants({ size: "lg", rounded: "full" }),
+              buttonVariants({
+                variant: "outline",
+                size: "lg",
+                rounded: "full",
+              }),
               "gap-2",
             )}
           >
@@ -70,7 +74,6 @@ export async function HeroLanding() {
             rel="noreferrer"
             className={cn(
               buttonVariants({
-                variant: "outline",
                 size: "lg",
                 rounded: "full",
               }),

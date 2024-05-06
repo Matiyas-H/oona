@@ -17,33 +17,45 @@ import { Icons } from "@/components/shared/icons";
 const pricingFaqData = [
   {
     id: "item-1",
-    question: "What is the cost of the free plan?",
+    question:
+      " How does Omnia Voice AI understand and respond to customer queries?",
     answer:
-      "Our free plan is completely free, with no monthly or annual charges. It's a great way to get started and explore our basic features.",
+      "Omnia uses advanced Natural Language Processing (NLP) and Machine Learning (ML) technologies to comprehend customer inquiries and provide accurate, natural responses.",
   },
   {
     id: "item-2",
-    question: "How much does the Basic Monthly plan cost?",
+    question:
+      "Can Omnia Voice AI scale to handle my company's growing customer support needs?",
     answer:
-      "The Basic Monthly plan is priced at $15 per month. It provides access to our core features and is billed on a monthly basis.",
+      "Absolutely. Omnia is designed to scale seamlessly as your business grows, ensuring consistent, high-quality support for your expanding customer base",
   },
   {
     id: "item-3",
-    question: "What is the price of the Pro Monthly plan?",
+    question:
+      "What kind of support does Omnia Voice AI provide to my customer service team?",
     answer:
-      "The Pro Monthly plan is available for $25 per month. It offers advanced features and is billed on a monthly basis for added flexibility.",
+      "Omnia acts as a tireless assistant to your team, handling routine inquiries, providing customer context, and freeing up your agents to focus on high-value, complex cases. It empowers your team to deliver exceptional customer service.",
   },
   {
     id: "item-4",
-    question: "Do you offer any annual subscription plans?",
+    question:
+      "Can Omnia Voice AI be customized to match my brand's voice and tone?",
     answer:
-      "Yes, we offer annual subscription plans for even more savings. The Basic Annual plan is $144 per year, and the Pro Annual plan is $300 per year.",
+      "Omnia can be tailored to align with your brand's unique personality, ensuring a consistent and authentic customer experience",
   },
   {
     id: "item-5",
-    question: "Is there a trial period for the paid plans?",
+    question:
+      "How does Omnia Voice AI integrate with my existing customer service systems?",
     answer:
-      "We offer a 14-day free trial for both the Pro Monthly and Pro Annual plans. It's a great way to experience all the features before committing to a paid subscription.",
+      "Omnia seamlessly integrates with popular CRM, helpdesk, and other customer service platforms through APIs, ensuring smooth data flow and synchronization.",
+  },
+  {
+    id: "item-6",
+    question:
+      "How does Onna Voice AI handle complex or sensitive customer issues?",
+    answer:
+      "Omnia encounters a complex issue that requires human intervention, it intelligently routes the conversation to the appropriate human agent, providing them with full context for efficient resolution.",
   },
 ];
 

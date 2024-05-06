@@ -54,7 +54,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
             ></Link>
-            Illustrations by{" "}
+            {/* Illustrations by{" "}
             <Link
               href="https://popsy.co"
               target="_blank"
@@ -62,18 +62,18 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               className="font-medium underline underline-offset-4"
             >
               Popsy
-            </Link>
+            </Link> */}
           </p>
 
           <div className="flex items-center gap-3">
-            <Link
+            {/* <Link
               href={siteConfig.links.github}
               target="_blank"
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
             >
               <Icons.gitHub className="size-5" />
-            </Link>
+            </Link> */}
             <ModeToggle />
           </div>
         </div>
