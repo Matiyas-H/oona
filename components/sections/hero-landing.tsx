@@ -36,9 +36,9 @@ export async function HeroLanding() {
         </Link>
 
         <h1 className="text-balance font-urban text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[66px]">
-          Conversations That Feel Human,{" "}
+          Transform Your Customer Service with{" "}
           <span className="text-gradient_indigo-purple font-extrabold">
-            Results That Transform Your Business
+            Omnia Phone AI
           </span>
         </h1>
 
@@ -46,8 +46,8 @@ export async function HeroLanding() {
           className="max-w-2xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
           style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
         >
-          Provide instant, personalized support 24/7 while reducing costs and
-          increasing efficiency
+          Focus on your business while we handle the technology. Our end-to-end
+          voice AI solution revolutionizes your customer experience.
         </p>
 
         <div
