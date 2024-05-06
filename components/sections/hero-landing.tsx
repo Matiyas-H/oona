@@ -77,7 +77,7 @@ export async function HeroLanding() {
               "px-5",
             )}
           >
-            <span>Try Oona</span>
+            <span>Try Omnia</span>
             <Icons.arrowRight className="size-4" />
           </Link>
           <Link

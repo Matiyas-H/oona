@@ -43,7 +43,7 @@ export function Features() {
                     </svg> */}
                   </div>
 
-                  <p className="mt-6 pb-6 text-muted-foreground">
+                  <p className="mt-6 pb-6 text-muted-foreground ">
                     {feature.description}
                   </p>
 
