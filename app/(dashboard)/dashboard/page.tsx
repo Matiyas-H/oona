@@ -20,7 +20,7 @@ export default async function DashboardPage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Panel" text="Create and manage content.">
-        <Button>Create Oona</Button>
+        <Button>Create Omnia</Button>
       </DashboardHeader>
       <div>
         <EmptyPlaceholder>

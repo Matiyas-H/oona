@@ -31,7 +31,7 @@ export default async function BillingPage() {
       <div className="grid gap-8">
         <Alert className="!pl-14">
           <Icons.warning />
-          <AlertTitle>Onna ai is getting a new payment provider.</AlertTitle>
+          <AlertTitle>Omnia ai is getting a new payment provider.</AlertTitle>
           <AlertDescription>
             We are migrating from the previous payment provider. please feel
             free to use stripe test cards.

@@ -7,7 +7,7 @@ export default function DashboardLoading() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Posts" text="Create and manage posts.">
-        <Button>Create your first Oona agent</Button>
+        <Button>Create your first Omnia agent</Button>
       </DashboardHeader>
       <div className="divide-border-200 divide-y rounded-md border">
         <CardSkeleton />

@@ -209,7 +209,7 @@ export function Powered() {
             </Link>
           ))} */}
           <h2 className="text-balance text-center font-urban text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[40px]">
-            Elevate Your Customer Service with AI-Powered Voice Assistants
+            Transform Your Customer Support with Our End-to-End Solution
             <span className="text-color-red font-extrabold">
               {/* Results That Transform Your Business */}
             </span>

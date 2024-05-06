@@ -2,25 +2,25 @@ import { InfoLdg } from "types";
 
 export const infos: InfoLdg[] = [
   {
-    title: "Your Team + AI",
+    title: "AI-Driven Insights",
     description:
-      "Let our conversational AI handle the routine, so your people can focus on what they do best. Global reach guaranteed.",
+      "Get Real-Time Feedback on Customer Behavior, Preferences, and Sentiment",
     image: "/images/work-from-home.jpg",
     list: [
       {
-        title: "Collaborative",
-        description: " Empower your team with an AI assistant that complements human skills and knowledge.",
+        title: "Improve First-Contact Resolution",
+        description: "Resolve Customer Issues Efficiently and Effectively",
         icon: "laptop",
       },
       {
-        title: "Innovative",
-        description: "Stay ahead with AI that leverages the latest advancements and continuously learns",
+        title: "Free Up Your Team",
+        description: "Automate Simple Inquiries, Allowing Your Human Agents to Focus on Complex Issues",
         icon: "settings",
       },
       {
-        title: "Scalable",
+        title: "Reduce Operational Costs",
         description:
-          "Solutions that grow with your business, ensuring long-term ROI",
+          "Lower the Burden on Your Support Team, Saving Time and Resources",
         icon: "search",
       },
     ],
@@ -40,7 +40,7 @@ export const infos: InfoLdg[] = [
       {
         title: "Efficient",
         description: "Streamline your processes and reducing manual effort.",
-        icon: "search",
+        icon: "check",
       },
       {
         title: "Reliable",
@@ -66,7 +66,7 @@ export const features = [
     link: "/",
   },
   {
-    title: "Continuous Learning",
+    title: "Integrated Solution",
     description:
       "The AI that gets smarter. As it interacts and gathers data, our AI continuously improves, optimizing processes over time.",
     link: "/",
