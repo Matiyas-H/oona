@@ -193,7 +193,7 @@ export function Powered() {
     <section className="py-14 text-muted-foreground">
       <div className="container max-w-7xl">
         <h2 className="text-center text-sm font-semibold uppercase">
-          Tailored to Your Business
+          {/* Tailored to Your Business */}
         </h2>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-10 gap-y-8 lg:gap-16">
