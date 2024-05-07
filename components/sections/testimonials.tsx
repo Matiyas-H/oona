@@ -126,7 +126,7 @@ export function Testimonials() {
           </Accordion>
         </section>
       </section>
-      <Contact />
+      {/* <Contact /> */}
     </section>
   );
 }
