@@ -14,6 +14,8 @@ import {
 import { HeaderSection } from "@/components/shared/header-section";
 import { Icons } from "@/components/shared/icons";
 
+import { Contact } from "../contact";
+
 const pricingFaqData = [
   {
     id: "item-1",
@@ -124,6 +126,7 @@ export function Testimonials() {
           </Accordion>
         </section>
       </section>
+      <Contact />
     </section>
   );
 }

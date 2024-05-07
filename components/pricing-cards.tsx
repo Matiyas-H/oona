@@ -14,6 +14,7 @@ import { HeaderSection } from "@/components/shared/header-section";
 import { Icons } from "@/components/shared/icons";
 
 import { SubscriptionPlan } from "../types/index";
+import { Contact } from "./contact";
 
 interface PricingCardsProps {
   userId?: string;
@@ -138,9 +139,12 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
 
   return (
     <section className="container flex flex-col items-center text-center">
-      <HeaderSection label="Pricing" title="Start at full speed !" />
+      {/* <HeaderSection label="Pricing" title="Start at full speed !" /> */}
+      <section>
+        <Contact />
+      </section>
 
-      <div className="mb-4 mt-10 flex items-center gap-5">
+      {/* <div className="mb-4 mt-10 flex items-center gap-5">
         <ToggleGroup
           type="single"
           size="sm"
@@ -185,7 +189,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
         <strong>
           You can test the subscriptions and won&apos;t be charged.
         </strong>
-      </p>
+      </p> */}
     </section>
   );
 }

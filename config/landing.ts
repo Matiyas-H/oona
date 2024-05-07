@@ -2,9 +2,9 @@ import { InfoLdg } from "types";
 
 export const infos: InfoLdg[] = [
   {
-    title: "AI-Driven Insights",
+    title: "Unlocking Valuable Insights from Every Call",
     description:
-      "Get Real-Time Feedback on Customer Behavior, Preferences, and Sentiment",
+      "Unleash the potential of your call data with our detailed insights",
     image: "/images/work-from-home.jpg",
     list: [
       {

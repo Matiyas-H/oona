@@ -13,7 +13,7 @@ export const siteConfig: SiteConfig = {
     twitter: "/",
     github: "/",
   },
-  mailSupport: "support@tryoona.com",
+  mailSupport: "support@omnia-voice.com",
 };
 
 export const footerLinks: SidebarNavItem[] = [
