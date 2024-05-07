@@ -63,8 +63,8 @@ export function Contact() {
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="companyType">Company Type</Label>
-              <Select id="companyType">
+              <Label id="companyType">Company Type</Label>
+              <Select aria-labelledby="companyType">
                 <SelectTrigger>
                   <SelectValue placeholder="Select company type" />
                 </SelectTrigger>
@@ -84,7 +84,7 @@ export function Contact() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="industry">Industry</Label>
-              <Select id="industry">
+              <Select aria-labelledby="industry">
                 <SelectTrigger>
                   <SelectValue placeholder="Select industry" />
                 </SelectTrigger>
@@ -99,7 +99,7 @@ export function Contact() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="callVolume">Call Volume</Label>
-              <Select id="callVolume">
+              <Select aria-labelledby="callVolume">
                 <SelectTrigger>
                   <SelectValue placeholder="Select call volume" />
                 </SelectTrigger>
