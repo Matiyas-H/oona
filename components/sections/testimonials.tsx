@@ -64,7 +64,7 @@ const pricingFaqData = [
 export function Testimonials() {
   return (
     <section>
-      <div className="container flex max-w-7xl flex-col gap-10 py-32 sm:gap-y-16">
+      {/* <div className="container flex max-w-7xl flex-col gap-10 py-32 sm:gap-y-16">
         <HeaderSection
           label="Testimonials"
           title="What our clients are sharing."
@@ -103,7 +103,7 @@ export function Testimonials() {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
       <section>
         <section className="container max-w-4xl py-2">
           <HeaderSection
