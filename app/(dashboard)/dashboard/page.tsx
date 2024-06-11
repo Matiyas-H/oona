@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/session";
@@ -31,7 +32,9 @@ export default async function DashboardPage() {
           <EmptyPlaceholder.Description>
             You don&apos;t have any agent yet.
           </EmptyPlaceholder.Description>
-          <Button variant="outline">Talk to sales</Button>
+          <Link href="/pricing">
+            <Button variant="outline">Talk to sales</Button>
+          </Link>
         </EmptyPlaceholder>
       </div>
     </DashboardShell>
