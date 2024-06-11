@@ -25,7 +25,9 @@ export default async function DashboardPage() {
       <div>
         <EmptyPlaceholder>
           <EmptyPlaceholder.Icon name="post" />
-          <EmptyPlaceholder.Title>No Oona created</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Title>
+            No Omnia agent created
+          </EmptyPlaceholder.Title>
           <EmptyPlaceholder.Description>
             You don&apos;t have any agent yet.
           </EmptyPlaceholder.Description>

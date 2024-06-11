@@ -132,9 +132,9 @@ export function Testimonials() {
 }
 
 //switchboard
-100k // volume per month
-45-50sec //waiting time
-50agent //concurrent calls
+// 100k // volume per month
+// 45-50sec //waiting time
+// 50agent //concurrent calls
 
 
 //
