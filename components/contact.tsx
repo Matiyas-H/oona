@@ -45,7 +45,7 @@ export function Contact() {
         <form className="mt-8 space-y-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="space-y-2">
-              <LabelWe htmlFor="firstName">First Name</LabelWe >
+              <Label htmlFor="firstName">First Name</Label>
               <Input id="firstName" placeholder="Enter your first name" />
             </div>
             <div className="space-y-2">
