@@ -36,7 +36,7 @@ export const metadata = {
       name: "Mattishu",
     },
   ],
-  creator: "tryoona",
+  creator: "Omnia-Voice",
   metadataBase: new URL(siteConfig.url),
   openGraph: {
     type: "website",

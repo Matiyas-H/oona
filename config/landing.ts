@@ -110,7 +110,7 @@ export const testimonials = [
     job: "Antler Oy ",
     image: "https://randomuser.me/api/portraits/men/3.jpg",
     review: 
-      "The Oona Conversation ai is from a technical side highly impressive with a wide array of use-cases in different business contexts. The quick responsiveness and human-likeness is very impressive. ",
+      "The Omnia-Voice Conversation ai is from a technical side highly impressive with a wide array of use-cases in different business contexts. The quick responsiveness and human-likeness is very impressive. ",
   },
   {
     name: "",

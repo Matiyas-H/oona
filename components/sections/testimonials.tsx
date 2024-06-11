@@ -55,7 +55,7 @@ const pricingFaqData = [
   {
     id: "item-6",
     question:
-      "How does Onna Voice AI handle complex or sensitive customer issues?",
+      "How does Omina Voice AI handle complex or sensitive customer issues?",
     answer:
       "Omnia encounters a complex issue that requires human intervention, it intelligently routes the conversation to the appropriate human agent, providing them with full context for efficient resolution.",
   },
@@ -130,3 +130,15 @@ export function Testimonials() {
     </section>
   );
 }
+
+//switchboard
+100k // volume per month
+45-50sec //waiting time
+50agent //concurrent calls
+
+
+//
+
+
+
+

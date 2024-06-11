@@ -182,7 +182,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
           className="font-medium text-primary hover:underline"
           href="mailto:support@saas-starter.com"
         >
-          support@tryonna.com
+          support@omnia-voice.com
         </a>{" "}
         for to contact our support team.
         <br />
