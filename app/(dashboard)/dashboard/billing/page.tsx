@@ -33,16 +33,15 @@ export default async function BillingPage() {
           <Icons.warning />
           <AlertTitle>Omnia ai is getting a new payment provider.</AlertTitle>
           <AlertDescription>
-            We are migrating from the previous payment provider. please feel
-            free to use stripe test cards.
-            <a
+            We are migrating from the previous payment provider.
+            {/* <a
               href="https://stripe.com/docs/testing#cards"
               target="_blank"
               rel="noreferrer"
               className="font-medium underline underline-offset-8"
             >
               Stripe docs
-            </a>
+            </a> */}
             .
           </AlertDescription>
         </Alert>
