@@ -23,18 +23,16 @@ export async function HeroLanding() {
   return (
     <section className="space-y-6 py-12 sm:py-20 lg:py-20">
       <div className="container flex max-w-5xl flex-col items-center gap-5 text-center">
- {/*       
-<Link
-          href=”#"
+        <Link
+          href="https://www.antler.co/location/finland"
           className={cn(
             buttonVariants({ variant: "outline", size: "sm", rounded: "full" }),
             "px-4",
           )}
           target="_blank"
         >
-          <span className="mr-3">🎉</span> New updates are coming soon{" "}
-          {/* <Icons.twitter className="ml-2 size-3.5" /> */}
-        //</Link> /*}
+          <span className="mr-3">🎉</span> We are a part of Antler NOR6 🚀
+        </Link>
 
         <h1 className="text-balance font-urban text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[66px]">
           Transform Your Customer Service with{" "}

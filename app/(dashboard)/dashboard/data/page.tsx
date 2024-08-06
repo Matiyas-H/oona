@@ -14,13 +14,16 @@ export const metadata = {
 
 async function getCallData() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/calldata`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/calldata?limit=5`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
       },
-      cache: "no-store",
-    });
+    );
 
     if (!res.ok) {
       const errorText = await res.text();
