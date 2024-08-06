@@ -29,5 +29,10 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard/settings",
       icon: "settings",
     },
+    {
+      title: "Call Data",
+      href: "/dashboard/data",
+      icon: "settings",  // You might need to add this icon to your Icons component
+    },
   ],
 }
