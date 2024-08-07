@@ -32,7 +32,7 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: "Call Data",
       href: "/dashboard/data",
-      icon: "settings",  // You might need to add this icon to your Icons component
+      icon: "post",  // You might need to add this icon to your Icons component
     },
   ],
 }
