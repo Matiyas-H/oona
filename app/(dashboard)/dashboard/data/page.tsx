@@ -13,27 +13,20 @@ export const metadata = {
 };
 
 async function getCallData() {
+  const apiUrl = process.env.NEXT_PUBLIC_APP_URL; // Use the environment variable
+
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/calldata?limit=5`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
-      },
-    );
+    const res = await fetch(`${apiUrl}/api/calldata?limit=5`, {
+      // Call your internal API
+      method: "GET",
+      cache: "no-store",
+    });
 
     if (!res.ok) {
-      const errorText = await res.text();
-      console.error("API response error:", res.status, errorText);
-      throw new Error(`Failed to fetch data: ${res.status} ${errorText}`);
+      throw new Error(`Failed to fetch data: ${res.status}`);
     }
 
-    const data = await res.json();
-    console.log("Fetched data:", data); // Log the fetched data
-    return data;
+    return res.json();
   } catch (error) {
     console.error("Fetch error:", error);
     throw error;
