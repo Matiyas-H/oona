@@ -1,5 +1,6 @@
 // File: app/api/calldata/route.ts
 import { NextRequest, NextResponse } from 'next/server'
+import { record } from 'zod'
 
 const VAPI_API_KEY = process.env.VAPI_API_KEY
 const VAPI_API_URL = process.env.VAPI_API_URL
@@ -30,6 +31,7 @@ export async function GET(request: NextRequest) {
     const processedData = rawData.map(call => ({
       summary: call.analysis?.summary || 'No summary available',
       transcript: call.transcript || 'No transcript available',
+      recordingUrl: call.recordingUrl || 'No recording available',
     }))
 
     return NextResponse.json(processedData)
