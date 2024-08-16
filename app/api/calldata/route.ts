@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     const processedData = rawData.map(call => ({
       summary: call.analysis?.summary || 'No summary available',
       transcript: call.transcript || 'No transcript available',
-      recordingUrl: call.recordingUrl || 'No recording available',
+      // recordingUrl: call.recordingUrl || 'No recording available',
     }))
 
     return NextResponse.json(processedData)
