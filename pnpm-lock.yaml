@@ -140,6 +140,9 @@ importers:
       '@vercel/og':
         specifier: ^0.6.2
         version: 0.6.2
+      chart.js:
+        specifier: ^4.4.3
+        version: 4.4.3
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -158,6 +161,9 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      jssip:
+        specifier: ^3.10.1
+        version: 3.10.1
       lucide-react:
         specifier: ^0.366.0
         version: 0.366.0(react@18.2.0)
@@ -188,6 +194,12 @@ importers:
       react:
         specifier: ^18.2.0
         version: 18.2.0
+      react-apexcharts:
+        specifier: ^1.4.1
+        version: 1.4.1(apexcharts@3.52.0)(react@18.2.0)
+      react-chartjs-2:
+        specifier: ^5.2.0
+        version: 5.2.0(chart.js@4.4.3)(react@18.2.0)
       react-day-picker:
         specifier: ^8.10.0
         version: 8.10.0(date-fns@3.6.0)(react@18.2.0)
@@ -1167,6 +1179,9 @@ packages:
   '@js-temporal/polyfill@0.4.4':
     resolution: {integrity: sha512-2X6bvghJ/JAoZO52lbgyAPFj8uCflhTo2g7nkFzEQdXd/D8rEeD4HtmTEpmtGCva260fcd66YNXBOYdnmHqSOg==}
     engines: {node: '>=12'}
+
+  '@kurkle/color@0.3.2':
+    resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
 
   '@mapbox/node-pre-gyp@1.0.11':
     resolution: {integrity: sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==}
@@ -2674,6 +2689,9 @@ packages:
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
+  '@types/events@3.0.3':
+    resolution: {integrity: sha512-trOc4AAUThEz9hapPtSd7wf5tiQKvTtu5b371UxXdTuqzIh0ArcRspRP0i0Viu+LXstIQ1z96t1nsPxT9ol01g==}
+
   '@types/hast@2.3.8':
     resolution: {integrity: sha512-aMIqAlFd2wTIDZuvLbhUT+TGvMxrNC8ECUIVtH6xxy0sQLs3iu6NO8Kp/VT5je7i5ufnebXzdV1dNDMnvaH6IQ==}
 
@@ -2928,6 +2946,9 @@ packages:
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
 
+  '@yr/monotone-cubic-spline@1.0.3':
+    resolution: {integrity: sha512-FQXkOta0XBSUPHndIKON2Y9JeQz5ZeMqLYZVVK93FliNBFm7LNMIZmY6FrMEB9XPcDbE2bekMbZD6kzDkxwYjA==}
+
   JSONStream@1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
     hasBin: true
@@ -3031,6 +3052,9 @@ packages:
   anymatch@3.1.3:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
     engines: {node: '>= 8'}
+
+  apexcharts@3.52.0:
+    resolution: {integrity: sha512-7dg0ADKs8AA89iYMZMe2sFDG0XK5PfqllKV9N+i3hKHm3vEtdhwz8AlXGm+/b0nJ6jKiaXsqci5LfVxNhtB+dA==}
 
   aproba@2.0.0:
     resolution: {integrity: sha512-lYe4Gx7QT+MKGbDsA+Z+he/Wtef0BiwDOlK/XkBrdfsh9J/jPPXbX0tE9x9cl27Tmu5gg3QUbUrQYa/y+KOHPQ==}
@@ -3322,6 +3346,10 @@ packages:
 
   character-reference-invalid@2.0.1:
     resolution: {integrity: sha512-iBZ4F4wRbyORVsu0jPV7gXkOsGYjGHPmAyv+HiHG8gi5PtC9KI2j1+v8/tlibRvjoWX027ypmG/n0HtO5t7unw==}
+
+  chart.js@4.4.3:
+    resolution: {integrity: sha512-qK1gkGSRYcJzqrrzdR6a+I0vQ4/R+SoODXyAjscQ/4mzuNzySaMCd+hyVxitSY1+L2fjPD1Gbn+ibNqRmwQeLw==}
+    engines: {pnpm: '>=8'}
 
   chokidar@3.3.1:
     resolution: {integrity: sha512-4QYCEWOcK3OJrxwvyyAOxFuhpvOVCYkr33LPfFNBjAD/w3sEzWsp2BUOkI4l9bHvWioAd0rc6NlHUOEaWkTeqg==}
@@ -5161,6 +5189,9 @@ packages:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
     engines: {'0': node >= 0.2.0}
 
+  jssip@3.10.1:
+    resolution: {integrity: sha512-V82JW6fZF02VInHMKgTO9oEXbkZwqezGj9SNaQPh+btriC16FfSPsRBnD+i9IhU9C86JA9le6Z8AZirYnbKi2g==}
+
   jstransform@11.0.3:
     resolution: {integrity: sha512-LGm87w0A8E92RrcXt94PnNHkFqHmgDy3mKHvNZOG7QepKCTCH/VB6S+IEN+bT4uLN3gVpOT0vvOOVd96osG71g==}
     engines: {node: '>=0.8.8'}
@@ -6406,6 +6437,18 @@ packages:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
     hasBin: true
 
+  react-apexcharts@1.4.1:
+    resolution: {integrity: sha512-G14nVaD64Bnbgy8tYxkjuXEUp/7h30Q0U33xc3AwtGFijJB9nHqOt1a6eG0WBn055RgRg+NwqbKGtqPxy15d0Q==}
+    peerDependencies:
+      apexcharts: ^3.41.0
+      react: '>=0.13'
+
+  react-chartjs-2@5.2.0:
+    resolution: {integrity: sha512-98iN5aguJyVSxp5U3CblRLH67J8gkfyGNbiK3c+l1QI/G4irHMPQw44aEPmjVag+YKTyQ260NcF82GTQ3bdscA==}
+    peerDependencies:
+      chart.js: ^4.1.1
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+
   react-day-picker@8.10.0:
     resolution: {integrity: sha512-mz+qeyrOM7++1NCb1ARXmkjMkzWVh2GL9YiPbRjKe0zHccvekk4HE+0MPOZOrosn8r8zTHIIeOUXTmXRqmkRmg==}
     peerDependencies:
@@ -6722,6 +6765,10 @@ packages:
   schema-utils@3.3.0:
     resolution: {integrity: sha512-pN/yOAvcC+5rQ5nERGuwrjLlYvLTbCibnZ1I7B1LaiAz9BRBlE9GMgE/eqV30P7aJQUf7Ddimy/RsbYO/GrVGg==}
     engines: {node: '>= 10.13.0'}
+
+  sdp-transform@2.14.2:
+    resolution: {integrity: sha512-icY6jVao7MfKCieyo1AyxFYm1baiM+fA00qW/KrNNVlkxHAd34riEKuEkUe4bBb3gJwLJZM+xT60Yj1QL8rHiA==}
+    hasBin: true
 
   section-matter@1.0.0:
     resolution: {integrity: sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==}
@@ -7054,6 +7101,37 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  svg.draggable.js@2.2.2:
+    resolution: {integrity: sha512-JzNHBc2fLQMzYCZ90KZHN2ohXL0BQJGQimK1kGk6AvSeibuKcIdDX9Kr0dT9+UJ5O8nYA0RB839Lhvk4CY4MZw==}
+    engines: {node: '>= 0.8.0'}
+
+  svg.easing.js@2.0.0:
+    resolution: {integrity: sha512-//ctPdJMGy22YoYGV+3HEfHbm6/69LJUTAqI2/5qBvaNHZ9uUFVC82B0Pl299HzgH13rKrBgi4+XyXXyVWWthA==}
+    engines: {node: '>= 0.8.0'}
+
+  svg.filter.js@2.0.2:
+    resolution: {integrity: sha512-xkGBwU+dKBzqg5PtilaTb0EYPqPfJ9Q6saVldX+5vCRy31P6TlRCP3U9NxH3HEufkKkpNgdTLBJnmhDHeTqAkw==}
+    engines: {node: '>= 0.8.0'}
+
+  svg.js@2.7.1:
+    resolution: {integrity: sha512-ycbxpizEQktk3FYvn/8BH+6/EuWXg7ZpQREJvgacqn46gIddG24tNNe4Son6omdXCnSOaApnpZw6MPCBA1dODA==}
+
+  svg.pathmorphing.js@0.1.3:
+    resolution: {integrity: sha512-49HWI9X4XQR/JG1qXkSDV8xViuTLIWm/B/7YuQELV5KMOPtXjiwH4XPJvr/ghEDibmLQ9Oc22dpWpG0vUDDNww==}
+    engines: {node: '>= 0.8.0'}
+
+  svg.resize.js@1.4.3:
+    resolution: {integrity: sha512-9k5sXJuPKp+mVzXNvxz7U0uC9oVMQrrf7cFsETznzUDDm0x8+77dtZkWdMfRlmbkEEYvUn9btKuZ3n41oNA+uw==}
+    engines: {node: '>= 0.8.0'}
+
+  svg.select.js@2.1.2:
+    resolution: {integrity: sha512-tH6ABEyJsAOVAhwcCjF8mw4crjXSI1aa7j2VQR8ZuJ37H2MBUbyeqYr5nEO7sSN3cy9AR9DUwNg0t/962HlDbQ==}
+    engines: {node: '>= 0.8.0'}
+
+  svg.select.js@3.0.1:
+    resolution: {integrity: sha512-h5IS/hKkuVCbKSieR9uQCj9w+zLHoPh+ce19bBYyqF53g6mnPB8sAtIbe1s9dh2S2fCmYX2xel1Ln3PJBbK4kw==}
+    engines: {node: '>= 0.8.0'}
 
   tailwind-merge@2.2.0:
     resolution: {integrity: sha512-SqqhhaL0T06SW59+JVNfAqKdqLs0497esifRrZ7jOaefP3o64fdFNDMrAQWZFMxTLJPiHVjRLUywT8uFz1xNWQ==}
@@ -8519,6 +8597,8 @@ snapshots:
     dependencies:
       jsbi: 4.3.0
       tslib: 2.6.2
+
+  '@kurkle/color@0.3.2': {}
 
   '@mapbox/node-pre-gyp@1.0.11(encoding@0.1.13)':
     dependencies:
@@ -10191,6 +10271,8 @@ snapshots:
 
   '@types/estree@1.0.5': {}
 
+  '@types/events@3.0.3': {}
+
   '@types/hast@2.3.8':
     dependencies:
       '@types/unist': 2.0.10
@@ -10583,6 +10665,8 @@ snapshots:
 
   '@xtuc/long@4.2.2': {}
 
+  '@yr/monotone-cubic-spline@1.0.3': {}
+
   JSONStream@1.3.5:
     dependencies:
       jsonparse: 1.3.1
@@ -10681,6 +10765,16 @@ snapshots:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+
+  apexcharts@3.52.0:
+    dependencies:
+      '@yr/monotone-cubic-spline': 1.0.3
+      svg.draggable.js: 2.2.2
+      svg.easing.js: 2.0.0
+      svg.filter.js: 2.0.2
+      svg.pathmorphing.js: 0.1.3
+      svg.resize.js: 1.4.3
+      svg.select.js: 3.0.1
 
   aproba@2.0.0: {}
 
@@ -11037,6 +11131,10 @@ snapshots:
   character-entities@2.0.2: {}
 
   character-reference-invalid@2.0.1: {}
+
+  chart.js@4.4.3:
+    dependencies:
+      '@kurkle/color': 0.3.2
 
   chokidar@3.3.1:
     dependencies:
@@ -13171,6 +13269,16 @@ snapshots:
 
   jsonparse@1.3.1: {}
 
+  jssip@3.10.1:
+    dependencies:
+      '@types/debug': 4.1.12
+      '@types/events': 3.0.3
+      debug: 4.3.4
+      events: 3.3.0
+      sdp-transform: 2.14.2
+    transitivePeerDependencies:
+      - supports-color
+
   jstransform@11.0.3:
     dependencies:
       base62: 1.2.8
@@ -14845,6 +14953,17 @@ snapshots:
       minimist: 1.2.8
       strip-json-comments: 2.0.1
 
+  react-apexcharts@1.4.1(apexcharts@3.52.0)(react@18.2.0):
+    dependencies:
+      apexcharts: 3.52.0
+      prop-types: 15.8.1
+      react: 18.2.0
+
+  react-chartjs-2@5.2.0(chart.js@4.4.3)(react@18.2.0):
+    dependencies:
+      chart.js: 4.4.3
+      react: 18.2.0
+
   react-day-picker@8.10.0(date-fns@3.6.0)(react@18.2.0):
     dependencies:
       date-fns: 3.6.0
@@ -15326,6 +15445,8 @@ snapshots:
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
 
+  sdp-transform@2.14.2: {}
+
   section-matter@1.0.0:
     dependencies:
       extend-shallow: 2.0.1
@@ -15707,6 +15828,37 @@ snapshots:
       has-flag: 4.0.0
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  svg.draggable.js@2.2.2:
+    dependencies:
+      svg.js: 2.7.1
+
+  svg.easing.js@2.0.0:
+    dependencies:
+      svg.js: 2.7.1
+
+  svg.filter.js@2.0.2:
+    dependencies:
+      svg.js: 2.7.1
+
+  svg.js@2.7.1: {}
+
+  svg.pathmorphing.js@0.1.3:
+    dependencies:
+      svg.js: 2.7.1
+
+  svg.resize.js@1.4.3:
+    dependencies:
+      svg.js: 2.7.1
+      svg.select.js: 2.1.2
+
+  svg.select.js@2.1.2:
+    dependencies:
+      svg.js: 2.7.1
+
+  svg.select.js@3.0.1:
+    dependencies:
+      svg.js: 2.7.1
 
   tailwind-merge@2.2.0:
     dependencies:
