@@ -40,6 +40,14 @@ export function MobileNav({ items, children }: MobileNavProps) {
             </Link>
           ))}
         </nav>
+        <Link
+          href="/dashboard/data"
+          className={cn(
+            "flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline",
+          )}
+        >
+          Call Data
+        </Link>
         {children}
       </div>
     </div>

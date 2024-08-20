@@ -107,47 +107,27 @@ export function DataFetchingComponent({
   };
 
   const updateCharts = () => {
-    // Average Duration Donut Chart
+    // Average Duration Pie Chart
     const avgDuration = calculateAverageDuration();
-    const [avgMinutes, avgSeconds] = avgDuration.split("m");
-    const totalSeconds = parseInt(avgMinutes) * 60 + parseInt(avgSeconds);
-
-    const maxDuration =
-      Math.max(
-        ...data.map(
-          (item) =>
-            new Date(item.endedAt).getTime() -
-            new Date(item.startedAt).getTime(),
-        ),
-      ) / 1000;
-
-    const percentage = (totalSeconds / maxDuration) * 100;
+    const avgMinutes = parseFloat(avgDuration.split("m")[0]);
+    const avgSeconds = parseFloat(avgDuration.split("m")[1].split("s")[0]);
+    const totalSeconds = avgMinutes * 60 + avgSeconds;
 
     setAverageChartOptions({
-      series: [percentage],
+      series: [totalSeconds],
       chart: {
         height: 250,
-        type: "donut",
+        type: "radialBar",
       },
       plotOptions: {
-        pie: {
-          donut: {
+        radialBar: {
+          hollow: {
             size: "70%",
           },
         },
       },
-      labels: ["Average / Max Duration"],
-      colors: ["#FF6384", "#36A2EB"],
-      legend: {
-        show: false,
-      },
-      tooltip: {
-        y: {
-          formatter: function (value) {
-            return `${avgDuration} / ${formatDuration(maxDuration)}`;
-          },
-        },
-      },
+      labels: ["Average Duration"],
+      colors: ["#FF6384"],
     });
 
     // Total Duration Bar Chart
