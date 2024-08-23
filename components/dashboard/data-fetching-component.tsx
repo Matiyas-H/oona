@@ -335,14 +335,14 @@ export function DataFetchingComponent({
                 {formatTranscript(item.transcript)}
               </div>
             </div>
-            {item.recordingUrl && (
+            {/* {item.recordingUrl && (
               <div className="mt-4">
                 <h3 className="mb-2 text-lg font-semibold">Audio</h3>
                 <audio controls src={item.recordingUrl}>
                   Your browser does not support the audio element.
                 </audio>
               </div>
-            )}
+            )} */}
             {item.endReport && (
               <div className="mt-4">
                 <h3 className="mb-2 text-lg font-semibold">End Report</h3>
