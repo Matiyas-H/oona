@@ -33,6 +33,27 @@ export function DataFetchingComponent({
   const [averageChartOptions, setAverageChartOptions] = useState<any>(null);
   const [totalChartOptions, setTotalChartOptions] = useState<any>(null);
 
+  const getAudioUrl = async (recordingUrl: string) => {
+    try {
+      const response = await fetch("/api/calldata", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ recordingUrl }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch audio");
+      }
+
+      const blob = await response.blob();
+      return URL.createObjectURL(blob);
+    } catch (error) {
+      console.error("Error fetching audio:", error);
+      return null;
+    }
+  };
   useEffect(() => {
     updateCharts();
   }, [data]);

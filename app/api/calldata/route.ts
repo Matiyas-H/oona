@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
     const processedData = rawData.map(call => ({
       summary: call.analysis?.summary || 'No summary available',
       transcript: call.transcript || 'No transcript available',
-      // recordingUrl: call.recordingUrl || 'No recording available',
+      recordingUrl: call.recordingUrl || null,
       startedAt: call.startedAt,
       endedAt: call.endedAt,
       endReport: call.endReport || null,
@@ -45,6 +45,41 @@ export async function GET(request: NextRequest) {
   }
 }
 
+
+export async function POST(request: NextRequest) {
+  if (!VAPI_API_KEY || !VAPI_API_URL) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+
+  const { recordingUrl } = await request.json()
+
+  if (!recordingUrl) {
+    return NextResponse.json({ error: 'Missing recordingUrl' }, { status: 400 })
+  }
+
+  try {
+    const response = await fetch(recordingUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${VAPI_API_KEY}`,
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch audio file')
+    }
+
+    const audioBuffer = await response.arrayBuffer()
+    return new NextResponse(audioBuffer, {
+      headers: {
+        'Content-Type': 'audio/mpeg',
+      },
+    })
+  } catch (error) {
+    console.error('Audio proxy error:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}
 
 // File: app/api/calldata/route.ts
 // import { NextRequest, NextResponse } from 'next/server'
