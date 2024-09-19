@@ -68,7 +68,7 @@ export function NavBar({
               rounded="full"
               onClick={signInModal.onOpen}
             >
-              <span>Sign In</span>
+              <span>Sign In/ Sign up</span>
               <Icons.arrowRight className="size-4" />
             </Button>
           )}
