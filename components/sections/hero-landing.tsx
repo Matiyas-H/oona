@@ -42,7 +42,7 @@ export async function HeroLanding() {
         <h1 className="text-balance font-urban text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[66px]">
           Transform Your Customer Service with{" "}
           <span className="text-gradient_indigo-purple font-extrabold">
-            Omnia Phone AI
+            Omnia Voice AI
           </span>
         </h1>
 
