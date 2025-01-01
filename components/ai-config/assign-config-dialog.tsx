@@ -1,10 +1,10 @@
-
 "use client";
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Check, ChevronsUpDown } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -25,7 +25,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
-import { cn } from "@/lib/utils";
 
 interface AssignConfigDialogProps {
   open: boolean;
@@ -38,9 +37,11 @@ export function AssignConfigDialog({
   open,
   onOpenChange,
   telyxNumber,
-  currentConfigId
+  currentConfigId,
 }: AssignConfigDialogProps) {
-  const [selectedConfig, setSelectedConfig] = useState<string | undefined>(currentConfigId || undefined);
+  const [selectedConfig, setSelectedConfig] = useState<string | undefined>(
+    currentConfigId || undefined,
+  );
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
@@ -100,9 +101,10 @@ export function AssignConfigDialog({
                 className="w-full justify-between"
               >
                 {selectedConfig
-                  ? configs?.find((config: any) => config.id === selectedConfig)?.name
+                  ? configs?.find((config: any) => config.id === selectedConfig)
+                      ?.name
                   : "Select configuration..."}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">
@@ -118,7 +120,9 @@ export function AssignConfigDialog({
                       <Check
                         className={cn(
                           "mr-2 size-4",
-                          selectedConfig === config.id ? "opacity-100" : "opacity-0"
+                          selectedConfig === config.id
+                            ? "opacity-100"
+                            : "opacity-0",
                         )}
                       />
                       {config.name}
