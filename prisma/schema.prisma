@@ -7,27 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum MessageStatus {
+  READ
+  UNREAD
+}
+
 model Account {
   id                String   @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?  @db.Text
-  access_token      String?  @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?  @db.Text
+  id_token          String?
   session_state     String?
-  createdAt         DateTime @default(now()) @map(name: "created_at")
-  updatedAt         DateTime @default(now()) @map(name: "updated_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @default(now()) @map("updated_at")
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
-  @@map(name: "accounts")
+  @@map("accounts")
 }
 
 model Session {
@@ -38,27 +42,30 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-  @@map(name: "sessions")
+  @@map("sessions")
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  id                      String                   @id @default(cuid())
+  name                    String?
+  email                   String?                  @unique
+  emailVerified           DateTime?
+  image                   String?
+  createdAt               DateTime                 @default(now()) @map("created_at")
+  updatedAt               DateTime                 @default(now()) @map("updated_at")
+  role                    UserRole                 @default(USER)
+  password                String?
+  stripeCurrentPeriodEnd  DateTime?                @map("stripe_current_period_end")
+  stripeCustomerId        String?                  @unique @map("stripe_customer_id")
+  stripePriceId           String?                  @map("stripe_price_id")
+  stripeSubscriptionId    String?                  @unique @map("stripe_subscription_id")
+  accounts                Account[]
+  sessions                Session[]
+  userNumber              UserNumber?
+  verifiedNumber          VerifiedNumber?
+  notificationPreferences NotificationPreferences?
 
-  accounts Account[]
-  sessions Session[]
-
-  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
-  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
-  stripePriceId          String?   @map(name: "stripe_price_id")
-  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
-
-  @@map(name: "users")
+  @@map("users")
 }
 
 model VerificationToken {
@@ -67,5 +74,188 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-  @@map(name: "verification_tokens")
+  @@map("verification_tokens")
+}
+
+model Country {
+  id        String       @id @default(cuid())
+  code      String       @unique
+  isoCode   String       @unique @map("iso_code")
+  name      String
+  active    Boolean      @default(true)
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @default(now()) @map("updated_at")
+  carriers  Carrier[]
+  numbers   UserNumber[] @relation("CountryToUserNumber")
+
+  @@map("countries")
+}
+
+model Carrier {
+  id              String           @id @default(cuid())
+  name            String
+  countryId       String
+  active          Boolean          @default(true)
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @default(now()) @map("updated_at")
+  country         Country          @relation(fields: [countryId], references: [id])
+  forwardingCodes ForwardingCode[]
+  userNumbers     UserNumber[]
+  userServices    UserService[]
+
+  @@unique([name, countryId])
+  @@index([countryId])
+  @@map("carriers")
+}
+
+model ForwardingCode {
+  id               String        @id @default(cuid())
+  carrierId        String
+  serviceType      String
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @default(now()) @map("updated_at")
+  activateFormat   String
+  deactivateFormat String
+  carrier          Carrier       @relation(fields: [carrierId], references: [id])
+  userServices     UserService[]
+
+  @@unique([carrierId, serviceType])
+  @@index([carrierId])
+  @@map("forwarding_codes")
+}
+
+model UserNumber {
+  id          String        @id @default(cuid())
+  userId      String        @unique
+  telyxNumber String        @unique
+  userName    String?       @db.Text
+  aiGreeting  String?       @db.Text // Initial AI greeting message
+  aiContext   String?       @db.Text // Context information for AI
+  aiQuestions String?       @db.Text // Context information for AI
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @default(now()) @map("updated_at")
+  carrierId   String
+  countryId   String
+  carrier     Carrier       @relation(fields: [carrierId], references: [id])
+  country     Country       @relation("CountryToUserNumber", fields: [countryId], references: [id])
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  services    UserService[]
+  Message     Message[]
+  Document    Document[]
+
+  @@index([carrierId])
+  @@index([countryId])
+  @@map("user_numbers")
+}
+
+model UserService {
+  id               String         @id @default(cuid())
+  userNumberId     String
+  carrierId        String
+  forwardingCodeId String
+  gsmCode          String
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @default(now()) @map("updated_at")
+  isActive         Boolean        @default(false)
+  lastDialed       DateTime?
+  carrier          Carrier        @relation(fields: [carrierId], references: [id])
+  forwardingCode   ForwardingCode @relation(fields: [forwardingCodeId], references: [id])
+  userNumber       UserNumber     @relation(fields: [userNumberId], references: [id], onDelete: Cascade)
+
+  @@unique([userNumberId, carrierId, forwardingCodeId])
+  @@index([userNumberId])
+  @@index([carrierId])
+  @@index([forwardingCodeId])
+  @@map("user_services")
+}
+
+model FailedPurchase {
+  id           String   @id @default(cuid())
+  userId       String
+  twilioNumber String
+  carrierId    String
+  countryId    String
+  error        String
+  createdAt    DateTime @default(now()) @map("created_at")
+  resolved     Boolean  @default(false)
+
+  @@map("failed_purchases")
+}
+
+model FailedServices {
+  id           String   @id @default(cuid())
+  userNumberId String
+  error        String
+  createdAt    DateTime @default(now())
+  resolved     Boolean  @default(false)
+
+  @@map("failed_services")
+}
+
+model VerifiedNumber {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  number    String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("verified_numbers")
+}
+
+model Message {
+  id           String        @id @default(cuid())
+  telyxNumber  String
+  callerName   String
+  callerNumber String
+  purpose      String
+  location     String
+  message      String        @db.Text
+  status       MessageStatus @default(UNREAD)
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @default(now()) @map("updated_at")
+  userNumber   UserNumber    @relation(fields: [telyxNumber], references: [telyxNumber], onDelete: Cascade)
+
+  @@index([telyxNumber])
+  @@map("messages")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model NotificationPreferences {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  messageNotifications Boolean  @default(true)
+  firebaseDeviceToken  String?
+  pushSubscription     String?  @db.Text // Store the push subscription JSON
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notification_preferences")
+}
+
+model Document {
+  id          String     @id @default(cuid())
+  name        String
+  s3Key       String
+  vectorId    String? // Upstash reference
+  status      DocStatus  @default(PENDING)
+  telyxNumber String
+  userNumber  UserNumber @relation(fields: [telyxNumber], references: [telyxNumber], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([telyxNumber])
+  @@map("documents")
+}
+
+enum DocStatus {
+  PENDING
+  PROCESSING
+  READY
+  FAILED
 }

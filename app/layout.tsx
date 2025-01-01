@@ -10,6 +10,8 @@ import { Analytics } from "@/components/analytics";
 import { ModalProvider } from "@/components/modal-provider";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 
+import { AIConfigDisplay } from "./(dashboard)/dashboard/ai-config/page";
+
 interface RootLayoutProps {
   children: React.ReactNode;
 }
