@@ -59,8 +59,8 @@ export default async function DashboardPage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Panel" text="Create and manage content.">
-        <Button>Create Omnia</Button>
+      <DashboardHeader heading="Dashboard" text="Configure your AI assistant">
+        {/* <Button>Create Omnia</Button> */}
       </DashboardHeader>
       <div>
         {/* <EmptyPlaceholder>
