@@ -40,7 +40,7 @@ export async function POST(request: Request) {
         greeting,
         context,
         questions,
-        agentId: `${user.id}-${Math.random().toString(36).substring(2, 10)}`
+        agentId: `${user.id}-${Date.now()}`
       }
     });
 

@@ -12,7 +12,21 @@ import {
 
 import { endCall, startCall, toggleMute } from "@/lib/callFunctions";
 
-export default function VoiceChat() {
+interface VoiceChatProps {
+  config: {
+    systemPrompt: string;
+    greeting: string;
+    context: string;
+    questions?: string;
+    model?: string;
+    languageHint?: string;
+    voice?: string;
+    temperature?: number;
+  };
+  onClose?: () => void;
+}
+
+export default function VoiceChat({ config, onClose }: VoiceChatProps) {
   const [isCallActive, setIsCallActive] = useState(false);
   const [agentStatus, setAgentStatus] = useState("off");
   const [callTranscript, setCallTranscript] = useState<Transcript[]>([]);
@@ -49,12 +63,12 @@ export default function VoiceChat() {
   const handleStartCallButtonClick = async () => {
     try {
       const callConfig = {
-        systemPrompt:
-          "You are a helpful voice assistant. Keep responses brief and conversational.",
-        model: "fixie-ai/ultravox-70B",
-        languageHint: "en",
-        voice: "terrence",
-        temperature: 0.7,
+        systemPrompt: config.systemPrompt,
+        model: config.model || "fixie-ai/ultravox-70B",
+        languageHint: config.languageHint || "en",
+        voice: config.voice || "terrence",
+        temperature: config.temperature || 0.5,
+        firstSpeaker: "FIRST_SPEAKER_AGENT",
       };
 
       await startCall(

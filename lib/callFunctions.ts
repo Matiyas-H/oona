@@ -2,6 +2,7 @@
 // lib/callFunctions.ts
 import { UltravoxSession, UltravoxSessionStatus, Transcript, Role } from 'ultravox-client';
 import { JoinUrlResponse, CallConfig } from '@/types/types';
+import { API_ROUTES } from '@/lib/config';
 
 let uvSession: UltravoxSession | null = null;
 
@@ -22,21 +23,52 @@ export function toggleMute(role: Role): void {
 
 async function createCall(callConfig: CallConfig): Promise<JoinUrlResponse> {
   try {
-    const response = await fetch('/api/ultravox', {
+    console.log('Creating call with config:', {
+      ...callConfig,
+      systemPrompt: callConfig.systemPrompt?.substring(0, 50) + '...',
+    });
+
+    const response = await fetch(API_ROUTES.INTERNAL.ULTRAVOX, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ ...callConfig }),
+      body: JSON.stringify({
+        systemPrompt: callConfig.systemPrompt,
+        model: callConfig.model || 'fixie-ai/ultravox-70B',
+        languageHint: callConfig.languageHint || 'en',
+        voice: callConfig.voice || 'terrence',
+        temperature: typeof callConfig.temperature === 'number' ? callConfig.temperature : 0.7,
+      }),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+    const data = await response.json();
+    console.log('Call creation response:', {
+      status: response.status,
+      hasJoinUrl: !!(data.joinUrl || data.join_url),
+      error: data.error,
+      data: data
+    });
+
+    if (!response.ok || data.error) {
+      throw new Error(data.details || data.error || 'Unknown error');
     }
 
-    const data: JoinUrlResponse = await response.json();
-    return data;
+    // Check for either camelCase or snake_case versions of joinUrl
+    const joinUrl = data.joinUrl || data.join_url;
+    if (!joinUrl) {
+      throw new Error('No join URL received from server');
+    }
+
+    return {
+      joinUrl,
+      callId: data.callId || data.call_id,
+      created: data.created,
+      ended: data.ended || null,
+      model: data.model,
+      systemPrompt: data.systemPrompt || data.system_prompt,
+      temperature: data.temperature,
+    };
   } catch (error) {
     console.error('Error creating call:', error);
     throw error;
