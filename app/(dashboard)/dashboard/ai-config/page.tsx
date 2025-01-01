@@ -1,268 +1,139 @@
 "use client";
 
 import { useState } from "react";
-import { Bot, Pencil } from "lucide-react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
+import { AIConfigItem } from "@/components/ai-config/ai-config-item";
+import { AIConfigsList } from "@/components/ai-config/ai-config-list";
+import { CreateConfigDialog } from "@/components/ai-config/create-config-dialog";
+import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardShell } from "@/components/dashboard/shell";
 
-interface UserNumber {
-  id: string;
-  telyxNumber: string;
-  aiGreeting: string | null;
-  aiContext: string | null;
-  userName: string | null;
-  aiQuestions: string | null;
-}
+// Remove this interface as it's now defined in the component file
+// export interface CreateConfigDialogProps {
+//   open: boolean;
+//   onOpenChange: (open: boolean) => void;
+//   onSuccess: () => void;
+// }
 
-interface AIConfigDisplayProps {
-  userNumber: UserNumber;
-  hasConfiguration: boolean;
-}
-
-export function AIConfigDisplay({
-  userNumber,
-  hasConfiguration,
-}: AIConfigDisplayProps) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [config, setConfig] = useState({
-    aiGreeting: userNumber.aiGreeting || "",
-    aiContext: userNumber.aiContext || "",
-    userName: userNumber.userName || "",
-    aiQuestions: userNumber.aiQuestions || "",
-  });
-  console.log("Current config state:", config);
-  const [loading, setLoading] = useState(false);
+export default function AIConfigPage() {
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 2,
+        staleTime: 1000 * 60, // Consider data fresh for 1 minute
+        gcTime: 1000 * 60 * 5, // Keep unused data in cache for 5 minutes
+      },
+      mutations: {
+        onError: (error) => {
+          console.error("Query error:", error);
+          toast({
+            title: "Error",
+            description: "Failed to fetch data. Please try again.",
+            variant: "destructive",
+          });
+        },
+      },
+    },
+  });
 
-    try {
-      const response = await fetch("/api/user/ai-config", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          telyxNumber: userNumber.telyxNumber,
-          ...config,
-        }),
-      });
-
-      if (!response.ok) throw new Error();
-
-      toast({
-        title: "Configuration saved",
-        description:
-          "Your AI assistant has been updated with your preferences.",
-      });
-      setIsEditing(false);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to save your AI configuration. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
+  const handleSuccess = () => {
+    setShowCreateDialog(false);
+    queryClient.invalidateQueries({ queryKey: ["ai-configs"] });
   };
 
-  if (!hasConfiguration && !isEditing) {
-    return (
-      <EmptyPlaceholder>
-        <EmptyPlaceholder.Icon name="post" />
-        <EmptyPlaceholder.Title>
-          Configure Your AI Assistant
-        </EmptyPlaceholder.Title>
-        <EmptyPlaceholder.Description>
-          Set up how your AI assistant should greet callers and handle your
-          calls.
-        </EmptyPlaceholder.Description>
-        <Button onClick={() => setIsEditing(true)} className="w-full sm:w-auto">
-          Configure AI Assistant
-        </Button>
-      </EmptyPlaceholder>
-    );
-  }
-
-  if (isEditing) {
-    return (
-      <Card>
-        <CardHeader className="space-y-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Bot className="size-6" />
-              <CardTitle>AI Assistant Configuration</CardTitle>
-            </div>
-            <CardDescription>
-              Configure how your AI assistant handles calls
-            </CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Your Name</label>
-                <Input
-                  placeholder="Enter your name"
-                  value={config.userName}
-                  onChange={(e) =>
-                    setConfig((prev) => ({
-                      ...prev,
-                      userName: e.target.value,
-                    }))
-                  }
-                />
-                <p className="text-sm text-muted-foreground">
-                  This name will be used by the AI assistant when referring to
-                  you.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Initial Greeting</label>
-                <Textarea
-                  placeholder="Hello! I'm the AI assistant for [User]. How can I help you today?"
-                  className="min-h-[100px] resize-y"
-                  value={config.aiGreeting}
-                  onChange={(e) =>
-                    setConfig((prev) => ({
-                      ...prev,
-                      aiGreeting: e.target.value,
-                    }))
-                  }
-                />
-                <p className="text-sm text-muted-foreground">
-                  This is how your AI assistant will greet callers.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  About You & Your Preferences
-                </label>
-                <Textarea
-                  placeholder="I handle scheduling, message taking, and prioritize urgent calls about..."
-                  className="min-h-[150px] resize-y"
-                  value={config.aiContext}
-                  onChange={(e) =>
-                    setConfig((prev) => ({
-                      ...prev,
-                      aiContext: e.target.value,
-                    }))
-                  }
-                />
-                <p className="text-sm text-muted-foreground">
-                  Help your AI assistant understand your preferences and how to
-                  handle different types of calls.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  Questions to Ask Callers
-                </label>
-                <Textarea
-                  placeholder="What's your name? What's the purpose of your call?"
-                  className="min-h-[150px] resize-y"
-                  value={config.aiQuestions}
-                  onChange={(e) =>
-                    setConfig((prev) => ({
-                      ...prev,
-                      aiQuestions: e.target.value,
-                    }))
-                  }
-                />
-                <p className="text-sm text-muted-foreground">
-                  Specify questions that your AI assistant should ask callers to
-                  gather important information.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => setIsEditing(false)}
-                disabled={loading}
-                className="w-full sm:w-auto"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={loading}
-                className="w-full sm:w-auto"
-              >
-                {loading ? "Saving..." : "Save Configuration"}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <Card>
-      <CardHeader className="space-y-6">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <Bot className="size-6" />
-            <CardTitle>AI Assistant Configuration</CardTitle>
-          </div>
-          <CardDescription>
-            Your AI assistant&apos;s current configuration
-          </CardDescription>
-        </div>
-        <Button
-          variant="outline"
-          onClick={() => setIsEditing(true)}
-          className="w-full sm:w-auto"
+    <QueryClientProvider client={queryClient}>
+      <DashboardShell>
+        <DashboardHeader
+          heading="AI Assistants"
+          text="Configure and manage your AI assistants"
         >
-          <Pencil className="mr-2 size-4" />
-          Edit Configuration
-        </Button>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="space-y-2">
-          <h3 className="text-sm font-medium">Your Name</h3>
-          <div className="rounded-md bg-muted p-4 text-sm">
-            {config.userName || "Not set"}
+          <Button onClick={() => setShowCreateDialog(true)}>
+            <Plus className="mr-2 size-4" />
+            <span className="hidden sm:inline">New Assistant</span>
+            <span className="sm:hidden">New</span>
+          </Button>
+        </DashboardHeader>
+
+        <Separator />
+
+        {/* Mobile View */}
+        <div className="block lg:hidden">
+          <div className="space-y-4">
+            <div className="border-b pb-4">
+              <ScrollArea className="h-[300px]">
+                <AIConfigsList
+                  selectedId={selectedId}
+                  onSelect={setSelectedId}
+                />
+              </ScrollArea>
+            </div>
+            <div>
+              {selectedId ? (
+                <AIConfigItem
+                  id={selectedId}
+                  onDelete={() => {
+                    setSelectedId(null);
+                    queryClient.invalidateQueries({ queryKey: ["ai-configs"] });
+                  }}
+                />
+              ) : (
+                <div className="flex h-[200px] items-center justify-center text-center">
+                  <p className="px-4 text-sm text-muted-foreground">
+                    Select an assistant above to view or edit
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-        <div className="space-y-2">
-          <h3 className="text-sm font-medium">Initial Greeting</h3>
-          <div className="rounded-md bg-muted p-4 text-sm">
-            {config.aiGreeting}
+
+        {/* Desktop View */}
+        <div className="hidden lg:grid lg:h-[calc(100vh-220px)] lg:grid-cols-5 lg:gap-6">
+          <div className="col-span-2 border-r">
+            <ScrollArea className="h-full pr-6">
+              <AIConfigsList
+                selectedId={selectedId}
+                onSelect={setSelectedId}
+              />
+            </ScrollArea>
+          </div>
+          <div className="col-span-3 px-6">
+            <ScrollArea className="h-full">
+              {selectedId ? (
+                <AIConfigItem
+                  id={selectedId}
+                  onDelete={() => {
+                    setSelectedId(null);
+                    queryClient.invalidateQueries({ queryKey: ["ai-configs"] });
+                  }}
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center">
+                  <p className="text-sm text-muted-foreground">
+                    Select an assistant to view or edit
+                  </p>
+                </div>
+              )}
+            </ScrollArea>
           </div>
         </div>
-        <div className="space-y-2">
-          <h3 className="text-sm font-medium">About You & Your Preferences</h3>
-          <div className="whitespace-pre-wrap rounded-md bg-muted p-4 text-sm">
-            {config.aiContext}
-          </div>
-        </div>
-        <div className="space-y-2">
-          <h3 className="text-sm font-medium">Questions to Ask Callers</h3>
-          <div className="whitespace-pre-wrap rounded-md bg-muted p-4 text-sm">
-            {config.aiQuestions}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+
+        <CreateConfigDialog
+          open={showCreateDialog}
+          onOpenChange={setShowCreateDialog}
+        />
+      </DashboardShell>
+    </QueryClientProvider>
   );
 }

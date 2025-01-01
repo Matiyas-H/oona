@@ -134,8 +134,9 @@ export async function GET(request: Request): Promise<NextResponse<SuccessRespons
       select: {
         aiGreeting: true,
         aiContext: true,
-        userName: true,    // Added this field
-        aiQuestions: true, // Added this field
+        userName: true,
+        aiQuestions: true,
+        aiConfig: true,
         user: {
           select: {
             name: true
@@ -152,19 +153,12 @@ export async function GET(request: Request): Promise<NextResponse<SuccessRespons
       }, { status: 404 });
     }
 
-    if (!userConfig.aiGreeting || !userConfig.aiContext) {
-      return NextResponse.json({
-        status: 'error',
-        error: 'AI configuration not fully set for this number',
-        code: 'INCOMPLETE_CONFIG'
-      }, { status: 404 });
-    }
-
+    // Use AI config if assigned, otherwise use direct settings
     const config = {
-      greeting: userConfig.aiGreeting,
-      context: userConfig.aiContext,
-      userName: userConfig.userName || userConfig.user.name, // Use userName from userNumber first, fallback to user.name
-      questions: userConfig.aiQuestions  // Added this field
+      greeting: userConfig.aiConfig?.greeting || userConfig.aiGreeting || '',
+      context: userConfig.aiConfig?.context || userConfig.aiContext || '',
+      userName: userConfig.userName || userConfig.user.name,
+      questions: userConfig.aiConfig?.questions || userConfig.aiQuestions || ''
     };
 
     // Cache the result

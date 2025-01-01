@@ -4,7 +4,7 @@ import { prisma } from '@/lib/db';
 
 export async function PUT(request: Request) {
   try {
-    const { telyxNumber, aiGreeting, aiContext, userName, aiQuestions } = await request.json();
+    const { telyxNumber, aiGreeting, aiContext, userName, aiQuestions, aiConfigId } = await request.json();
 
     const updatedNumber = await prisma.userNumber.update({
       where: {
@@ -15,6 +15,7 @@ export async function PUT(request: Request) {
         aiContext,
         userName,
         aiQuestions,
+        aiConfigId,
         updatedAt: new Date(),
       },
     });
