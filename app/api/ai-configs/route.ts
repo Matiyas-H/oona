@@ -39,7 +39,8 @@ export async function POST(request: Request) {
         name,
         greeting,
         context,
-        questions
+        questions,
+        agentId: `${user.id}-${Math.random().toString(36).substring(2, 10)}`
       }
     });
 

@@ -103,6 +103,7 @@
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "twilio": "^5.4.0",
+    "ultravox-client": "^0.3.4",
     "upstash": "^0.0.1",
     "vaul": "^0.9.0",
     "vercel": "^33.7.0",

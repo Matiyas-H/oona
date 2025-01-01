@@ -16,7 +16,7 @@ export const dashboardConfig: DashboardConfig = {
   sidebarNav: [
     {
       title: "Panel",
-      href: "/dashboard",
+      href: "/dashboard/ai-config",
       icon: "post",
     },
   {

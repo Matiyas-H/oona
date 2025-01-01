@@ -10,11 +10,8 @@ import { Analytics } from "@/components/analytics";
 import { ModalProvider } from "@/components/modal-provider";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 
-import { AIConfigDisplay } from "./(dashboard)/dashboard/ai-config/page";
-
-interface RootLayoutProps {
-  children: React.ReactNode;
-}
+// Remove this incorrect import
+// import { AIConfigDisplay } from "./(dashboard)/dashboard/ai-config/page";
 
 export const metadata = {
   title: {
@@ -63,7 +60,7 @@ export const metadata = {
   manifest: `${siteConfig.url}/site.webmanifest`,
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />

@@ -270,6 +270,7 @@ model AIConfig {
   greeting    String      @db.Text
   context     String      @db.Text
   questions   String?     @db.Text  // Changed to optional
+  agentId     String      @unique  // Simple unique field, no default
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
