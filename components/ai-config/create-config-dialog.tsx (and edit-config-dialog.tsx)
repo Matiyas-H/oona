@@ -65,16 +65,16 @@ export function EditConfigDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[85vh] max-w-[800px] overflow-y-auto p-6">
-        <DialogHeader className="mb-6">
-          <DialogTitle className="text-xl">Edit AI Configuration</DialogTitle>
+      <DialogContent className="max-h-[85vh] w-[90vw] max-w-[1200px] overflow-y-auto p-8">
+        <DialogHeader className="mb-10">
+          <DialogTitle className="text-3xl">Edit AI Configuration</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-base font-medium">Organization Name</label>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="space-y-4">
+            <label className="text-lg font-medium">Organization Name</label>
             <Input
-              className="h-10 text-base"
+              className="h-14 text-xl"
               value={formData.name}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, name: e.target.value }))
@@ -84,10 +84,10 @@ export function EditConfigDialog({
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="text-base font-medium">Initial Greeting</label>
+          <div className="space-y-4">
+            <label className="text-lg font-medium">Initial Greeting</label>
             <Textarea
-              className="min-h-[100px] resize-y text-base leading-relaxed"
+              className="min-h-[150px] resize-y text-lg leading-relaxed"
               value={formData.greeting}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, greeting: e.target.value }))
@@ -97,13 +97,13 @@ export function EditConfigDialog({
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="text-base font-medium">
+          <div className="space-y-4">
+            <label className="text-lg font-medium">
               Business Context & Capabilities
             </label>
-            <div className="h-[200px] overflow-y-auto rounded-md border">
+            <div className="h-[300px] overflow-y-auto rounded-md border">
               <Textarea
-                className="h-full resize-none text-base leading-relaxed"
+                className="h-full min-h-full resize-none text-lg leading-relaxed"
                 value={formData.context}
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, context: e.target.value }))
@@ -114,11 +114,11 @@ export function EditConfigDialog({
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-base font-medium">Call Flow Guidelines</label>
+          <div className="space-y-4">
+            <label className="text-lg font-medium">Call Flow Guidelines</label>
             <div className="h-[300px] overflow-y-auto rounded-md border">
               <Textarea
-                className="h-full resize-none text-base leading-relaxed"
+                className="h-full min-h-full resize-none text-lg leading-relaxed"
                 value={formData.questions}
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, questions: e.target.value }))
@@ -128,20 +128,20 @@ export function EditConfigDialog({
             </div>
           </div>
 
-          <div className="flex justify-end space-x-4 pt-6">
+          <div className="flex justify-end space-x-4 pt-8">
             <Button
               type="button"
               variant="ghost"
               onClick={() => onOpenChange(false)}
               disabled={loading}
-              className="h-9 px-4 text-sm"
+              className="h-14 px-10 text-lg"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={loading}
-              className="h-9 px-4 text-sm"
+              className="h-14 px-10 text-lg"
             >
               {loading ? "Saving..." : "Save Changes"}
             </Button>

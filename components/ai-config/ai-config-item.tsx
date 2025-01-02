@@ -117,7 +117,7 @@ export function AIConfigItem({ id, onDelete }: AIConfigItemProps) {
 
   return (
     <>
-      <div className="space-y-6 rounded-md border border-border bg-card p-4 sm:p-6 lg:p-8">
+      <div className="flex h-full flex-col justify-between space-y-6">
         {/* Header Section */}
         <div className="flex flex-col justify-between gap-2 border-b pb-4 sm:flex-row sm:items-center">
           <h3 className="text-lg font-semibold sm:text-xl">{config?.name}</h3>
@@ -128,68 +128,67 @@ export function AIConfigItem({ id, onDelete }: AIConfigItemProps) {
           </span>
         </div>
 
-        <div className="grid gap-6">
-          {/* Sections with responsive padding and font sizes */}
-          <div className="space-y-2">
-            <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground sm:text-sm">
-              Initial Greeting
-            </h4>
-            <p className="rounded-md bg-muted/50 p-3 text-sm">
-              {config?.greeting}
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground sm:text-sm">
-              Business Context & Capabilities
-            </h4>
-            <div className="min-h-[100px] rounded-md bg-muted/50 p-3 sm:min-h-[120px] sm:p-4">
-              <p className="whitespace-pre-wrap text-sm">{config?.context}</p>
-            </div>
-          </div>
-
-          {config?.questions && (
+        {/* Scrollable Content Area */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="space-y-6">
             <div className="space-y-2">
               <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground sm:text-sm">
-                Call Flow Guidelines
+                Initial Greeting
               </h4>
-              <div className="min-h-[100px] rounded-md bg-muted/50 p-3 sm:min-h-[120px] sm:p-4">
-                <p className="whitespace-pre-wrap text-sm">
-                  {config?.questions}
-                </p>
+              <p className="rounded-md bg-muted/50 p-3 text-sm">
+                {config?.greeting}
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground sm:text-sm">
+                Business Context & Capabilities
+              </h4>
+              <div className="max-h-[200px] overflow-y-auto rounded-md bg-muted/50 p-3">
+                <p className="whitespace-pre-wrap text-sm">{config?.context}</p>
               </div>
             </div>
-          )}
+
+            {config?.questions && (
+              <div className="space-y-2">
+                <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground sm:text-sm">
+                  Call Flow Guidelines
+                </h4>
+                <div className="max-h-[200px] overflow-y-auto rounded-md bg-muted/50 p-3">
+                  <p className="whitespace-pre-wrap text-sm">
+                    {config?.questions}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Actions Section */}
-        <div className="flex justify-end gap-2 border-t pt-4">
+        {/* Fixed Actions Section at Bottom */}
+        <div className="sticky bottom-0 flex justify-end gap-2 border-t bg-background pt-4">
           <SimpleCallButton config={config} />
           <Button
             variant="outline"
             size="sm"
             onClick={() => setShowAssignDialog(true)}
-            className="text-xs sm:text-sm"
           >
-            <PhoneCall className="mr-2 size-3 sm:size-4" />
+            <PhoneCall className="mr-2 size-4" />
             Assign Numbers
           </Button>
           <Button
             variant="outline"
             size="sm"
             onClick={() => setShowEditDialog(true)}
-            className="text-xs sm:text-sm"
           >
-            <Pencil className="mr-2 size-3 sm:size-4" />
+            <Pencil className="mr-2 size-4" />
             Edit
           </Button>
           <Button
             variant="destructive"
             size="sm"
             onClick={() => setShowDeleteDialog(true)}
-            className="text-xs sm:text-sm"
           >
-            <Trash2 className="mr-2 size-3 sm:size-4" />
+            <Trash2 className="mr-2 size-4" />
             Delete
           </Button>
         </div>

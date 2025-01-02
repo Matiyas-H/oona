@@ -37,24 +37,28 @@ export function AIConfigsList({ selectedId, onSelect }: AIConfigsListProps) {
   return (
     <div className="space-y-2">
       {data?.configs?.map((config) => (
-        <button
+        <div
           key={config.id}
-          onClick={() => onSelect(config.id)}
           className={cn(
-            "flex w-full flex-col items-start gap-2 rounded-lg border p-4 text-left transition-colors hover:bg-accent",
+            "flex w-full flex-col gap-2 rounded-lg border p-4 hover:bg-accent",
             selectedId === config.id && "bg-muted"
           )}
         >
-          <div className="flex w-full justify-between">
-            <span className="font-semibold">{config.name}</span>
-            <span className="text-xs text-muted-foreground">
-              {config.userNumbers.length} number(s)
-            </span>
-          </div>
-          <p className="line-clamp-2 text-sm text-muted-foreground">
-            {config.greeting}
-          </p>
-        </button>
+          <button
+            onClick={() => onSelect(config.id)}
+            className="flex w-full flex-col items-start text-left"
+          >
+            <div className="flex w-full justify-between">
+              <span className="font-semibold">{config.name}</span>
+              <span className="text-xs text-muted-foreground">
+                {config.userNumbers?.length || 0} number(s)
+              </span>
+            </div>
+            <p className="line-clamp-2 text-sm text-muted-foreground">
+              {config.greeting}
+            </p>
+          </button>
+        </div>
       ))}
     </div>
   );

@@ -99,33 +99,32 @@ export default function AIConfigPage() {
         </div>
 
         {/* Desktop View */}
-        <div className="hidden lg:grid lg:h-[calc(100vh-220px)] lg:grid-cols-5 lg:gap-6">
-          <div className="col-span-2 border-r">
-            <ScrollArea className="h-full pr-6">
-              <AIConfigsList
-                selectedId={selectedId}
-                onSelect={setSelectedId}
-              />
-            </ScrollArea>
+        <div className="hidden lg:grid lg:grid-cols-5 lg:gap-6">
+          <div className="col-span-2 border-r pr-6">
+            <AIConfigsList
+              selectedId={selectedId}
+              onSelect={(id) => {
+                console.log("Selected ID:", id); // Add this for debugging
+                setSelectedId(id);
+              }}
+            />
           </div>
           <div className="col-span-3 px-6">
-            <ScrollArea className="h-full">
-              {selectedId ? (
-                <AIConfigItem
-                  id={selectedId}
-                  onDelete={() => {
-                    setSelectedId(null);
-                    queryClient.invalidateQueries({ queryKey: ["ai-configs"] });
-                  }}
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center">
-                  <p className="text-sm text-muted-foreground">
-                    Select an assistant to view or edit
-                  </p>
-                </div>
-              )}
-            </ScrollArea>
+            {selectedId ? (
+              <AIConfigItem
+                id={selectedId}
+                onDelete={() => {
+                  setSelectedId(null);
+                  queryClient.invalidateQueries({ queryKey: ["ai-configs"] });
+                }}
+              />
+            ) : (
+              <div className="flex h-full items-center justify-center">
+                <p className="text-sm text-muted-foreground">
+                  Select an assistant to view or edit
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
