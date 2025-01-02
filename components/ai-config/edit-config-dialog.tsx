@@ -72,13 +72,13 @@ export function EditConfigDialog({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Configuration Name</label>
+            <label className="text-sm font-medium">Organization Name</label>
             <Input
               value={formData.name}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, name: e.target.value }))
               }
-              placeholder="e.g., Sales Assistant"
+              placeholder="e.g., Acme Corp Support, Cleveland Medical Center"
               required
             />
           </div>
@@ -90,31 +90,31 @@ export function EditConfigDialog({
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, greeting: e.target.value }))
               }
-              placeholder="Hello! I'm the AI assistant..."
+              placeholder="The first message your AI agent will say when answering a call..."
               required
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Context Information</label>
+            <label className="text-sm font-medium">Business Context & Capabilities</label>
             <Textarea
               value={formData.context}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, context: e.target.value }))
               }
-              placeholder="I handle scheduling, message taking..."
+              placeholder="Define business operations, services offered, key information to provide, and handling capabilities..."
               required
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Questions for Callers</label>
+            <label className="text-sm font-medium">Call Flow Guidelines</label>
             <Textarea
               value={formData.questions}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, questions: e.target.value }))
               }
-              placeholder="What's your name? What's the purpose..."
+              placeholder="Specify interaction flow, key points to address, and information to collect..."
             />
           </div>
 

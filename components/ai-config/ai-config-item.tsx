@@ -141,7 +141,7 @@ export function AIConfigItem({ id, onDelete }: AIConfigItemProps) {
 
           <div className="space-y-2">
             <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground sm:text-sm">
-              Context Information
+              Business Context & Capabilities
             </h4>
             <div className="min-h-[100px] rounded-md bg-muted/50 p-3 sm:min-h-[120px] sm:p-4">
               <p className="whitespace-pre-wrap text-sm">{config?.context}</p>
@@ -151,7 +151,7 @@ export function AIConfigItem({ id, onDelete }: AIConfigItemProps) {
           {config?.questions && (
             <div className="space-y-2">
               <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground sm:text-sm">
-                Questions for Callers
+                Call Flow Guidelines
               </h4>
               <div className="min-h-[100px] rounded-md bg-muted/50 p-3 sm:min-h-[120px] sm:p-4">
                 <p className="whitespace-pre-wrap text-sm">
