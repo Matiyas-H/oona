@@ -36,9 +36,9 @@ async function createCall(callConfig: CallConfig): Promise<JoinUrlResponse> {
       body: JSON.stringify({
         systemPrompt: callConfig.systemPrompt,
         model: callConfig.model || 'fixie-ai/ultravox-70B',
-        languageHint: callConfig.languageHint || 'en',
-        voice: callConfig.voice || 'terrence',
-        temperature: typeof callConfig.temperature === 'number' ? callConfig.temperature : 0.7,
+        languageHint: callConfig.languageHint || 'fi',
+        voice: callConfig.voice || 'Sarah',
+        temperature: typeof callConfig.temperature === 'number' ? callConfig.temperature : 0.3,
       }),
     });
 
