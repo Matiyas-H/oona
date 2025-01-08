@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       temperature: body.temperature || 0.7,
       system_prompt: body.systemPrompt,
       language_hint: body.languageHint || "en",
-      voice: body.voice || "terrence",
+      voice: body.voice || "Sarah",
       first_speaker: "FIRST_SPEAKER_AGENT",
       recording_enabled: true,
       transcript_optional: false
