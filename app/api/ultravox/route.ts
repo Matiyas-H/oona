@@ -20,12 +20,12 @@ export async function POST(request: NextRequest) {
     // Format the request body
     const formattedBody = {
       model: body.model || "fixie-ai/ultravox-70B",
-      temperature: body.temperature || 0.3,
+      temperature: 0.3,
       system_prompt: body.systemPrompt,
-      language_hint: body.languageHint || "fi",
-      voice: body.voice || "Sarah",
+      language_hint: "fi",
+      voice: "Sarah",
       first_speaker: "FIRST_SPEAKER_AGENT",
-      recording_enabled: true,
+      recording_enabled: false,
       transcript_optional: false
     };
 
