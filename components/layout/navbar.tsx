@@ -9,7 +9,6 @@ import useScroll from "@/hooks/use-scroll";
 import { useSigninModal } from "@/hooks/use-signin-modal";
 import { Button, buttonVariants } from "@/components/ui/button";
 
-import { Icons } from "../shared/icons";
 import { MainNav } from "./main-nav";
 import { UserAccountNav } from "./user-account-nav";
 
@@ -61,16 +60,34 @@ export function NavBar({
           {user ? (
             <UserAccountNav user={user} />
           ) : (
-            <Button
-              className="gap-2 px-4"
-              variant="default"
-              size="sm"
-              rounded="full"
-              onClick={signInModal.onOpen}
-            >
-              <span>Sign In/ Sign up</span>
-              <Icons.arrowRight className="size-4" />
-            </Button>
+            <>
+              <Link
+                href="https://dashboard.omnia-voice.com/login"
+                className={cn(
+                  buttonVariants({
+                    variant: "outline",
+                    size: "sm",
+                    rounded: "full",
+                  }),
+                  "px-4",
+                )}
+              >
+                Login
+              </Link>
+              <Link
+                href="https://dashboard.omnia-voice.com/register"
+                className={cn(
+                  buttonVariants({
+                    variant: "default",
+                    size: "sm",
+                    rounded: "full",
+                  }),
+                  "px-4",
+                )}
+              >
+                Sign Up
+              </Link>
+            </>
           )}
         </div>
       </div>

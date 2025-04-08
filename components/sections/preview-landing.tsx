@@ -8,7 +8,7 @@ export function PreviewLanding() {
           <div className="relative aspect-video overflow-hidden rounded-xl border md:rounded-lg">
             <Image
               className="size-full  object-center"
-              src="/images/omnia-voice.png"
+              src="/img/dash-new12.png"
               alt="preview landing"
               width={800}
               height={1000}
