@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/session";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { DataFetchingComponent } from "@/components/dashboard/data-fetching-component";
+// import { DataFetchingComponent } from "@/components/dashboard/data-fetching-component";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardShell } from "@/components/dashboard/shell";
 
@@ -56,7 +56,7 @@ export default async function DataPage() {
         heading="Call Data"
         text="View and manage your recent call data."
       />
-      <div className="grid gap-8">
+      {/* <div className="grid gap-8">
         {error ? (
           <Alert variant="destructive">
             <AlertTitle>Error</AlertTitle>
@@ -65,7 +65,7 @@ export default async function DataPage() {
         ) : (
           <DataFetchingComponent initialData={initialCallData} />
         )}
-      </div>
+      </div> */}
     </DashboardShell>
   );
 }
