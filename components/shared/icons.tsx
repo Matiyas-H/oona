@@ -16,10 +16,12 @@ import {
   LucideProps,
   Moon,
   MoreVertical,
+  PlayCircle,
   Plus,
   Puzzle,
   Search,
   Settings,
+  Sparkles,
   SunMedium,
   Trash,
   User,
@@ -38,6 +40,8 @@ export const Icons = {
   check: Check,
   close: X,
   ellipsis: MoreVertical,
+  sparkles: Sparkles,
+  play: PlayCircle,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

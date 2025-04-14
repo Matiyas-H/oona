@@ -1,12 +1,23 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 
-import { env } from "@/env.mjs";
 import { siteConfig } from "@/config/site";
 import { cn, nFormatter } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+
 import { Icons } from "@/components/shared/icons";
 
-export async function HeroLanding() {
+import { BentoGrid } from "./bentogrid";
+import { Features } from "./features";
+import { InfoLanding } from "./info-landing";
+import { Powered } from "./powered";
+import { Testimonials } from "./testimonials";
+
+export function HeroLanding() {
   // const { stargazers_count: stars } = await fetch("#", {
   //   ...(env.GITHUB_OAUTH_TOKEN && {
   //     headers: {
@@ -21,87 +32,63 @@ export async function HeroLanding() {
   //   .catch((e) => console.log(e));
 
   return (
-    <section className="space-y-6 py-12 sm:py-20 lg:py-20">
-      <div className="container flex max-w-5xl flex-col items-center gap-5 text-center">
-        {/* <div>
-          <Link
-            href="https://www.antler.co/location/finland"
-            className={cn(
-              buttonVariants({
-                variant: "outline",
-                size: "sm",
-                rounded: "full",
-              }),
-              "px-4",
-            )}
-            target="_blank"
-          >
-            <span className="mr-3">🎉</span> We are a part of Antler NOR6 🚀
-          </Link>
-        </div> */}
-        <h1 className="text-balance font-urban text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[66px]">
-          Transform Your Customer Service with{" "}
-          <span className="text-gradient_indigo-purple font-extrabold">
-            Omnia Voice AI
-          </span>
-        </h1>
-
-        <p
-          className="max-w-2xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
-          style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
-        >
-          Focus on your business while we handle the technology. Our end-to-end
-          voice AI solution revolutionizes your customer experience.
-        </p>
-
-        <div
-          className="flex justify-center space-x-2 md:space-x-4"
-          style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}
-        >
-          <Link
-            href="/pricing"
-            className={cn(
-              buttonVariants({
-                variant: "outline",
-                size: "lg",
-                rounded: "full",
-              }),
-              "gap-2",
-            )}
-          >
-            <span>Talk to sales</span>
-            <Icons.arrowRight className="size-4" />
-          </Link>
+    <>
+      <section className="space-y-6 py-12 sm:py-20 lg:py-24">
+        <div className="container flex max-w-screen-md flex-col items-center gap-5 text-center">
           <Link
             href=""
-            target="_blank"
-            rel="noreferrer"
             className={cn(
-              buttonVariants({
-                size: "lg",
-                rounded: "full",
-              }),
-              "px-5",
+              buttonVariants({ variant: "outline", size: "sm", rounded: "xl" }),
+              "border-purple-200 bg-purple-50 px-4 text-purple-700 hover:bg-purple-100 dark:border-purple-800 dark:bg-purple-900/10 dark:text-purple-300 dark:hover:bg-purple-900/20",
             )}
+            target="_blank"
           >
-            <span>Try Omnia</span>
-            <Icons.arrowRight className="size-4" />
+            <span className="mr-1 flex items-center gap-1.5">
+              <Icons.sparkles className="size-4" />
+              AI Voice Agents Available Now
+            </span>
           </Link>
-          <Link
-            href="#"
-            target=""
-            rel="noreferrer"
-            // className={cn(
-            //   buttonVariants({
-            //     variant: "outline",
-            //     size: "lg",
-            //     rounded: "full",
-            //   }),
-            //   "px-5",
-            // )}
-          ></Link>
+
+          <h1 className="font-satoshi text-balance text-[40px] font-black leading-[1.15] tracking-tight sm:text-5xl md:text-6xl md:leading-[1.15]">
+            The Platform For{" "}
+            <span className="text-foreground">Building Voice AI Agents</span>
+          </h1>
+
+          <p className="max-w-2xl text-balance text-muted-foreground sm:text-lg">
+            Create, deploy, and scale multilingual voice agents that sound
+            natural, understand context, and eliminate language barriers.
+          </p>
+
+          <div className="flex flex-col items-center gap-8">
+            <div className="flex flex-row items-center gap-4">
+              <Link
+                href="/preview"
+                className={cn(
+                  buttonVariants({ rounded: "xl", size: "lg" }),
+                  "gap-2 px-6 text-[15px] transition-transform duration-200 hover:scale-105",
+                )}
+              >
+                <Icons.play className="size-4" />
+                <span>Click to Talk</span>
+              </Link>
+
+              <Link
+                href="https://dashboard.omnia-voice.com/login"
+                className={cn(
+                  buttonVariants({ rounded: "xl", size: "lg" }),
+                  "gap-2 px-6 text-[15px] transition-transform duration-200 hover:scale-105",
+                )}
+              >
+                <Icons.sparkles className="size-4" />
+                <span>Get Started</span>
+                <span className="ml-2 rounded-full bg-gradient-to-r from-green-400 to-blue-500 px-2.5 py-1 text-xs font-medium text-white shadow-sm">
+                  Free
+                </span>
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
