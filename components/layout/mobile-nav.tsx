@@ -22,11 +22,11 @@ export function MobileNav({ items, children }: MobileNavProps) {
       )}
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
-        <Link href="/" className="flex items-center space-x-2">
+        {/* <Link href="/" className="flex items-center space-x-2">
           <Icons.logo />
           <span className="font-bold">{siteConfig.name}</span>
-        </Link>
-        <nav className="grid grid-flow-row auto-rows-max text-sm">
+        </Link> */}
+        {/* <nav className="grid grid-flow-row auto-rows-max text-sm">
           {items.map((item, index) => (
             <Link
               key={index}
@@ -39,15 +39,15 @@ export function MobileNav({ items, children }: MobileNavProps) {
               {item.title}
             </Link>
           ))}
-        </nav>
-        <Link
+        </nav> */}
+        {/* <Link
           href="/dashboard/data"
           className={cn(
             "flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline",
           )}
         >
           Call Data
-        </Link>
+        </Link> */}
         {children}
       </div>
     </div>

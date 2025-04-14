@@ -59,32 +59,34 @@ export function HeroLanding() {
             natural, understand context, and eliminate language barriers.
           </p>
 
-          <div className="flex flex-col items-center gap-8">
-            <div className="flex flex-row items-center gap-4">
+          <div className="flex w-full flex-col items-center gap-4">
+            <div className="flex w-full flex-row flex-wrap items-center justify-center gap-3">
               <Link
                 href="/preview"
                 className={cn(
-                  buttonVariants({ rounded: "xl", size: "lg" }),
-                  "gap-2 px-6 text-[15px] transition-transform duration-200 hover:scale-105",
+                  buttonVariants({ rounded: "xl", size: "sm" }),
+                  "flex justify-center gap-1 px-4 text-sm transition-transform duration-200 hover:scale-105",
                 )}
               >
                 <Icons.play className="size-4" />
                 <span>Click to Talk</span>
               </Link>
 
-              <Link
-                href="https://dashboard.omnia-voice.com/login"
-                className={cn(
-                  buttonVariants({ rounded: "xl", size: "lg" }),
-                  "gap-2 px-6 text-[15px] transition-transform duration-200 hover:scale-105",
-                )}
-              >
-                <Icons.sparkles className="size-4" />
-                <span>Get Started</span>
-                <span className="ml-2 rounded-full bg-gradient-to-r from-green-400 to-blue-500 px-2.5 py-1 text-xs font-medium text-white shadow-sm">
+              <div className="relative">
+                <span className="absolute -top-2 right-0 z-10 rounded-full bg-gradient-to-r from-green-400 to-blue-500 px-1.5 py-0.5 text-[10px] font-medium text-white shadow-sm">
                   Free
                 </span>
-              </Link>
+                <Link
+                  href="https://dashboard.omnia-voice.com/login"
+                  className={cn(
+                    buttonVariants({ rounded: "xl", size: "sm" }),
+                    "flex justify-center gap-1 px-4 text-sm transition-transform duration-200 hover:scale-105",
+                  )}
+                >
+                  <Icons.sparkles className="size-4" />
+                  <span>Get Started</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
