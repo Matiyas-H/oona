@@ -51,7 +51,7 @@ export default function Features() {
     <section className="py-24">
       <div className="container max-w-6xl">
         <div className="flex justify-center">
-          <Tag>Features</Tag>
+          {/* <Tag>Features</Tag> */}
         </div>
         <h2 className="m-auto mt-6 max-w-2xl text-center font-heading text-4xl font-medium md:text-5xl">
           Where power meets <span className="text-purple-400">simplicity</span>
