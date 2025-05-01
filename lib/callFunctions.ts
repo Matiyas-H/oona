@@ -1,6 +1,6 @@
 'use client';
 // lib/callFunctions.ts
-import { UltravoxSession, UltravoxSessionStatus, Transcript, Role } from 'ultravox-client';
+import { UltravoxSession, UltravoxSessionStatus, Transcript, Role } from 'ultravox-client'; // Note: Client library name might need updating later
 import { JoinUrlResponse, CallConfig } from '@/types/types';
 import { API_ROUTES } from '@/lib/config';
 
@@ -17,66 +17,58 @@ export function toggleMute(role: Role): void {
       uvSession.isMicMuted ? uvSession.unmuteMic() : uvSession.muteMic();
     }
   } else {
-    console.error('uvSession is not initialized.');
+    // Session not initialized
   }
 }
 
-async function createCall(callConfig: CallConfig): Promise<JoinUrlResponse> {
+async function createCall(): Promise<{ joinUrl: string; callId: string }> {
   try {
-    console.log('Creating call with config:', {
-      ...callConfig,
-      systemPrompt: callConfig.systemPrompt?.substring(0, 50) + '...',
-    });
-
-    const response = await fetch(API_ROUTES.INTERNAL.ULTRAVOX, {
+    // Call the server API to create a call - all configuration is handled server-side
+    const response = await fetch(API_ROUTES.INTERNAL.CALL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        systemPrompt: callConfig.systemPrompt,
-        model: callConfig.model || 'fixie-ai/ultravox-70B',
-        languageHint: 'fi',
-        voice: 'Sarah',
-        temperature: 0.3,
-      }),
+      }
+      // No body needed - configuration is handled server-side
     });
 
-    const data = await response.json();
-    console.log('Call creation response:', {
-      status: response.status,
-      hasJoinUrl: !!(data.joinUrl || data.join_url),
-      error: data.error,
-      data: data
-    });
+    let data;
+    try {
+      const responseText = await response.text();
+      // Check for empty response
+      if (!responseText.trim()) {
+        throw new Error('Empty response from API');
+      }
+      
+      data = JSON.parse(responseText);
+    } catch (error) {
+      // Log sanitized error without details
+      throw new Error('Failed to parse API response');
+    }
 
     if (!response.ok || data.error) {
       throw new Error(data.details || data.error || 'Unknown error');
     }
 
-    // Check for either camelCase or snake_case versions of joinUrl
+    // Check for joinUrl in the response
     const joinUrl = data.joinUrl || data.join_url;
     if (!joinUrl) {
       throw new Error('No join URL received from server');
     }
 
+    // Only return the joinUrl and callId, keeping other details server-side
     return {
       joinUrl,
       callId: data.callId || data.call_id,
-      created: data.created,
-      ended: data.ended || null,
-      model: data.model,
-      systemPrompt: data.systemPrompt || data.system_prompt,
-      temperature: data.temperature,
     };
   } catch (error) {
-    console.error('Error creating call:', error);
-    throw error;
+    // Throw error without logging details
+    throw new Error('Error creating call');
   }
 }
 
-export async function startCall(callbacks: CallCallbacks, callConfig: CallConfig): Promise<void> {
-  const callData = await createCall(callConfig);
+export async function startCall(callbacks: CallCallbacks, callConfig: any): Promise<void> {
+  const callData = await createCall();
   const joinUrl = callData.joinUrl;
 
   if (!joinUrl && !uvSession) {

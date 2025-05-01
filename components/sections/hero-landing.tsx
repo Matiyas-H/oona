@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { PhoneOff } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
 import { cn, nFormatter } from "@/lib/utils";
+import { useVoiceCall } from "@/hooks/use-voice-call";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-
 import { Icons } from "@/components/shared/icons";
 
 import { BentoGrid } from "./bentogrid";
@@ -18,6 +18,21 @@ import { Powered } from "./powered";
 import { Testimonials } from "./testimonials";
 
 export function HeroLanding() {
+  const {
+    isCallActive,
+    agentStatus,
+    callTranscript,
+    startVoiceCall,
+    endVoiceCall,
+  } = useVoiceCall();
+
+  const handleStartCallButtonClick = async () => {
+    await startVoiceCall();
+  };
+
+  const handleEndCallButtonClick = async () => {
+    await endVoiceCall();
+  };
   // const { stargazers_count: stars } = await fetch("#", {
   //   ...(env.GITHUB_OAUTH_TOKEN && {
   //     headers: {
@@ -61,16 +76,25 @@ export function HeroLanding() {
 
           <div className="flex w-full flex-col items-center gap-4">
             <div className="flex w-full flex-row flex-wrap items-center justify-center gap-3">
-              <Link
-                href="/preview"
+              <Button
+                onClick={
+                  isCallActive
+                    ? handleEndCallButtonClick
+                    : handleStartCallButtonClick
+                }
                 className={cn(
                   buttonVariants({ rounded: "xl", size: "sm" }),
                   "flex justify-center gap-1 px-4 text-sm transition-transform duration-200 hover:scale-105",
+                  isCallActive ? "bg-red-600 text-white hover:bg-red-700" : "",
                 )}
               >
-                <Icons.play className="size-4" />
-                <span>Click to Talk</span>
-              </Link>
+                {isCallActive ? (
+                  <PhoneOff className="size-4" />
+                ) : (
+                  <Icons.play className="size-4" />
+                )}
+                <span>{isCallActive ? "End Call" : "Click to Talk"}</span>
+              </Button>
 
               <div className="relative">
                 <span className="absolute -top-2 right-0 z-10 rounded-full bg-gradient-to-r from-green-400 to-blue-500 px-1.5 py-0.5 text-[10px] font-medium text-white shadow-sm">

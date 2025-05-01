@@ -19,7 +19,7 @@ export function Features() {
           <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
               <div
-                className="group relative overflow-hidden rounded-2xl border bg-background p-5 font-bold md:p-8"
+                className="group relative rounded-2xl border bg-background p-5 font-bold md:p-8"
                 key={feature.title}
               >
                 {" "}
