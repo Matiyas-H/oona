@@ -6,10 +6,10 @@ import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
 export default function PreviewLanding() {
   return (
-    <div className="mt-4 pb-4 sm:mt-12 sm:pb-20">
-      <MaxWidthWrapper className="px-2 sm:px-6">
-        <div className="relative h-auto w-full">
-          <div className="relative w-full overflow-hidden rounded-xl shadow-2xl sm:rounded-t-2xl">
+    <div>
+      {/* <MaxWidthWrapper className="px-2 sm:px-6"> */}
+      {/* <div className="relative h-auto w-full"> */}
+      {/* <div className="relative w-full overflow-hidden rounded-xl shadow-2xl sm:rounded-t-2xl">
             <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-background/80 to-background blur-2xl" />
             <BlurImage
               src={omniaDash}
@@ -19,8 +19,8 @@ export default function PreviewLanding() {
               height={900}
               priority
               placeholder="blur"
-            />
-            {/* <BlurImage
+            /> */}
+      {/* <BlurImage
               src={darkPreview}
               alt="dark preview landing"
               className="hidden size-full object-contain object-center dark:flex"
@@ -29,9 +29,9 @@ export default function PreviewLanding() {
               priority
               placeholder="blur"
             /> */}
-          </div>
-        </div>
-      </MaxWidthWrapper>
+      {/* </div> */}
+      {/* </div> */}
+      {/* </MaxWidthWrapper> */}
     </div>
   );
 }

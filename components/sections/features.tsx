@@ -12,8 +12,8 @@ export function Features() {
         <div className="container max-w-6xl">
           <HeaderSection
             label="Features"
-            title="Discover all features."
-            subtitle="Discover how our voice AI is comprehensive features can solve your business challenges and drive growth."
+            title="Audio-Native Architecture Advantages"
+            subtitle="Our unified stack delivers what traditional chained APIs can't — real-time performance with full infrastructure control."
           />
 
           <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

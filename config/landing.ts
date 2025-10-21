@@ -2,50 +2,50 @@ import { InfoLdg } from "types";
 
 export const infos: InfoLdg[] = [
   {
-    title: "Unlocking Valuable Insights from Every Call",
+    title: "The Owned Stack for Real-Time Voice AI",
     description:
-      "Unleash the potential of your call data with our detailed insights",
+      "Traditional voice AI chains three vendors together — STT, LLM, and TTS — creating 500-1000ms latency and permanent vendor lock-in. We built a unified audio-native architecture that owns the entire stack.",
     image: "/images/work-from-home.jpg",
     list: [
       {
-        title: "Improve First-Contact Resolution",
-        description: "Resolve Customer Issues Efficiently and Effectively",
+        title: "Break Free from API Chains",
+        description: "No more STT→LLM→TTS cascades. Audio connects directly to our LLM through a lightweight projection layer.",
         icon: "laptop",
       },
       {
-        title: "Free Up Your Team",
-        description: "Automate Simple Inquiries, Allowing Your Human Agents to Focus on Complex Issues",
+        title: "Own Your Infrastructure",
+        description: "Deploy on-premise, cloud, or white-label. Bring your own models and control costs at scale.",
         icon: "settings",
       },
       {
-        title: "Reduce Operational Costs",
+        title: "Sub-250ms Responses",
         description:
-          "Lower the Burden on Your Support Team, Saving Time and Resources",
+          "Keep total turn-taking below 250ms so conversations stay responsive without stitching together third-party APIs.",
         icon: "search",
       },
     ],
   },
   {
-    title: "Seamless Integration",
+    title: "Integrate with your existing stack",
     description:
-      "Integrate our solution seamlessly into your existing workflows. Effortlessly connect with your favorite tools and services for a streamlined experience.",
+      "Connect Omnia Voice to your CRMs, data warehouses, and communication channels with straightforward APIs and webhooks.",
     image: "/images/work-from-home.jpg",
     list: [
       {
         title: "Flexible",
         description:
-          "Customize your integrations to fit your unique requirements.",
+          "Deploy on Omnia Voice, your own cloud, or on-premise with the same orchestration layer.",
         icon: "laptop",
       },
       {
         title: "Efficient",
-        description: "Streamline your processes and reducing manual effort.",
+        description: "Automate manual steps with event streams, webhooks, and integration templates.",
         icon: "check",
       },
       {
         title: "Reliable",
         description:
-          "Rely on our robust infrastructure and comprehensive documentation.",
+          "Observability, alerts, and access controls give your team confidence to run voice agents in production.",
         icon: "settings",
       },
     ],
@@ -54,83 +54,62 @@ export const infos: InfoLdg[] = [
 
 export const features = [
   {
-    title: "Multilingual Mastery",
+    title: "Sub-250ms Latency",
     description:
-      "Break down language barriers. Our AI communicates seamlessly in multiple languages, opening your business to a global audience.",
+      "Up to 5× faster than traditional voice AI. Our audio-native architecture eliminates the cascade bottleneck of chained STT→LLM→TTS systems.",
     link: "/",
   },
   {
-    title: "Action-Oriented AI",
+    title: "Audio-Native LLMs",
     description:
-      "Go beyond chatbots. Our AI connects to your systems, automates tasks, and gets things done – saving you time and money.",
+      "Audio connects directly to the LLM through our lightweight multimodal projection layer — no external STT or orchestration APIs required.",
     link: "/",
   },
   {
-    title: "Integrated Solution",
+    title: "Owned Stack Economics",
     description:
-      "The AI that gets smarter. As it interacts and gathers data, our AI continuously improves, optimizing processes over time.",
+      "Break free from permanent vendor margins. Own your infrastructure costs and scale without being locked to external API pricing.",
     link: "/",
   },
   {
-    title: "Effortless Integration",
+    title: "Native Multilingual Support",
     description:
-      "Your tech, your way. Our AI integrates effortlessly with your current systems, letting you leverage the tools you already have",
+      "Built-in multilingual capabilities without requiring separate language models or translation layers.",
     link: "/",
   },
   {
-    title: "User-Driven Customization",
+    title: "Deployment Flexibility",
     description:
-      "The AI that adapts to you. Build custom workflows, automate unique tasks, and tailor the AI to your specific business needs.",
+      "Cloud, self-hosted, or white-label deployments. Bring your own models and maintain compliance with regulated industry requirements.",
   },
   {
-    title: "Hybrid Deployment Options",
+    title: "Production-Ready Infrastructure",
     description:
-      "On-premise, cloud, or a hybrid approach – your choice. We offer flexible deployment solutions to fit your infrastructure and security requirements.",
+      "Live API, SDK, and no-code workspace. Deploy secure voice agents in minutes with GPU-optimized TTS and real-time streaming.",
     link: "/",
   },
 ];
 
 export const testimonials = [
   {
-    name: "Ola ",
-    job: "Full Stack Developer",
+    name: "Ola Martin",
+    job: "CTO, Nordic Support Desk",
     image: "https://randomuser.me/api/portraits/men/1.jpg",
     review:
-      "",
+      "We moved from prototype to production voice agents in weeks while keeping the entire stack inside our cloud.",
   },
   {
-    name: "Varia ",
-    job: "",
+    name: "Varia Chen",
+    job: "Head of Product, RelayOps",
     image: "https://randomuser.me/api/portraits/women/2.jpg",
     review:
-      "",
+      "Omnia Voice let us plug in our existing data sources and speech models without rebuilding our call workflows.",
   },
   {
     name: "Elton Kullstrom",
-    job: "Antler Oy ",
+    job: "Partner, Antler Oy",
     image: "https://randomuser.me/api/portraits/men/3.jpg",
-    review: 
-      "The Omnia-Voice Conversation ai is from a technical side highly impressive with a wide array of use-cases in different business contexts. The quick responsiveness and human-likeness is very impressive. ",
-  },
-  {
-    name: "",
-    job: "",
-    image: "https://randomuser.me/api/portraits/men/5.jpg",
     review:
-      "",
-  },
-  {
-    name: "Sophia Garcia",
-    job: "Data Analyst",
-    image: "https://randomuser.me/api/portraits/women/6.jpg",
-    review:
-      "",
-  },
-  {
-    name: "Emily Brown",
-    job: "Marketing Manager",
-    image: "https://randomuser.me/api/portraits/women/4.jpg",
-    review:
-      "",
+      "The responsiveness and control we get from Omnia Voice is on another level compared with chained API solutions.",
   },
 ];

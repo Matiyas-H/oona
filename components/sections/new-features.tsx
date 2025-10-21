@@ -69,15 +69,15 @@ export default function Features() {
               viewport={{ once: true, amount: 0.2 }}
             >
               <FeatureCard
-                title="Instant, Natural Chats"
-                description="Speak and hear back in under 250ms, so every interaction feels instant and human. No more awkward pauses—just natural, fluid dialogue."
+                title="Turn-taking in ~250 ms"
+                description="Our audio-native pipeline keeps first-token response times around a quarter second, so conversations stay human even under load."
                 className="md:col-span-2 lg:col-span-1"
               >
                 <div className="flex aspect-video items-center justify-center">
                   <p className="text-center text-4xl font-extrabold transition-all duration-500">
-                    ⚡ Ultra {" "}
+                    ⚡ {" "}
                     <span className="relative bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                      Low-Latency
+                      ~250 ms Turn-Taking
                       <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-purple-400 transition-all duration-500 group-hover:w-full"></span>
                     </span>{" "}
                     Conversations
@@ -109,18 +109,18 @@ export default function Features() {
               viewport={{ once: true, amount: 0.2 }}
             >
               <FeatureCard
-                title="True Multilingual Understanding"
-                description="Switch languages mid-call while holding your accent steady—no extra setup, no awkward transitions."
+                title="Multilingual Streaming, One Stack"
+                description="Switch languages or dialects mid-call while the pipeline keeps voices consistent—no extra setup, no failover."
                 className="group transition duration-500 md:col-span-2 lg:col-span-1"
               >
                 <div className="flex aspect-video items-center justify-center">
                   <p className="text-center text-4xl font-extrabold transition-all duration-500">
-                    🌎 Dynamic Language,{" "}
+                    🌎 Multilingual{" "}
                     <span className="relative bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                      Static
+                      Streaming
                       <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-purple-400 transition-all duration-500 group-hover:w-full"></span>
                     </span>{" "}
-                    Accent
+                    Engine
                   </p>
                 </div>
               </FeatureCard>
@@ -133,15 +133,15 @@ export default function Features() {
               viewport={{ once: true, amount: 0.2 }}
             >
               <FeatureCard
-                title="Automate in Seconds—Zero Code"
-                description="Connect to Twilio, Zapier, Make.com, n8n or your own webhooks with a few clicks. Trigger real-time workflows straight from the call."
+                title="Programmable Routing & Automation"
+                description="One routing layer drives Twilio, SIP trunks, and your own services in real time—no brittle middleware."
                 className="group transition duration-500 md:col-span-2 lg:col-span-1"
               >
                 <div className="flex aspect-video items-center justify-center">
                   <p className="text-center text-4xl font-extrabold transition-all duration-500">
-                    🔗 Plug-and-Play{" "}
+                    🔗 Programmable{" "}
                     <span className="relative bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                      Integrations
+                      Routing
                       <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-purple-400 transition-all duration-500 group-hover:w-full"></span>
                     </span>{" "}
                     & Automation
@@ -177,35 +177,6 @@ export default function Features() {
           </div>
         </motion.div>
 
-        <div className="m-auto my-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
-          {features.map((feature, index) => {
-            return (
-              <div
-                className="group relative flex items-center gap-3 rounded-2xl border border-black bg-white px-3 py-1.5 text-black transition-all duration-300 hover:bg-gray-50 md:px-5 md:py-2"
-                key={feature}
-                onClick={() =>
-                  setExpandedIndex(expandedIndex === index ? null : index)
-                }
-              >
-                <span className="inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-purple-400 text-xl text-white transition duration-500 hover:rotate-45">
-                  &#10038;
-                </span>
-                <span className="truncate font-medium md:text-lg">
-                  {feature}
-                </span>
-
-                {/* Show full text in tooltip on hover/focus */}
-                <div
-                  className={`pointer-events-none invisible absolute bottom-full left-0 mb-2 w-full opacity-0 transition-all duration-300 ${expandedIndex === index ? "visible opacity-100" : ""} group-hover:visible group-hover:opacity-100`}
-                >
-                  <div className="rounded-lg border border-black bg-white p-2 shadow-lg">
-                    {feature}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
       </div>
     </section>
   );

@@ -29,7 +29,7 @@ export async function GET(req: Request) {
 
     const fontSize = heading.length > 80 ? "60px" : "80px";
 
-    const githubName = "mickasmt";
+    const githubName = "omnia-voice";
 
     return new ImageResponse(
       (

@@ -67,9 +67,8 @@ export function NavBar({
                   buttonVariants({
                     variant: "outline",
                     size: "sm",
-                    rounded: "full",
                   }),
-                  "px-4",
+                  "rounded-full px-4",
                 )}
               >
                 Login
@@ -80,9 +79,8 @@ export function NavBar({
                   buttonVariants({
                     variant: "default",
                     size: "sm",
-                    rounded: "full",
                   }),
-                  "px-4",
+                  "rounded-full px-4",
                 )}
               >
                 Sign Up

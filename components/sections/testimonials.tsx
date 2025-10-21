@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,45 +21,39 @@ import { Contact } from "../contact";
 const pricingFaqData = [
   {
     id: "item-1",
-    question:
-      " How does Omnia Voice AI understand and respond to customer queries?",
+    question: "What makes the Omnia Voice architecture different from a typical STT + LLM pipeline?",
     answer:
-      "Omnia uses advanced Natural Language Processing (NLP) and Machine Learning (ML) technologies to comprehend customer inquiries and provide accurate, natural responses.",
+      "We encode raw audio directly into the LLM’s embedding space, so paralinguistic cues and meaning are processed together. There’s no stand-alone ASR stage to tune or fail, which cuts error propagation and keeps the turn-taking loop tight.",
   },
   {
     id: "item-2",
-    question:
-      "Can Omnia Voice AI scale to handle my company's growing customer support needs?",
+    question: "What latency should we expect on the hosted platform versus self-managed?",
     answer:
-      "Absolutely. Omnia is designed to scale seamlessly as your business grows, ensuring consistent, high-quality support for your expanding customer base",
+      "Hosted Omnia Voice is tuned for ~250 ms first-token response with processing beginning while the caller speaks. Dedicated clusters keep the same budget with reserved GPUs, and self-managed deployments inherit the same code path—we help you size hardware so the turn-taking profile stays consistent.",
   },
   {
     id: "item-3",
-    question:
-      "What kind of support does Omnia Voice AI provide to my customer service team?",
+    question: "Can we move from hosted to our own cloud without rebuilding everything?",
     answer:
-      "Omnia acts as a tireless assistant to your team, handling routine inquiries, providing customer context, and freeing up your agents to focus on high-value, complex cases. It empowers your team to deliver exceptional customer service.",
+      "Yes. The control plane, APIs, and observability are identical. We typically run pilot workloads on hosted Omnia, graduate you to a dedicated cluster, and then help you stand up the self-managed stack on your GPU footprint with our containers, runbooks, and ongoing support.",
   },
   {
     id: "item-4",
-    question:
-      "Can Omnia Voice AI be customized to match my brand's voice and tone?",
+    question: "How does Omnia integrate with our existing telephony and tooling?",
     answer:
-      "Omnia can be tailored to align with your brand's unique personality, ensuring a consistent and authentic customer experience",
+      "Ingress can be WebRTC, SIP, PSTN, or WebSocket. We maintain connectors for Twilio, Telnyx, and Plivo, and you can trigger downstream systems through HTTP tools or webhooks—no brittle middleware required.",
   },
   {
     id: "item-5",
-    question:
-      "How does Omnia Voice AI integrate with my existing customer service systems?",
+    question: "What about compliance, data retention, and security?",
     answer:
-      "Omnia seamlessly integrates with popular CRM, helpdesk, and other customer service platforms through APIs, ensuring smooth data flow and synchronization.",
+      "Hosted traffic stays encrypted in transit and at rest with configurable recording and retention policies. Self-managed customers keep audio and metadata entirely inside their own environment, while we continue to ship updates and tooling from the same release train.",
   },
   {
     id: "item-6",
-    question:
-      "How does Omina Voice AI handle complex or sensitive customer issues?",
+    question: "Do you still support multilingual and expressive conversations?",
     answer:
-      "Omnia encounters a complex issue that requires human intervention, it intelligently routes the conversation to the appropriate human agent, providing them with full context for efficient resolution.",
+      "Yes. The unified audio-text representation preserves tone, pauses, and language shifts, so the LLM reacts to how something is said as well as what’s being said. One model can cover multiple languages without swapping providers.",
   },
 ];
 
@@ -138,7 +134,5 @@ export function Testimonials() {
 
 
 //
-
-
 
 

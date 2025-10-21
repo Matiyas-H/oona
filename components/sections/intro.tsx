@@ -1,24 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useMotionValue, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import {
+  useMotionValue,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { twMerge } from "tailwind-merge";
-
-
 
 import Tag from "@/components/Tag";
 
-
-
 import { HeaderSection } from "../shared/header-section";
-
 
 // Define sentences for scroll animation
 const sentences = [
-  "Missed calls mean missed opportunities.",
-  "Your customers still want to talk. Your team can't be everywhere.",
-  "Traditional voice systems create frustration, not solutions.",
-  "Your phone system should be turning conversations into revenue.",
+  "Every millisecond counts in a conversation.",
+  "But the current voice AI stack wasn’t built for real-time.",
+  "Omnia Voice is one unified infrastructure for streaming, reasoning, and response.",
+  "Keep your latency low and your data where it belongs: with you.",
 ];
 
 export default function Introduction() {
@@ -44,11 +44,11 @@ export default function Introduction() {
   }, [sentenceIndex]);
 
   return (
-    <section className="py-28 lg:py-40">
+    <section className="py-12 lg:py-20">
       <div className="container max-w-6xl">
         <div className="sticky top-28 md:top-32">
           <div className="flex justify-center">
-            <Tag>Intelligent Voice AI for Business</Tag>
+            <Tag>Infrastructure for Real-Time Voice</Tag>
           </div>
 
           <div className="mx-auto mt-10 text-left font-heading text-2xl font-medium md:text-4xl lg:text-5xl">
@@ -64,8 +64,8 @@ export default function Introduction() {
               </p>
             ))}
             <p className="mt-6 text-3xl md:text-4xl lg:text-5xl">
-              <span className="text-purple-400">Omnia Voice:</span> Human-like
-              conversation at machine scale.
+              <span className="text-blue-500">Omnia Voice:</span> Hosted for
+              speed, portable for control.
             </p>
           </div>
         </div>

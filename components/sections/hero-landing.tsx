@@ -5,11 +5,11 @@ import { PhoneOff } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
 import { cn, nFormatter } from "@/lib/utils";
-import { useVoiceCall } from "@/hooks/use-voice-call";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { Icons } from "@/components/shared/icons";
+import { LiveKitVoice } from "@/components/voice/livekit-voice";
 
 import { BentoGrid } from "./bentogrid";
 import { Features } from "./features";
@@ -18,21 +18,6 @@ import { Powered } from "./powered";
 import { Testimonials } from "./testimonials";
 
 export function HeroLanding() {
-  const {
-    isCallActive,
-    agentStatus,
-    callTranscript,
-    startVoiceCall,
-    endVoiceCall,
-  } = useVoiceCall();
-
-  const handleStartCallButtonClick = async () => {
-    await startVoiceCall();
-  };
-
-  const handleEndCallButtonClick = async () => {
-    await endVoiceCall();
-  };
   // const { stargazers_count: stars } = await fetch("#", {
   //   ...(env.GITHUB_OAUTH_TOKEN && {
   //     headers: {
@@ -48,9 +33,9 @@ export function HeroLanding() {
 
   return (
     <>
-      <section className="space-y-6 py-12 sm:py-20 lg:py-24">
+      <section className="space-y-6 py-16 sm:py-24 lg:py-28">
         <div className="container flex max-w-screen-md flex-col items-center gap-5 text-center">
-          <Link
+          {/* <Link
             href=""
             className={cn(
               buttonVariants({ variant: "outline", size: "sm", rounded: "xl" }),
@@ -58,43 +43,30 @@ export function HeroLanding() {
             )}
             target="_blank"
           >
-            <span className="mr-1 flex items-center gap-1.5">
+            {/* <span className="mr-1 flex items-center gap-1.5">
               <Icons.sparkles className="size-4" />
-              AI Voice Agents Available Now
-            </span>
-          </Link>
+              Audio-Native Voice AI — Live Now
+            </span> */}
+          {/* </Link>  */}
 
-          <h1 className="font-satoshi text-balance text-[40px] font-black leading-[1.15] tracking-tight sm:text-5xl md:text-6xl md:leading-[1.15]">
-            The Platform For{" "}
-            <span className="text-foreground">Building Voice AI Agents</span>
+          <h1 className="font-satoshi text-balance text-4xl font-black leading-[1.15] tracking-tight sm:text-5xl md:text-6xl md:leading-[1.15] lg:text-7xl">
+            The Infrastructure for{" "}
+            <span className="whitespace-nowrap text-foreground">Real-Time Voice AI</span>
           </h1>
 
-          <p className="max-w-2xl text-balance text-muted-foreground sm:text-lg">
-            Create, deploy, and scale multilingual voice agents that sound
-            natural, understand context, and eliminate language barriers.
+          <p className="max-w-2xl text-balance text-base text-muted-foreground sm:text-lg md:text-xl">
+            One architecture, no vendor dependencies. Deploy voice agents that
+            listen and respond instantly.
           </p>
 
           <div className="flex w-full flex-col items-center gap-4">
             <div className="flex w-full flex-row flex-wrap items-center justify-center gap-3">
-              <Button
-                onClick={
-                  isCallActive
-                    ? handleEndCallButtonClick
-                    : handleStartCallButtonClick
-                }
+              <LiveKitVoice
                 className={cn(
-                  buttonVariants({ rounded: "xl", size: "sm" }),
-                  "flex justify-center gap-1 px-4 text-sm transition-transform duration-200 hover:scale-105",
-                  isCallActive ? "bg-red-600 text-white hover:bg-red-700" : "",
+                  buttonVariants({ size: "sm" }),
+                  "rounded-xl transition-transform duration-200 hover:scale-105",
                 )}
-              >
-                {isCallActive ? (
-                  <PhoneOff className="size-4" />
-                ) : (
-                  <Icons.play className="size-4" />
-                )}
-                <span>{isCallActive ? "End Call" : "Click to Talk"}</span>
-              </Button>
+              />
 
               <div className="relative">
                 <span className="absolute -top-2 right-0 z-10 rounded-full bg-gradient-to-r from-green-400 to-blue-500 px-1.5 py-0.5 text-[10px] font-medium text-white shadow-sm">
@@ -103,8 +75,8 @@ export function HeroLanding() {
                 <Link
                   href="https://dashboard.omnia-voice.com/login"
                   className={cn(
-                    buttonVariants({ rounded: "xl", size: "sm" }),
-                    "flex justify-center gap-1 px-4 text-sm transition-transform duration-200 hover:scale-105",
+                    buttonVariants({ size: "sm" }),
+                    "flex justify-center gap-1 rounded-xl px-4 text-sm transition-transform duration-200 hover:scale-105",
                   )}
                 >
                   <Icons.sparkles className="size-4" />
