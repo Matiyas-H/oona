@@ -9,6 +9,8 @@ export const publicRoutes = [
   "/docs",
   "/guides",
   "/pricing",
+  "/privacy",
+  "/terms",
 ];
 
 /**

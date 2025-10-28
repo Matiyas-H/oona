@@ -28,8 +28,12 @@ export default middleware((req: NextRequest & { auth: Session | null }): Respons
     return;
   }
   
-  // Only allow access to the root URL
-  if (nextUrl.pathname !== '/') {
+  // Check if the route is public
+  const isPublicRoute = publicRoutes.some(route => 
+    nextUrl.pathname === route || nextUrl.pathname.startsWith(route + '/')
+  );
+  
+  if (!isPublicRoute) {
     return Response.redirect(new URL('/', nextUrl));
   }
   
