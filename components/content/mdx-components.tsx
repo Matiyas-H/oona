@@ -1,6 +1,5 @@
 import * as React from "react";
 import NextImage, { ImageProps } from "next/image";
-import { useMDXComponent } from "next-contentlayer/hooks";
 
 import { cn } from "@/lib/utils";
 import { MdxCard } from "@/components/content/mdx-card";
@@ -154,14 +153,86 @@ const components = {
 
 interface MdxProps {
   code: string;
+  raw?: string;
 }
 
-export function Mdx({ code }: MdxProps) {
-  const Component = useMDXComponent(code);
+export function Mdx({ code, raw }: MdxProps) {
+  const processMarkdown = (markdown: string) => {
+    if (!markdown) return '';
+    
+    // Clean the markdown
+    let clean = markdown
+      .replace(/^---[\s\S]*?---\n?/m, '') // Remove frontmatter
+      .replace(/^export\s+const\s+[\s\S]*?^\s*$/gm, '') // Remove export blocks
+      .replace(/^import\s+.*$/gm, '') // Remove imports
+      .trim();
+    
+    // Split into paragraphs and process each
+    const paragraphs = clean.split(/\n\s*\n/);
+    
+    return paragraphs.map(para => {
+      para = para.trim();
+      if (!para) return '';
+      
+      // Headers
+      if (para.startsWith('### ')) {
+        return `<h3 class="mt-8 mb-4 text-2xl font-semibold">${para.substring(4)}</h3>`;
+      }
+      if (para.startsWith('## ')) {
+        return `<h2 class="mt-10 mb-4 text-3xl font-semibold border-b pb-2">${para.substring(3)}</h2>`;
+      }
+      if (para.startsWith('# ')) {
+        return `<h1 class="mt-2 mb-6 text-4xl font-bold">${para.substring(2)}</h1>`;
+      }
+      
+      // Lists
+      if (para.includes('\n- ') || para.startsWith('- ')) {
+        const items = para.split('\n').filter(line => line.startsWith('- ')).map(line => 
+          `<li class="mb-1">${line.substring(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`
+        ).join('');
+        return `<ul class="my-4 ml-6 list-disc space-y-1">${items}</ul>`;
+      }
+      
+      // Tables
+      if (para.includes('|') && para.includes('\n')) {
+        const lines = para.split('\n').filter(line => line.includes('|'));
+        if (lines.length > 1) {
+          const rows = lines.map(line => {
+            const cells = line.split('|').map(cell => cell.trim()).filter(cell => cell && cell !== '---');
+            if (cells.length === 0) return '';
+            return `<tr>${cells.map(cell => `<td class="border px-3 py-2">${cell}</td>`).join('')}</tr>`;
+          }).filter(row => row);
+          return `<table class="my-6 w-full border-collapse border">${rows.join('')}</table>`;
+        }
+      }
+      
+      // Blockquotes
+      if (para.startsWith('> ')) {
+        return `<blockquote class="my-4 border-l-4 pl-4 italic text-gray-600">${para.substring(2)}</blockquote>`;
+      }
+      
+      // Regular paragraphs
+      let processed = para
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 underline">$1</a>')
+        .replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm">$1</code>');
+      
+      return `<p class="my-4 leading-relaxed">${processed}</p>`;
+    }).join('');
+  };
 
   return (
     <div className="mdx">
-      <Component components={components} />
+      <div className="prose-slate max-w-none">
+        {raw ? (
+          <div 
+            dangerouslySetInnerHTML={{ __html: processMarkdown(raw) }}
+          />
+        ) : (
+          <p>Content loading...</p>
+        )}
+      </div>
     </div>
   );
 }

@@ -86,7 +86,7 @@ export const Post = defineDocumentType(() => ({
     },
     image: {
       type: "string",
-      required: true,
+      required: false,
     },
     authors: {
       // Reference types are not embedded.
