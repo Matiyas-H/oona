@@ -26,14 +26,14 @@ const CTASection = () => {
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
             <Link
               href="https://dashboard.omnia-voice.com/login"
-              className="group inline-flex h-14 items-center justify-center gap-3 bg-white px-8 text-sm font-medium tracking-wide text-[#1a1a1a] transition-all hover:bg-white/90"
+              className="group inline-flex h-12 w-full items-center justify-center gap-2 bg-white px-8 text-sm font-medium tracking-wide text-[#1a1a1a] transition-all hover:bg-white/90 sm:w-auto"
             >
               START BUILDING
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               href="/contact"
-              className="inline-flex h-14 items-center justify-center border border-white/20 px-8 text-sm font-medium tracking-wide text-white transition-all hover:border-white/40 hover:bg-white/5"
+              className="inline-flex h-12 w-full items-center justify-center border border-white/20 px-8 text-sm font-medium tracking-wide text-white transition-all hover:border-white/40 hover:bg-white/5 sm:w-auto"
             >
               TALK TO SALES
             </Link>

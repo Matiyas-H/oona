@@ -4,10 +4,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, FileAudio, AudioLines } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { LiveKitVoice } from "@/components/voice/livekit-voice";
-
 const HeroNew = () => {
   return (
     <section className="relative min-h-[90vh] overflow-hidden bg-[#FAFAF9] pb-16 pt-24 md:pb-24 md:pt-32">
@@ -67,15 +63,18 @@ const HeroNew = () => {
         >
           <Link
             href="https://dashboard.omnia-voice.com/login"
-            className="group inline-flex h-14 items-center justify-center gap-3 bg-[#1a1a1a] px-8 text-sm font-medium tracking-wide text-white transition-all hover:bg-[#333]"
+            className="group inline-flex h-12 w-full items-center justify-center gap-2 bg-[#1a1a1a] px-8 text-sm font-medium tracking-wide text-white transition-all hover:bg-[#333] sm:w-auto"
           >
             START BUILDING
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
           </Link>
 
-          <LiveKitVoice
-            className="h-14 border border-[#1a1a1a]/20 bg-transparent px-8 text-sm font-medium tracking-wide text-[#1a1a1a] transition-all hover:border-[#1a1a1a]/40 hover:bg-[#1a1a1a]/5"
-          />
+          <Link
+            href="/contact"
+            className="inline-flex h-12 w-full items-center justify-center border border-[#1a1a1a]/20 bg-transparent px-8 text-sm font-medium tracking-wide text-[#1a1a1a] transition-all hover:border-[#1a1a1a]/40 hover:bg-[#1a1a1a]/5 sm:w-auto"
+          >
+            TALK TO SALES
+          </Link>
         </motion.div>
 
         {/* Trust indicators */}
@@ -83,12 +82,12 @@ const HeroNew = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mx-auto mt-10 flex max-w-xl items-center justify-center gap-8 text-xs text-[#1a1a1a]/40 md:mt-14"
+          className="mx-auto mt-10 grid max-w-md grid-cols-3 gap-4 text-center text-xs text-[#1a1a1a]/40 md:mt-14 md:flex md:max-w-xl md:items-center md:justify-center md:gap-8"
         >
           <span>From $0.05/min</span>
-          <span className="h-3 w-px bg-[#1a1a1a]/20" />
+          <span className="hidden h-3 w-px bg-[#1a1a1a]/20 md:block" />
           <span>EU data residency</span>
-          <span className="h-3 w-px bg-[#1a1a1a]/20" />
+          <span className="hidden h-3 w-px bg-[#1a1a1a]/20 md:block" />
           <span>Self-host available</span>
         </motion.div>
 
