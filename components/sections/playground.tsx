@@ -110,7 +110,7 @@ const Playground = () => {
 
     try {
       await sessionRef.current.joinCall({
-        agentId: "cmfealzvc00028e6g8mmumwh5",
+        agentId: "4fed8c41-bb30-45d6-bf65-47aa0b326523",
       });
     } catch (err) {
       // Silent fail - don't show raw errors
