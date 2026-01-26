@@ -25,6 +25,7 @@ const formatRetryTime = (seconds: number): string => {
 const Playground = () => {
   const [activeTab, setActiveTab] = useState<Tab>("transcribe");
   const [transcribeMode, setTranscribeMode] = useState<TranscribeMode>("live");
+  const [isConnecting, setIsConnecting] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [finalTranscript, setFinalTranscript] = useState("");
@@ -164,6 +165,7 @@ const Playground = () => {
       setError(null);
       setFinalTranscript("");
       setInterimTranscript("");
+      setIsConnecting(true);
 
       // Get microphone access
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -202,6 +204,7 @@ const Playground = () => {
         if (data.type === "ready") {
           // Start audio processing once ready
           startAudioProcessing(stream);
+          setIsConnecting(false);
           setIsRecording(true);
         } else if (data.type === "transcript") {
           if (data.isFinal) {
@@ -218,6 +221,7 @@ const Playground = () => {
         } else if (data.type === "error") {
           // Don't show raw errors to user - just stop gracefully
           console.error("STT error:", data.error);
+          setIsConnecting(false);
           cleanupRecording();
         }
       };
@@ -225,6 +229,7 @@ const Playground = () => {
       ws.onerror = () => {
         // Silent fail - don't show connection errors
         console.error("WebSocket connection error");
+        setIsConnecting(false);
         cleanupRecording();
       };
 
@@ -235,6 +240,7 @@ const Playground = () => {
         }
       };
     } catch (err) {
+      setIsConnecting(false);
       if (err instanceof Error && err.name === "NotAllowedError") {
         setError("Microphone access denied. Please allow microphone access.");
       } else if (err instanceof Error && err.message.startsWith("Daily limit")) {
@@ -438,22 +444,29 @@ const Playground = () => {
                 <div className="flex flex-col items-center">
                   <button
                     onClick={isRecording ? stopRecording : startRecording}
+                    disabled={isConnecting}
                     className={`mb-6 flex size-20 items-center justify-center rounded-full transition-all ${
-                      isRecording
-                        ? "animate-pulse bg-red-500 text-white"
-                        : "bg-[#2D5A27] text-white hover:bg-[#2D5A27]/80"
+                      isConnecting
+                        ? "bg-white/20 text-white/60"
+                        : isRecording
+                          ? "animate-pulse bg-red-500 text-white"
+                          : "bg-[#2D5A27] text-white hover:bg-[#2D5A27]/80"
                     }`}
                   >
-                    {isRecording ? (
+                    {isConnecting ? (
+                      <Loader2 className="size-8 animate-spin" />
+                    ) : isRecording ? (
                       <MicOff className="size-8" />
                     ) : (
                       <Mic className="size-8" />
                     )}
                   </button>
                   <p className="mb-6 text-sm text-white/50">
-                    {isRecording
-                      ? "Listening... Click to stop"
-                      : "Click to start recording"}
+                    {isConnecting
+                      ? "Connecting..."
+                      : isRecording
+                        ? "Listening... Click to stop"
+                        : "Click to start recording"}
                   </p>
                 </div>
               )}
