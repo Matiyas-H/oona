@@ -35,6 +35,9 @@ importers:
       '@nivo/pie':
         specifier: ^0.87.0
         version: 0.87.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@omnia-voice/sdk':
+        specifier: ^0.2.0
+        version: 0.2.0(@types/dom-mediacapture-record@1.0.22)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@opentelemetry/api':
         specifier: 1.4.1
         version: 1.4.1
@@ -1757,6 +1760,17 @@ packages:
   '@oclif/plugin-not-found@3.2.33':
     resolution: {integrity: sha512-1RgvZ0J5KloU8TRemHxCr5MbVtr41ungnz8BBCPJn2yR5L+Eo2Lt+kpOyEeYAohjo4Tml1AHSmipUF4jKThwTw==}
     engines: {node: '>=18.0.0'}
+
+  '@omnia-voice/sdk@0.2.0':
+    resolution: {integrity: sha512-O69GZjUX12Xf9j/ZlRrRtjs/qGWETEYsFiNMNFUSDAGgIE+e2dVoJDfJ3SOpp6eWq6MY48dC57kWJICh4UJFAg==}
+    peerDependencies:
+      react: '>=17.0.0'
+      react-dom: '>=17.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
 
   '@one-ini/wasm@0.1.1':
     resolution: {integrity: sha512-XuySG1E38YScSJoMlqovLru4KTUNSjgVTIjyh7qMX6aNN5HY5Ct5LhRJdxO79JtTzKfzV/bnWpz+zquYrISsvw==}
@@ -9979,6 +9993,15 @@ snapshots:
       fast-levenshtein: 3.0.0
     transitivePeerDependencies:
       - '@types/node'
+
+  '@omnia-voice/sdk@0.2.0(@types/dom-mediacapture-record@1.0.22)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      livekit-client: 2.15.8(@types/dom-mediacapture-record@1.0.22)
+    optionalDependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    transitivePeerDependencies:
+      - '@types/dom-mediacapture-record'
 
   '@one-ini/wasm@0.1.1': {}
 
