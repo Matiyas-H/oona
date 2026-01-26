@@ -71,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         // eslint-disable-next-line tailwindcss/classnames-order
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen overflow-x-hidden bg-background font-sans antialiased",
           fontSans.variable,
           fontUrban.variable,
           fontHeading.variable,

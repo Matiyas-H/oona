@@ -15,7 +15,7 @@ export default async function MarketingLayout({
   const user = await getCurrentUser();
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-x-hidden">
       <Suspense fallback="...">
         <NavBar user={user} items={marketingConfig.mainNav} scroll={true} />
       </Suspense>
