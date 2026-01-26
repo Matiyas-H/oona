@@ -55,9 +55,8 @@ const Playground = () => {
         if (response.status === 429) {
           const retryTime = formatRetryTime(data.retryAfter || 60);
           setError(`Daily limit reached. Please try again in ${retryTime}.`);
-        } else {
-          setError('Voice service unavailable. Please try again later.');
         }
+        // Don't show other errors to user
         return null;
       }
 
@@ -76,8 +75,8 @@ const Playground = () => {
 
       return session;
     } catch (err) {
+      // Silent fail - don't show raw errors
       console.error('Failed to initialize voice session:', err);
-      setError('Could not connect to voice service.');
       return null;
     }
   };
@@ -113,7 +112,8 @@ const Playground = () => {
         agentId: "cmfealzvc00028e6g8mmumwh5",
       });
     } catch (err) {
-      setError("Could not start call. Please try again.");
+      // Silent fail - don't show raw errors
+      console.error("Voice agent error:", err);
     }
   };
 
@@ -185,7 +185,8 @@ const Playground = () => {
           const retryTime = formatRetryTime(urlData.retryAfter || 60);
           throw new Error(`Daily limit reached. Please try again in ${retryTime}.`);
         }
-        throw new Error('Failed to get streaming URL');
+        // Silent fail for other errors
+        throw new Error('SILENT');
       }
       const { wsUrl } = urlData;
       const ws = new WebSocket(wsUrl);
@@ -215,27 +216,31 @@ const Playground = () => {
             setInterimTranscript(data.transcript);
           }
         } else if (data.type === "error") {
-          setError(data.error);
+          // Don't show raw errors to user - just stop gracefully
+          console.error("STT error:", data.error);
           cleanupRecording();
         }
       };
 
       ws.onerror = () => {
-        setError("Connection error. Please try again.");
+        // Silent fail - don't show connection errors
+        console.error("WebSocket connection error");
         cleanupRecording();
       };
 
-      ws.onclose = () => {
-        console.log("Disconnected from STT service");
+      ws.onclose = (event) => {
+        // Only log, don't show errors for normal closes or short sessions
+        if (event.code !== 1000) {
+          console.log("Disconnected from STT service:", event.code);
+        }
       };
     } catch (err) {
       if (err instanceof Error && err.name === "NotAllowedError") {
         setError("Microphone access denied. Please allow microphone access.");
       } else if (err instanceof Error && err.message.startsWith("Daily limit")) {
         setError(err.message);
-      } else {
-        setError("Could not start recording. Please try again.");
       }
+      // Silent fail for other errors - don't show raw errors
       // Stop the stream if we got mic access but failed later
       if (streamRef.current) {
         streamRef.current.getTracks().forEach((track) => track.stop());
@@ -311,15 +316,15 @@ const Playground = () => {
         if (response.status === 429) {
           const retryTime = formatRetryTime(data.retryAfter || 60);
           setError(`Daily limit reached. Please try again in ${retryTime}.`);
-        } else {
-          setError("Could not transcribe file. Please try a different format.");
         }
+        // Silent fail for other errors
         return;
       }
 
       setFinalTranscript(data.transcript);
     } catch (err) {
-      setError("Could not transcribe file. Please try again.");
+      // Silent fail - don't show raw errors
+      console.error("Transcription error:", err);
     } finally {
       setIsProcessing(false);
     }
