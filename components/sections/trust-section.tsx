@@ -41,18 +41,18 @@ const TrustSection = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col gap-3 sm:flex-row sm:gap-4"
+            className="flex flex-row gap-3 sm:gap-4"
           >
             {trustPoints.map((point) => (
               <div
                 key={point.title}
-                className="flex flex-col items-center gap-2 border border-[#1a1a1a]/10 bg-[#FAFAF9] p-4 text-center md:px-6 md:py-5"
+                className="flex flex-1 flex-col items-center gap-2 border border-[#1a1a1a]/10 bg-[#FAFAF9] p-3 text-center sm:p-4 md:px-6 md:py-5"
               >
                 <point.icon className="size-5 text-[#2D5A27]" />
-                <div className="text-sm font-medium text-[#1a1a1a]">
+                <div className="text-xs font-medium text-[#1a1a1a] sm:text-sm">
                   {point.title}
                 </div>
-                <div className="text-xs text-[#1a1a1a]/50">
+                <div className="text-[10px] text-[#1a1a1a]/50 sm:text-xs">
                   {point.description}
                 </div>
               </div>
