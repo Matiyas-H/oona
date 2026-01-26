@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mic, MicOff, Upload, Phone, PhoneOff, Headphones, X, Loader2 } from "lucide-react";
+// Note: MicOff kept for STT mode, PhoneOff for agent end button
 import { OmniaSession } from "@omnia-voice/sdk";
 
 type Tab = "transcribe" | "agent";
@@ -34,8 +35,6 @@ const Playground = () => {
 
   // Voice agent state
   const [agentStatus, setAgentStatus] = useState<AgentStatus>("disconnected");
-  const [agentTranscripts, setAgentTranscripts] = useState<Array<{ speaker: string; text: string; isFinal: boolean }>>([]);
-  const [isMuted, setIsMuted] = useState(false);
   const sessionRef = useRef<OmniaSession | null>(null);
 
   const wsRef = useRef<WebSocket | null>(null);
@@ -48,11 +47,14 @@ const Playground = () => {
   // Initialize Omnia session - fetch API key from server
   const initVoiceSession = async () => {
     try {
+      console.log("[Voice Session] Fetching API key from server...");
       // Fetch API key from server-side endpoint
       const response = await fetch('/api/voice/session');
       const data = await response.json();
+      console.log("[Voice Session] Server response status:", response.status);
 
       if (!response.ok) {
+        console.log("[Voice Session] Server error:", data);
         if (response.status === 429) {
           const retryTime = formatRetryTime(data.retryAfter || 60);
           setError(`Daily limit reached. Please try again in ${retryTime}.`);
@@ -61,23 +63,24 @@ const Playground = () => {
         return null;
       }
 
+      console.log("[Voice Session] Got API key, creating OmniaSession with baseUrl:", data.baseUrl);
       const session = new OmniaSession({
         apiKey: data.apiKey,
         baseUrl: data.baseUrl,
       });
 
       session.addEventListener("status", () => {
+        console.log("[Voice Session] Status changed:", session.status);
         setAgentStatus(session.status as AgentStatus);
       });
 
-      session.addEventListener("transcripts", () => {
-        setAgentTranscripts([...session.transcripts]);
-      });
+      // Transcripts listener removed - not showing transcripts in UI
 
+      console.log("[Voice Session] Session created successfully");
       return session;
     } catch (err) {
       // Silent fail - don't show raw errors
-      console.error('Failed to initialize voice session:', err);
+      console.error('[Voice Session] Failed to initialize:', err);
       return null;
     }
   };
@@ -99,22 +102,33 @@ const Playground = () => {
   // Start voice agent call
   const startAgentCall = async () => {
     setError(null);
-    setAgentTranscripts([]);
+    console.log("[Voice Agent] Starting call...");
+    console.log("[Voice Agent] Current session:", sessionRef.current);
+    console.log("[Voice Agent] Current status:", agentStatus);
 
     // Try to initialize session if not available
     if (!sessionRef.current) {
+      console.log("[Voice Agent] No session, initializing...");
       const session = await initVoiceSession();
-      if (!session) return; // Error already set by initVoiceSession
+      if (!session) {
+        console.log("[Voice Agent] Failed to initialize session");
+        return; // Error already set by initVoiceSession
+      }
       sessionRef.current = session;
+      console.log("[Voice Agent] Session initialized:", session);
     }
 
     try {
+      // Use the Omnia agent ID (not voice ID)
+      const agentId = "cmfealzvc00028e6g8mmumwh5";
+      console.log("[Voice Agent] Joining call with agentId:", agentId);
       await sessionRef.current.joinCall({
-        agentId: "4fed8c41-bb30-45d6-bf65-47aa0b326523",
+        agentId,
       });
+      console.log("[Voice Agent] joinCall completed successfully");
     } catch (err) {
       // Silent fail - don't show raw errors
-      console.error("Voice agent error:", err);
+      console.error("[Voice Agent] joinCall error:", err);
     }
   };
 
@@ -122,13 +136,6 @@ const Playground = () => {
   const endAgentCall = async () => {
     if (!sessionRef.current) return;
     await sessionRef.current.leaveCall();
-  };
-
-  // Toggle mute
-  const toggleMute = () => {
-    if (!sessionRef.current) return;
-    sessionRef.current.toggleMicMute();
-    setIsMuted(sessionRef.current.isMicMuted);
   };
 
   // Stop recording helper (defined first to avoid circular dependency)
@@ -557,30 +564,68 @@ const Playground = () => {
               transition={{ duration: 0.3 }}
               className="border border-white/10 bg-white/[0.02] p-6 md:p-8"
             >
-              {agentStatus === "disconnected" ? (
-                // Not in call - show start button
-                <div className="text-center">
-                  <div className="mx-auto mb-6 flex size-20 items-center justify-center rounded-full border border-[#2D5A27]/30 bg-[#2D5A27]/10">
-                    <Headphones className="size-8 text-[#2D5A27]" />
-                  </div>
+              <div className="flex flex-col items-center text-center">
+                {/* Visual indicator */}
+                <div className={`relative mb-6 flex size-24 items-center justify-center rounded-full transition-all duration-300 ${
+                  agentStatus === "disconnected"
+                    ? "border border-[#2D5A27]/30 bg-[#2D5A27]/10"
+                    : agentStatus === "speaking"
+                      ? "bg-[#2D5A27]/20"
+                      : agentStatus === "connecting"
+                        ? "bg-white/5"
+                        : "bg-[#2D5A27]/10"
+                }`}>
+                  {/* Animated rings when active */}
+                  {agentStatus !== "disconnected" && (
+                    <>
+                      <div className={`absolute inset-0 rounded-full border-2 ${
+                        agentStatus === "speaking" ? "animate-ping border-[#2D5A27]/40" : "border-transparent"
+                      }`} />
+                      <div className={`absolute inset-2 rounded-full border ${
+                        agentStatus === "speaking" ? "animate-pulse border-[#2D5A27]/60" :
+                        agentStatus === "listening" ? "border-[#2D5A27]/40" :
+                        "border-white/10"
+                      }`} />
+                    </>
+                  )}
+                  <Headphones className={`size-10 transition-colors ${
+                    agentStatus === "disconnected" ? "text-[#2D5A27]" :
+                    agentStatus === "speaking" ? "text-[#2D5A27]" :
+                    agentStatus === "connecting" ? "text-white/40" :
+                    "text-[#2D5A27]/80"
+                  }`} />
+                </div>
 
-                  <h3 className="mb-2 font-heading text-2xl text-white">
-                    Talk to our voice agent
-                  </h3>
-                  <p className="mx-auto mb-8 max-w-md text-white/50">
-                    Experience a real conversation. Our agent can answer questions,
-                    use tools, and respond in ~250ms.
-                  </p>
+                {/* Status text */}
+                <p className="mb-6 text-sm text-white/50">
+                  {agentStatus === "disconnected" && "Talk to our AI voice agent"}
+                  {agentStatus === "connecting" && "Connecting..."}
+                  {agentStatus === "listening" && "Listening..."}
+                  {agentStatus === "thinking" && "Thinking..."}
+                  {agentStatus === "speaking" && "Speaking..."}
+                </p>
 
+                {/* Single button - Start or End */}
+                {agentStatus === "disconnected" ? (
                   <button
                     onClick={startAgentCall}
-                    className="inline-flex h-14 items-center justify-center gap-3 bg-[#2D5A27] px-8 text-sm font-medium tracking-wide text-white transition-all hover:bg-[#2D5A27]/80"
+                    className="inline-flex h-12 items-center justify-center gap-2 bg-[#2D5A27] px-8 text-sm font-medium tracking-wide text-white transition-all hover:bg-[#2D5A27]/80"
                   >
-                    <Phone className="size-5" />
-                    Start conversation
+                    <Phone className="size-4" />
+                    Start
                   </button>
+                ) : (
+                  <button
+                    onClick={endAgentCall}
+                    className="inline-flex h-12 items-center justify-center gap-2 border border-red-500/50 bg-red-500/10 px-8 text-sm font-medium tracking-wide text-red-400 transition-all hover:bg-red-500/20"
+                  >
+                    <PhoneOff className="size-4" />
+                    End
+                  </button>
+                )}
 
-                  {/* Features */}
+                {/* Features - only show when disconnected */}
+                {agentStatus === "disconnected" && (
                   <div className="mt-8 flex flex-wrap justify-center gap-4 text-xs text-white/40">
                     <span>~250ms response</span>
                     <span className="text-white/20">·</span>
@@ -588,60 +633,8 @@ const Playground = () => {
                     <span className="text-white/20">·</span>
                     <span>Knowledge bases</span>
                   </div>
-                </div>
-              ) : (
-                // In call - show conversation
-                <div>
-                  {/* Status indicator */}
-                  <div className="mb-6 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`size-3 rounded-full ${
-                        agentStatus === "speaking" ? "animate-pulse bg-[#2D5A27]" :
-                        agentStatus === "thinking" ? "animate-pulse bg-yellow-500" :
-                        agentStatus === "listening" ? "bg-[#2D5A27]" :
-                        "bg-white/30"
-                      }`} />
-                      <span className="text-sm capitalize text-white/60">{agentStatus}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={toggleMute}
-                        className={`flex size-10 items-center justify-center border transition-colors ${
-                          isMuted
-                            ? "border-red-500/50 bg-red-500/10 text-red-400"
-                            : "border-white/20 text-white/60 hover:border-white/40"
-                        }`}
-                      >
-                        {isMuted ? <MicOff className="size-4" /> : <Mic className="size-4" />}
-                      </button>
-                      <button
-                        onClick={endAgentCall}
-                        className="flex size-10 items-center justify-center border border-red-500/50 bg-red-500/10 text-red-400 transition-colors hover:bg-red-500/20"
-                      >
-                        <PhoneOff className="size-4" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Transcript */}
-                  <div className="max-h-[300px] min-h-[200px] overflow-y-auto border border-white/10 bg-[#0d0d0d] p-4">
-                    {agentTranscripts.length > 0 ? (
-                      <div className="space-y-3">
-                        {agentTranscripts.map((t, i) => (
-                          <div key={i} className={`text-sm ${t.speaker === "user" ? "text-white/60" : "text-[#2D5A27]"}`}>
-                            <span className="font-medium">{t.speaker === "user" ? "You" : "Agent"}:</span>{" "}
-                            <span className={t.isFinal ? "" : "text-white/40"}>{t.text}</span>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-white/30">
-                        {agentStatus === "connecting" ? "Connecting..." : "Start speaking..."}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
 
               {/* Error */}
               {error && (

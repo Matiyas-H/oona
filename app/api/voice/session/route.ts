@@ -3,10 +3,13 @@ import { checkOmniaRateLimit } from '@/lib/rate-limit';
 
 export async function GET(request: NextRequest) {
   try {
+    console.log('[Voice API] Request received');
+
     // Check combined rate limits (5/min, 15/hour, 20/day shared with all Omnia endpoints)
     const rateLimitResult = await checkOmniaRateLimit(request);
 
     if (!rateLimitResult.success) {
+      console.log('[Voice API] Rate limited');
       return NextResponse.json(
         {
           error: 'Rate limit exceeded',
@@ -26,14 +29,17 @@ export async function GET(request: NextRequest) {
     }
 
     const voiceApiKey = process.env.OMNIA_VOICE_API_KEY;
+    console.log('[Voice API] API key present:', !!voiceApiKey);
 
     if (!voiceApiKey) {
+      console.log('[Voice API] No API key configured');
       return NextResponse.json(
         { error: 'Voice service not configured' },
         { status: 500 }
       );
     }
 
+    console.log('[Voice API] Returning API key');
     const response = NextResponse.json({
       apiKey: voiceApiKey,
       baseUrl: 'https://api.omnia-voice.com',
@@ -45,7 +51,7 @@ export async function GET(request: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error('Voice session error:', error);
+    console.error('[Voice API] Error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
