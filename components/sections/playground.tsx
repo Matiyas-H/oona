@@ -35,6 +35,7 @@ const Playground = () => {
 
   // Voice agent state
   const [agentStatus, setAgentStatus] = useState<AgentStatus>("disconnected");
+  const [isStartingCall, setIsStartingCall] = useState(false);
   const sessionRef = useRef<OmniaSession | null>(null);
 
   const wsRef = useRef<WebSocket | null>(null);
@@ -101,6 +102,9 @@ const Playground = () => {
 
   // Start voice agent call
   const startAgentCall = async () => {
+    if (isStartingCall) return; // Prevent double clicks
+
+    setIsStartingCall(true);
     setError(null);
     console.log("[Voice Agent] Starting call...");
     console.log("[Voice Agent] Current session:", sessionRef.current);
@@ -112,6 +116,7 @@ const Playground = () => {
       const session = await initVoiceSession();
       if (!session) {
         console.log("[Voice Agent] Failed to initialize session");
+        setIsStartingCall(false);
         return; // Error already set by initVoiceSession
       }
       sessionRef.current = session;
@@ -129,6 +134,8 @@ const Playground = () => {
     } catch (err) {
       // Silent fail - don't show raw errors
       console.error("[Voice Agent] joinCall error:", err);
+    } finally {
+      setIsStartingCall(false);
     }
   };
 
@@ -609,10 +616,20 @@ const Playground = () => {
                 {agentStatus === "disconnected" ? (
                   <button
                     onClick={startAgentCall}
-                    className="inline-flex h-12 items-center justify-center gap-2 bg-[#2D5A27] px-8 text-sm font-medium tracking-wide text-white transition-all hover:bg-[#2D5A27]/80"
+                    disabled={isStartingCall}
+                    className="inline-flex h-12 items-center justify-center gap-2 bg-[#2D5A27] px-8 text-sm font-medium tracking-wide text-white transition-all hover:bg-[#2D5A27]/80 disabled:opacity-50"
                   >
-                    <Phone className="size-4" />
-                    Start
+                    {isStartingCall ? (
+                      <>
+                        <Loader2 className="size-4 animate-spin" />
+                        Connecting...
+                      </>
+                    ) : (
+                      <>
+                        <Phone className="size-4" />
+                        Start
+                      </>
+                    )}
                   </button>
                 ) : (
                   <button

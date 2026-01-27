@@ -36,46 +36,17 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
         </div>
       </div>
 
-      <div className="border-t py-4">
-        <div className="container flex items-center justify-between">
-          {/* <span className="text-muted-foreground text-sm">
-            Copyright &copy; 2024. All rights reserved.
-          </span> */}
-          <p className="text-left text-sm text-muted-foreground">
-            <Link
-              href=""
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            ></Link>
-            <Link
-              href="https://vercel.com"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            ></Link>
-            {/* Illustrations by{" "}
-            <Link
-              href="https://popsy.co"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Popsy
-            </Link> */}
-          </p>
-
-          <div className="flex items-center gap-3">
-            {/* <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              <Icons.gitHub className="size-5" />
-            </Link> */}
-            {/* Theme toggle removed */}
+      <div className="border-t py-6">
+        <div className="container flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
+          <div className="flex flex-col gap-1 text-sm text-muted-foreground">
+            <p className="font-medium text-foreground">Omnia Voice Oy</p>
+            <p>Business ID: 3468022-7</p>
+            <p>Helsinki, Finland</p>
           </div>
+
+          <p className="text-sm text-muted-foreground">
+            Where silence meets speech — Helsinki, Finland
+          </p>
         </div>
       </div>
     </footer>
