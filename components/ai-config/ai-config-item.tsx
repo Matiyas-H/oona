@@ -20,9 +20,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 import { AssignConfigDialog } from "./assign-config-dialog";
 import { AssignNumbersDialog } from "./assign-numbers-dialog";
-import { CallDialog } from "./call-dialog";
 import { EditConfigDialog } from "./edit-config-dialog";
-import { SimpleCallButton } from "./simple-call-button";
 
 interface AIConfigItemProps {
   id: string; // Change to accept id instead of full config
@@ -56,7 +54,6 @@ export function AIConfigItem({ id, onDelete }: AIConfigItemProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showAssignDialog, setShowAssignDialog] = useState(false);
-  const [showCallDialog, setShowCallDialog] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -166,7 +163,6 @@ export function AIConfigItem({ id, onDelete }: AIConfigItemProps) {
 
         {/* Fixed Actions Section at Bottom */}
         <div className="sticky bottom-0 flex justify-end gap-2 border-t bg-background pt-4">
-          <SimpleCallButton config={config} />
           <Button
             variant="outline"
             size="sm"

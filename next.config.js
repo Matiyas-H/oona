@@ -64,9 +64,7 @@ const nextConfig = {
   },
   experimental: {
     serverComponentsExternalPackages: ["@prisma/client"],
-    esmExternals: 'loose' // Add this for ultravox-client
   },
-  transpilePackages: ['ultravox-client'] // Add this for ultravox-client
 }
 
 const withContentlayer = createContentlayerPlugin({
