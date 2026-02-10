@@ -10,40 +10,46 @@ import { HeaderSection } from "./shared/header-section";
 const pricingFaqData = [
   {
     id: "item-1",
-    question: "What is the cost of the free plan?",
+    question: "What do I get with the free plan?",
     answer:
-      "Our free plan is completely free, with no monthly or annual charges. It's a great way to get started and explore our basic features.",
+      "Our free plan includes 120 credits per month (approximately 15 minutes of voice and 30 minutes of speech-to-text), 1 agent, and 2 concurrent connections. It's perfect for trying out the platform.",
   },
   {
     id: "item-2",
-    question: "How much does the Basic Monthly plan cost?",
+    question: "What are credits and how do they work?",
     answer:
-      "The Basic Monthly plan is priced at $15 per month. It provides access to our core features and is billed on a monthly basis.",
+      "Credits are our unified billing unit. Voice generation costs approximately 8 credits per minute, while speech-to-text costs about 4 credits per minute. All plans include a monthly credit allowance that refreshes each billing cycle.",
   },
   {
     id: "item-3",
-    question: "What is the price of the Pro Monthly plan?",
+    question: "Do you offer annual billing?",
     answer:
-      "The Pro Monthly plan is available for $25 per month. It offers advanced features and is billed on a monthly basis for added flexibility.",
+      "Yes, we offer annual billing with a 17% discount on all paid plans. For example, the Pro plan is $99/month or $990/year (saving $198 annually).",
   },
   {
     id: "item-4",
-    question: "Do you offer any annual subscription plans?",
+    question: "What is credit rollover?",
     answer:
-      "Yes, we offer annual subscription plans for even more savings. The Basic Annual plan is $144 per year, and the Pro Annual plan is $300 per year.",
+      "Starting with the Pro plan, unused credits roll over to the next month. Pro allows 1 month rollover, Scale allows 2 months, and Business/Business Plus allow 3 months of rollover.",
   },
   {
     id: "item-5",
-    question: "Is there a trial period for the paid plans?",
+    question: "What does concurrency mean?",
     answer:
-      "We offer a 14-day free trial for both the Pro Monthly and Pro Annual plans. It's a great way to experience all the features before committing to a paid subscription.",
+      "Concurrency refers to the number of simultaneous voice sessions your account can handle. Higher plans support more concurrent connections, from 2 on Free up to 100+ on Enterprise.",
+  },
+  {
+    id: "item-6",
+    question: "Can I upgrade or downgrade my plan?",
+    answer:
+      "Yes, you can change your plan at any time. When upgrading, you'll get immediate access to the new features. When downgrading, changes take effect at your next billing cycle.",
   },
 ];
 
 export function PricingFaq() {
   return (
-    <section className="container max-w-4xl py-2">
-      {/* <HeaderSection
+    <section className="container max-w-4xl py-16">
+      <HeaderSection
         label="FAQ"
         title="Frequently Asked Questions"
         subtitle="Explore our comprehensive FAQ to find quick answers to common
@@ -60,7 +66,7 @@ export function PricingFaq() {
             </AccordionContent>
           </AccordionItem>
         ))}
-      </Accordion> */}
+      </Accordion>
     </section>
   );
 }
