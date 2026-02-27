@@ -40,7 +40,7 @@ const CTASection = () => {
           </div>
 
           <p className="mt-8 text-sm text-white/30">
-            From $0.05/minute · No commitment · Enterprise options available
+            From $0.08/minute · Volume up to $0.04/min · Enterprise options available
           </p>
         </motion.div>
       </div>

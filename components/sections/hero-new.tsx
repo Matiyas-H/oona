@@ -84,7 +84,7 @@ const HeroNew = () => {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="mx-auto mt-10 grid max-w-md grid-cols-3 gap-4 text-center text-xs text-[#1a1a1a]/40 md:mt-14 md:flex md:max-w-xl md:items-center md:justify-center md:gap-8"
         >
-          <span>From $0.05/min</span>
+          <span>From $0.08/min</span>
           <span className="hidden h-3 w-px bg-[#1a1a1a]/20 md:block" />
           <span>EU data residency</span>
           <span className="hidden h-3 w-px bg-[#1a1a1a]/20 md:block" />

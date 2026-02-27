@@ -18,7 +18,7 @@ const Hero115 = ({
   icon,
   heading = "Real-Time Voice AI, Hosted for Speed — Portable for Control.",
   description = "Launch Omnia’s managed audio-native stack in minutes to power human-like conversations with ~250 ms first-token response. When compliance or scale demand it, move the same real-time pipeline into your own cloud—available under our enterprise tier.",
-  trustText = "Hosted from $0.05 per minute. Enterprise self-host available.",
+  trustText = "Hosted from $0.08 per minute. Enterprise self-host available.",
 }: Hero115Props) => {
   return (
     <section className="overflow-hidden py-32">

@@ -131,7 +131,7 @@ All plans include EU data residency, API access, and documentation.
 - Concurrency: 100+
 - Rollover: Custom
 
-Pricing note: From $0.05/min. Yearly billing saves 17%. Contact us for volume discounts.
+Pricing note: From $0.08/min, volume discounts up to $0.04/min. Yearly billing saves 17%. Contact us for volume discounts.
 
 ## Partners
 
