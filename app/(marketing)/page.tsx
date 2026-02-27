@@ -21,9 +21,9 @@ export default async function IndexPage() {
       <CodeSection />
       <DeploymentOptions />
       <TrustSection />
-      <PartnersSection />
       <PricingSection />
       <FAQNew />
+      <PartnersSection />
       <CTASection />
     </>
   );
