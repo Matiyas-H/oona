@@ -60,7 +60,7 @@ export function NavBar({
           {user ? (
             <UserAccountNav user={user} />
           ) : (
-            <>
+            <div className="hidden md:flex md:items-center md:space-x-3">
               <Link
                 href="https://dashboard.omnia-voice.com/login"
                 className={cn(
@@ -85,7 +85,7 @@ export function NavBar({
               >
                 Sign Up
               </Link>
-            </>
+            </div>
           )}
         </div>
       </div>
