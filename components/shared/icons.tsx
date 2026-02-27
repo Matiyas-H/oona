@@ -14,6 +14,7 @@ import {
   Loader2,
   LucideIcon,
   LucideProps,
+  Menu,
   Moon,
   MoreVertical,
   PlayCircle,
@@ -40,6 +41,7 @@ export const Icons = {
   check: Check,
   close: X,
   ellipsis: MoreVertical,
+  menu: Menu,
   sparkles: Sparkles,
   play: PlayCircle,
   gitHub: ({ ...props }: LucideProps) => (

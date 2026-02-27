@@ -61,5 +61,19 @@ code[data-theme*=" "] span {
 }
 
 .steps>h3 {
-  @apply mt-8 mb-4 text-base font-semibold;
+  @apply mt-8 mb-4 text-base font-semibold font-heading text-[#1a1a1a];
+}
+
+/* MDX content styling to match site design */
+.mdx {
+  @apply font-sans;
+}
+
+.mdx h1,
+.mdx h2,
+.mdx h3,
+.mdx h4,
+.mdx h5,
+.mdx h6 {
+  @apply font-heading;
 }

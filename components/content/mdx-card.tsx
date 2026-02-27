@@ -18,14 +18,14 @@ export function MdxCard({
   return (
     <div
       className={cn(
-        "group relative rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg",
+        "group relative border border-[#1a1a1a]/10 bg-white p-6 transition-all hover:border-[#1a1a1a]/20",
         disabled && "cursor-not-allowed opacity-60",
         className
       )}
       {...props}
     >
       <div className="flex flex-col justify-between space-y-4">
-        <div className="space-y-2 [&>h3]:!mt-0 [&>h4]:!mt-0 [&>p]:text-muted-foreground">
+        <div className="space-y-2 [&>h3]:!mt-0 [&>h3]:font-heading [&>h3]:text-[#1a1a1a] [&>h4]:!mt-0 [&>h4]:font-heading [&>h4]:text-[#1a1a1a] [&>p]:text-[#1a1a1a]/60">
           {children}
         </div>
       </div>

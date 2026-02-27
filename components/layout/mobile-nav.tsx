@@ -22,11 +22,10 @@ export function MobileNav({ items, children }: MobileNavProps) {
       )}
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
-        {/* <Link href="/" className="flex items-center space-x-2">
-          <Icons.logo />
-          <span className="font-bold">{siteConfig.name}</span>
-        </Link> */}
-        {/* <nav className="grid grid-flow-row auto-rows-max text-sm">
+        <Link href="/" className="flex items-center space-x-2">
+          <span className="font-urban text-xl font-bold">{siteConfig.name}</span>
+        </Link>
+        <nav className="grid grid-flow-row auto-rows-max text-sm">
           {items.map((item, index) => (
             <Link
               key={index}
@@ -39,15 +38,21 @@ export function MobileNav({ items, children }: MobileNavProps) {
               {item.title}
             </Link>
           ))}
-        </nav> */}
-        {/* <Link
-          href="/dashboard/data"
-          className={cn(
-            "flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline",
-          )}
-        >
-          Call Data
-        </Link> */}
+        </nav>
+        <div className="flex flex-col gap-2 border-t pt-4">
+          <Link
+            href="https://dashboard.omnia-voice.com/login"
+            className="flex w-full items-center justify-center rounded-md border border-[#1a1a1a]/20 p-2 text-sm font-medium"
+          >
+            Login
+          </Link>
+          <Link
+            href="https://dashboard.omnia-voice.com/register"
+            className="flex w-full items-center justify-center rounded-md bg-[#1a1a1a] p-2 text-sm font-medium text-white"
+          >
+            Sign Up
+          </Link>
+        </div>
         {children}
       </div>
     </div>

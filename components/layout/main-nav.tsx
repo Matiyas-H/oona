@@ -63,15 +63,19 @@ export function MainNav({ items, children }: MainNavProps) {
           ))}
         </nav>
       ) : null}
-      <button
-        className="flex items-center space-x-2 md:hidden"
-        onClick={toggleMobileMenu}
-      >
-        {showMobileMenu ? <Icons.close /> : null}
-        <span className="font-urban text-xl font-bold">
-          {siteConfig.name}
-        </span>
-      </button>
+      <div className="flex items-center gap-4 md:hidden">
+        <Link href="/" className="flex items-center">
+          <span className="font-urban text-xl font-bold">
+            {siteConfig.name}
+          </span>
+        </Link>
+        <button
+          className="flex items-center justify-center"
+          onClick={toggleMobileMenu}
+        >
+          {showMobileMenu ? <Icons.close className="size-6" /> : <Icons.menu className="size-6" />}
+        </button>
+      </div>
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}

@@ -15,12 +15,14 @@ export function Callout({
 }: CalloutProps) {
   return (
     <div
-      className={cn("mt-6 flex items-start rounded-md border px-4 py-3", {
-        "text-blue-800 border-blue-200 bg-blue-100 dark:text-blue-200 dark:border-blue-200/40 dark:bg-blue-900/40":
+      className={cn("mt-6 flex items-start border px-4 py-3", {
+        "border-[#1a1a1a]/10 bg-[#1a1a1a]/[0.02] text-[#1a1a1a]/70":
+          type === "default",
+        "border-[#2D5A27]/20 bg-[#2D5A27]/5 text-[#1a1a1a]/70":
           type === "info",
-        "text-red-900 border-red-200 bg-red-100 dark:text-red-200 dark:border-red-200/30 dark:bg-red-900/40":
+        "border-red-200 bg-red-50 text-red-900":
           type === "danger",
-        "text-orange-800 border-orange-200 bg-orange-100 dark:text-orange-300 dark:border-orange-400/30 dark:bg-orange-400/20":
+        "border-orange-200 bg-orange-50 text-orange-900":
           type === "warning",
       })}
       {...props}

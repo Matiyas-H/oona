@@ -1,0 +1,185 @@
+# Omnia Voice
+
+> Accurate transcription. Intelligent conversation.
+
+Omnia Voice is a Helsinki-based company building audio-native AI models for transcription and voice AI. We provide speech-to-text and conversational voice AI solutions for businesses.
+
+Website: https://omnia-voice.com
+Dashboard: https://dashboard.omnia-voice.com
+Contact: support@omnia-voice.com
+
+## Company Information
+
+- Company: Omnia Voice Oy
+- Business ID: 3468022-7
+- Location: Helsinki, Finland
+
+## Products
+
+### Transcribe (Speech-to-Text)
+High-accuracy speech-to-text optimized for English and Nordic languages. Supports batch files or real-time streaming. Auto-detects language across 50+ supported languages.
+
+Features:
+- Batch processing
+- Real-time streaming
+- 50+ languages supported
+- Auto language detection
+- Optimized for English and Nordic languages
+
+### Voice Agents (Conversational AI)
+Full voice AI stack where audio flows directly to reasoning with tools, knowledge bases, and call routing. Approximately 250ms response time.
+
+Features:
+- Real-time conversations
+- Tools and knowledge base integration
+- Call routing capabilities
+- ~250ms first response time
+- Audio-native processing (no transcription bottleneck)
+
+## Technical Capabilities
+
+- 50+ Languages: Optimized for English and Nordic languages. Strong across all supported languages. No language parameter required.
+- Batch & Streaming: Process recordings in bulk or transcribe live audio in real-time. Same API, same accuracy.
+- ~250ms Response: Audio-native processing starts while users speak. No transcription bottleneck means faster time-to-response.
+- Dense & MoE Models: Choose the architecture that fits your workload. Dense models for consistency, MoE for efficiency at scale.
+- Regulated-Ready: Built for critical infrastructure. End-to-end encryption. Self-host option for complete data sovereignty.
+- Flexible Infrastructure: Run on our cloud, your cloud, or on-premise. Same API surface everywhere.
+
+## How It Works
+
+Traditional voice AI pipelines lose context at every handoff:
+1. Audio → STT (Speech-to-Text)
+2. Text → LLM (Language Model)
+3. Response → TTS (Text-to-Speech)
+Result: 500-1000ms typical first response
+
+Omnia Voice approach:
+1. Audio → Embeddings
+2. Direct to reasoning
+Result: ~250ms time to first response
+
+## Pricing
+
+All plans include EU data residency, API access, and documentation.
+
+### Free Plan
+- Price: $0/month
+- Credits: 120/month
+- Voice Minutes: 15
+- STT Minutes: 30
+- Agents: 1
+- Concurrency: 2
+
+### Starter Plan
+- Price: $9/month ($90/year)
+- Credits: 900/month
+- Voice Minutes: 112
+- STT Minutes: 225
+- Agents: 3
+- Concurrency: 5
+
+### Creator Plan
+- Price: $29/month ($290/year)
+- Credits: 3,000/month
+- Voice Minutes: 375
+- STT Minutes: 750
+- Agents: 7
+- Concurrency: 10
+
+### Pro Plan (Popular)
+- Price: $99/month ($990/year)
+- Credits: 10,000/month
+- Voice Minutes: 1,250
+- STT Minutes: 2,500
+- Agents: 20
+- Concurrency: 20
+- Rollover: 1 month
+
+### Scale Plan
+- Price: $299/month ($2,990/year)
+- Credits: 32,000/month
+- Voice Minutes: 4,000
+- STT Minutes: 8,000
+- Agents: 50
+- Concurrency: 30
+- Rollover: 2 months
+
+### Business Plan
+- Price: $599/month ($5,990/year)
+- Credits: 70,000/month
+- Voice Minutes: 8,750
+- STT Minutes: 17,500
+- Agents: Unlimited
+- Concurrency: 40
+- Rollover: 3 months
+
+### Business Plus Plan
+- Price: $999/month ($9,990/year)
+- Credits: 130,000/month
+- Voice Minutes: 16,250
+- STT Minutes: 32,500
+- Agents: Unlimited
+- Concurrency: 50
+- Rollover: 3 months
+
+### Enterprise Plan
+- Price: Custom
+- Credits: Custom
+- Voice Minutes: Custom
+- STT Minutes: Custom
+- Agents: Unlimited
+- Concurrency: 100+
+- Rollover: Custom
+
+Pricing note: From $0.05/min. Yearly billing saves 17%. Contact us for volume discounts.
+
+## Partners
+
+Our partners bring the integrations, infrastructure, implementation expertise, and ongoing care that makes voice AI work in production.
+
+### Nitor
+- Type: Digital engineering company
+- Size: 300-person
+- Offices: Helsinki and Tampere, Finland
+- Clients: Finnair, DNA, Marimekko, Posti, OP Financial Group, SOK, Elisa, Kesko
+- Website: https://www.nitor.com
+
+Nitor builds on Omnia Voice and integrates it into their clients' systems. They handle architecture, integration, and long-term engineering support.
+
+### Houston Inc.
+- Type: Digital services company
+- Experience: Over two decades
+- Location: Helsinki, Finland
+- Clients: Telia, Elisa, Wärtsilä, Helsingin Sanomat
+- Website: https://www.houston-inc.com
+- AI Services: https://www.houston-inc.com/palvelut/ai-customer-service-solutions/
+
+Houston Inc. deploys Omnia Voice for clients needing intelligent, multilingual voice AI for customer service at scale. They own the full delivery — strategy, implementation, and ongoing service.
+
+### Setera Communications
+- Type: Cloud PBX and UCaaS operator
+- Presence: 50+ countries
+- Offices: Helsinki, London, Madrid, Milan, Rome, New York
+- Clients: Hilton, DHL, Nokia, Kone, Neste, Microsoft
+- Website: https://www.setera.com
+
+Setera provides the telecom backbone — phone numbers, SIP trunks, Cloud PBX, and enterprise telephony infrastructure. Omnia Voice sits on top of Setera's infrastructure to add the AI layer.
+
+## Key Stats
+
+- 50+ Languages supported
+- ~250ms first response time
+- EU data residency available
+- Self-host option available
+
+## Links
+
+- Homepage: https://omnia-voice.com
+- Pricing: https://omnia-voice.com/pricing
+- Partners: https://omnia-voice.com/partners
+- Blog: https://omnia-voice.com/blog
+- Contact: https://omnia-voice.com/contact
+- Terms of Service: https://omnia-voice.com/terms
+- Privacy Policy: https://omnia-voice.com/privacy
+- Dashboard Login: https://dashboard.omnia-voice.com/login
+- Sign Up: https://dashboard.omnia-voice.com/register
