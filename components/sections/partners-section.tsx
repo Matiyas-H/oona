@@ -34,7 +34,7 @@ const PartnersSection = () => {
               PARTNER ECOSYSTEM
             </span>
             <h3 className="mt-3 font-heading text-2xl text-[#1a1a1a] md:text-3xl">
-              Implementation partners
+              Our partners
             </h3>
             <p className="mt-3 text-sm text-[#1a1a1a]/60">
               Our partners bring the integrations, infrastructure, and expertise
