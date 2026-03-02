@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { checkOmniaRateLimit } from '@/lib/rate-limit';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     // Check combined rate limits (5/min, 15/hour, 20/day shared with all Omnia endpoints)

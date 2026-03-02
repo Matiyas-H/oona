@@ -5,6 +5,8 @@ import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 import { headers } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 // Initialize Redis for caching and rate limiting
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
