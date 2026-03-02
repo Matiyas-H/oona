@@ -34,8 +34,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Return URL and API key separately - client will use protocol auth
     const response = NextResponse.json({
-      wsUrl: `wss://stt.omnia-voice.com/stream?apiKey=${sttApiKey}`,
+      wsUrl: 'wss://stt.omnia-voice.com/stream',
+      apiKey: sttApiKey,
     });
 
     response.headers.set('X-RateLimit-Limit', rateLimitResult.limit);

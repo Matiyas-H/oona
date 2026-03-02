@@ -66,8 +66,8 @@ interface RateLimitResult {
  * Check combined rate limits (5/min, 15/hour, 20/day) shared across all Omnia endpoints
  */
 export async function checkOmniaRateLimit(request: NextRequest): Promise<RateLimitResult> {
-  // Skip rate limiting in development for easier testing
-  if (process.env.NODE_ENV === 'development' && process.env.SKIP_RATE_LIMIT === 'true') {
+  // Skip rate limiting if SKIP_RATE_LIMIT is set (regardless of NODE_ENV)
+  if (process.env.SKIP_RATE_LIMIT === 'true') {
     return {
       success: true,
       limit: "dev-unlimited",

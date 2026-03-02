@@ -4,11 +4,10 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mic, MicOff, Upload, Phone, PhoneOff, Headphones, X, Loader2 } from "lucide-react";
 // Note: MicOff kept for STT mode, PhoneOff for agent end button
-import { OmniaSession } from "@omnia-voice/sdk";
 
 type Tab = "transcribe" | "agent";
 type TranscribeMode = "live" | "upload";
-type AgentStatus = "disconnected" | "connecting" | "listening" | "thinking" | "speaking";
+type AgentStatus = "disconnected" | "connecting" | "listening" | "speaking";
 
 // Format retry time in a human-friendly way
 const formatRetryTime = (seconds: number): string => {
@@ -36,68 +35,85 @@ const Playground = () => {
   // Voice agent state
   const [agentStatus, setAgentStatus] = useState<AgentStatus>("disconnected");
   const [isStartingCall, setIsStartingCall] = useState(false);
-  const sessionRef = useRef<OmniaSession | null>(null);
 
+  // STT WebSocket ref
   const wsRef = useRef<WebSocket | null>(null);
+  // Voice agent WebSocket ref
+  const voiceWsRef = useRef<WebSocket | null>(null);
+  const voiceStreamRef = useRef<MediaStream | null>(null);
+  const voiceAudioContextRef = useRef<AudioContext | null>(null);
+  const voiceProcessorRef = useRef<ScriptProcessorNode | null>(null);
+  const playbackContextRef = useRef<AudioContext | null>(null);
+  const nextPlayTimeRef = useRef<number>(0);
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const processorRef = useRef<ScriptProcessorNode | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Initialize Omnia session - fetch API key from server
-  const initVoiceSession = async () => {
-    try {
-      console.log("[Voice Session] Fetching API key from server...");
-      // Fetch API key from server-side endpoint
-      const response = await fetch('/api/voice/session');
-      const data = await response.json();
-      console.log("[Voice Session] Server response status:", response.status);
-
-      if (!response.ok) {
-        console.log("[Voice Session] Server error:", data);
-        if (response.status === 429) {
-          const retryTime = formatRetryTime(data.retryAfter || 60);
-          setError(`Daily limit reached. Please try again in ${retryTime}.`);
-        }
-        // Don't show other errors to user
-        return null;
-      }
-
-      console.log("[Voice Session] Got API key, creating OmniaSession with baseUrl:", data.baseUrl);
-      const session = new OmniaSession({
-        apiKey: data.apiKey,
-        baseUrl: data.baseUrl,
-      });
-
-      session.addEventListener("status", () => {
-        console.log("[Voice Session] Status changed:", session.status);
-        setAgentStatus(session.status as AgentStatus);
-      });
-
-      // Transcripts listener removed - not showing transcripts in UI
-
-      console.log("[Voice Session] Session created successfully");
-      return session;
-    } catch (err) {
-      // Silent fail - don't show raw errors
-      console.error('[Voice Session] Failed to initialize:', err);
-      return null;
-    }
-  };
-
+  // Cleanup voice agent on unmount
   useEffect(() => {
-    initVoiceSession().then((session) => {
-      if (session) {
-        sessionRef.current = session;
-      }
-    });
-
     return () => {
-      if (sessionRef.current && sessionRef.current.status !== "disconnected") {
-        sessionRef.current.leaveCall();
+      // Send hangup before closing
+      if (voiceWsRef.current && voiceWsRef.current.readyState === WebSocket.OPEN) {
+        voiceWsRef.current.send(JSON.stringify({ type: 'hang_up' }));
+        voiceWsRef.current.close();
+      }
+      if (voiceStreamRef.current) {
+        voiceStreamRef.current.getTracks().forEach((track) => track.stop());
+      }
+      if (voiceAudioContextRef.current) {
+        voiceAudioContextRef.current.close();
+      }
+      if (playbackContextRef.current) {
+        playbackContextRef.current.close();
       }
     };
+  }, []);
+
+  // Play audio from WebSocket (PCM s16le at 16kHz) with proper queuing
+  const playAudio = useCallback(async (audioData: ArrayBuffer) => {
+    try {
+      // Ensure byte length is valid for Int16Array (must be multiple of 2)
+      let buffer = audioData;
+      if (buffer.byteLength === 0) {
+        return;
+      }
+      if (buffer.byteLength % 2 !== 0) {
+        // Trim last byte if odd length
+        buffer = buffer.slice(0, buffer.byteLength - 1);
+      }
+
+      if (!playbackContextRef.current) {
+        playbackContextRef.current = new AudioContext({ sampleRate: 16000 });
+        nextPlayTimeRef.current = playbackContextRef.current.currentTime;
+      }
+
+      const ctx = playbackContextRef.current;
+
+      // Convert PCM s16le to Float32
+      const int16Array = new Int16Array(buffer);
+      const float32Array = new Float32Array(int16Array.length);
+      for (let i = 0; i < int16Array.length; i++) {
+        float32Array[i] = int16Array[i] / (int16Array[i] < 0 ? 0x8000 : 0x7fff);
+      }
+
+      // Create audio buffer at 16kHz (matching the requested outputSampleRate)
+      const audioBuffer = ctx.createBuffer(1, float32Array.length, 16000);
+      audioBuffer.getChannelData(0).set(float32Array);
+
+      const source = ctx.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(ctx.destination);
+
+      // Schedule playback to avoid gaps/overlaps
+      const startTime = Math.max(ctx.currentTime, nextPlayTimeRef.current);
+      source.start(startTime);
+      nextPlayTimeRef.current = startTime + audioBuffer.duration;
+    } catch (err) {
+      console.error("[Voice Agent] Audio playback error:", err);
+    }
   }, []);
 
   // Start voice agent call
@@ -105,45 +121,213 @@ const Playground = () => {
     if (isStartingCall) return; // Prevent double clicks
 
     setIsStartingCall(true);
+    setAgentStatus("connecting");
     setError(null);
     console.log("[Voice Agent] Starting call...");
-    console.log("[Voice Agent] Current session:", sessionRef.current);
-    console.log("[Voice Agent] Current status:", agentStatus);
-
-    // Try to initialize session if not available
-    if (!sessionRef.current) {
-      console.log("[Voice Agent] No session, initializing...");
-      const session = await initVoiceSession();
-      if (!session) {
-        console.log("[Voice Agent] Failed to initialize session");
-        setIsStartingCall(false);
-        return; // Error already set by initVoiceSession
-      }
-      sessionRef.current = session;
-      console.log("[Voice Agent] Session initialized:", session);
-    }
 
     try {
-      // Use the Omnia agent ID (not voice ID)
-      const agentId = "cmfealzvc00028e6g8mmumwh5";
-      console.log("[Voice Agent] Joining call with agentId:", agentId);
-      await sessionRef.current.joinCall({
-        agentId,
+      // Get microphone access first
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          sampleRate: 16000,
+          channelCount: 1,
+          echoCancellation: true,
+          noiseSuppression: true,
+        },
       });
-      console.log("[Voice Agent] joinCall completed successfully");
+      voiceStreamRef.current = stream;
+      console.log("[Voice Agent] Got microphone access");
+
+      // Create call via API
+      const agentId = "cmfealzvc00028e6g8mmumwh5";
+      console.log("[Voice Agent] Creating call with agentId:", agentId);
+
+      const response = await fetch('/api/voice/call', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ agentId }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("[Voice Agent] API error:", data);
+        if (response.status === 429) {
+          const retryTime = formatRetryTime(data.retryAfter || 60);
+          setError(`Daily limit reached. Please try again in ${retryTime}.`);
+        }
+        throw new Error('Failed to create call');
+      }
+
+      console.log("[Voice Agent] Call created, WebSocket URL:", data.websocketUrl);
+
+      // Connect to WebSocket
+      const ws = new WebSocket(data.websocketUrl);
+      ws.binaryType = 'arraybuffer';
+      voiceWsRef.current = ws;
+
+      ws.onopen = () => {
+        console.log("[Voice Agent] WebSocket connected");
+        setAgentStatus("listening");
+        setIsStartingCall(false);
+
+        // Start sending audio - use native sample rate and resample
+        const audioContext = new AudioContext();
+        voiceAudioContextRef.current = audioContext;
+        const nativeSampleRate = audioContext.sampleRate;
+        console.log("[Voice Agent] Native sample rate:", nativeSampleRate);
+
+        const source = audioContext.createMediaStreamSource(stream);
+        // Use larger buffer for better resampling
+        const processor = audioContext.createScriptProcessor(4096, 1, 1);
+        voiceProcessorRef.current = processor;
+
+        // Resampling function
+        const resample = (inputData: Float32Array, fromRate: number, toRate: number): Float32Array => {
+          const ratio = fromRate / toRate;
+          const newLength = Math.round(inputData.length / ratio);
+          const result = new Float32Array(newLength);
+          for (let i = 0; i < newLength; i++) {
+            const srcIndex = i * ratio;
+            const srcIndexFloor = Math.floor(srcIndex);
+            const srcIndexCeil = Math.min(srcIndexFloor + 1, inputData.length - 1);
+            const t = srcIndex - srcIndexFloor;
+            result[i] = inputData[srcIndexFloor] * (1 - t) + inputData[srcIndexCeil] * t;
+          }
+          return result;
+        };
+
+        let audioChunkCount = 0;
+        processor.onaudioprocess = (event) => {
+          if (ws.readyState === WebSocket.OPEN) {
+            const inputData = event.inputBuffer.getChannelData(0);
+
+            // Check if there's actual audio (not silence)
+            let maxVal = 0;
+            for (let i = 0; i < inputData.length; i++) {
+              maxVal = Math.max(maxVal, Math.abs(inputData[i]));
+            }
+
+            // Resample to 16kHz
+            const resampled = resample(inputData, nativeSampleRate, 16000);
+
+            // Convert Float32 to Int16 PCM (s16le)
+            const pcm16 = new Int16Array(resampled.length);
+            for (let i = 0; i < resampled.length; i++) {
+              const s = Math.max(-1, Math.min(1, resampled[i]));
+              pcm16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+            }
+
+            ws.send(pcm16.buffer);
+
+            audioChunkCount++;
+            if (audioChunkCount % 50 === 0) {
+              console.log(`[Voice Agent] Sent ${audioChunkCount} chunks, last maxVal: ${maxVal.toFixed(4)}, bytes: ${pcm16.buffer.byteLength}`);
+            }
+          }
+        };
+
+        source.connect(processor);
+        // Don't connect to destination to avoid feedback
+        processor.connect(audioContext.createGain());
+      };
+
+      ws.onmessage = async (event) => {
+        if (event.data instanceof ArrayBuffer) {
+          // Binary audio from AI - play it
+          setAgentStatus("speaking");
+          await playAudio(event.data);
+        } else {
+          // JSON message
+          try {
+            const msg = JSON.parse(event.data);
+            console.log("[Voice Agent] Message:", msg);
+
+            if (msg.type === 'state') {
+              // State updates: listening, speaking, thinking, etc.
+              if (msg.state === 'listening') {
+                setAgentStatus("listening");
+              } else if (msg.state === 'speaking') {
+                setAgentStatus("speaking");
+              }
+            } else if (msg.type === 'error') {
+              console.error("[Voice Agent] Server error:", msg);
+            } else if (msg.type === 'call_started') {
+              console.log("[Voice Agent] Call started:", msg);
+            } else if (msg.type === 'client_tool_invocation') {
+              // Handle tool calls if needed
+              console.log("[Voice Agent] Tool invocation:", msg);
+            }
+          } catch (err) {
+            console.error("[Voice Agent] Failed to parse message:", err);
+          }
+        }
+      };
+
+      ws.onerror = (err) => {
+        console.error("[Voice Agent] WebSocket error:", err);
+        setAgentStatus("disconnected");
+        setIsStartingCall(false);
+      };
+
+      ws.onclose = (event) => {
+        console.log("[Voice Agent] WebSocket closed - code:", event.code, "reason:", event.reason, "wasClean:", event.wasClean);
+        setAgentStatus("disconnected");
+        cleanupVoiceCall();
+      };
+
     } catch (err) {
-      // Silent fail - don't show raw errors
-      console.error("[Voice Agent] joinCall error:", err);
-    } finally {
+      console.error("[Voice Agent] Error starting call:", err);
+      setAgentStatus("disconnected");
       setIsStartingCall(false);
+      cleanupVoiceCall();
+
+      if (err instanceof Error && err.name === "NotAllowedError") {
+        setError("Microphone access denied. Please allow microphone access.");
+      }
     }
   };
 
+  // Cleanup voice call resources
+  const cleanupVoiceCall = useCallback(() => {
+    if (voiceProcessorRef.current) {
+      voiceProcessorRef.current.disconnect();
+      voiceProcessorRef.current = null;
+    }
+    if (voiceAudioContextRef.current) {
+      voiceAudioContextRef.current.close();
+      voiceAudioContextRef.current = null;
+    }
+    if (voiceStreamRef.current) {
+      voiceStreamRef.current.getTracks().forEach((track) => track.stop());
+      voiceStreamRef.current = null;
+    }
+    if (playbackContextRef.current) {
+      playbackContextRef.current.close();
+      playbackContextRef.current = null;
+    }
+    nextPlayTimeRef.current = 0;
+  }, []);
+
   // End voice agent call
-  const endAgentCall = async () => {
-    if (!sessionRef.current) return;
-    await sessionRef.current.leaveCall();
-  };
+  const endAgentCall = useCallback(() => {
+    if (voiceWsRef.current) {
+      // Send graceful hangup
+      if (voiceWsRef.current.readyState === WebSocket.OPEN) {
+        voiceWsRef.current.send(JSON.stringify({ type: 'hang_up' }));
+        // Close after short delay for goodbye
+        setTimeout(() => {
+          voiceWsRef.current?.close();
+          voiceWsRef.current = null;
+        }, 2000);
+      } else {
+        voiceWsRef.current.close();
+        voiceWsRef.current = null;
+      }
+    }
+    setAgentStatus("disconnected");
+    cleanupVoiceCall();
+  }, [cleanupVoiceCall]);
 
   // Stop recording helper (defined first to avoid circular dependency)
   const cleanupRecording = useCallback(() => {
@@ -204,8 +388,9 @@ const Playground = () => {
         // Silent fail for other errors
         throw new Error('SILENT');
       }
-      const { wsUrl } = urlData;
-      const ws = new WebSocket(wsUrl);
+      const { wsUrl, apiKey } = urlData;
+      // Use protocol-based authentication (recommended)
+      const ws = new WebSocket(wsUrl, ['token', apiKey]);
       wsRef.current = ws;
 
       ws.onopen = () => {
@@ -608,7 +793,6 @@ const Playground = () => {
                   {agentStatus === "disconnected" && "Talk to our AI voice agent"}
                   {agentStatus === "connecting" && "Connecting..."}
                   {agentStatus === "listening" && "Listening..."}
-                  {agentStatus === "thinking" && "Thinking..."}
                   {agentStatus === "speaking" && "Speaking..."}
                 </p>
 
