@@ -45,6 +45,7 @@ const Playground = () => {
   const voiceProcessorRef = useRef<ScriptProcessorNode | null>(null);
   const playbackContextRef = useRef<AudioContext | null>(null);
   const nextPlayTimeRef = useRef<number>(0);
+  const activeSourcesRef = useRef<Set<AudioBufferSourceNode>>(new Set());
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -70,6 +71,22 @@ const Playground = () => {
         playbackContextRef.current.close();
       }
     };
+  }, []);
+
+  // Stop all currently playing/scheduled audio (for interruption)
+  const stopPlayback = useCallback(() => {
+    activeSourcesRef.current.forEach((source) => {
+      try {
+        source.stop();
+      } catch {
+        // Already stopped
+      }
+    });
+    activeSourcesRef.current.clear();
+    // Reset playback timing
+    if (playbackContextRef.current) {
+      nextPlayTimeRef.current = playbackContextRef.current.currentTime;
+    }
   }, []);
 
   // Play audio from WebSocket (PCM s16le at 16kHz) with proper queuing
@@ -106,6 +123,12 @@ const Playground = () => {
       const source = ctx.createBufferSource();
       source.buffer = audioBuffer;
       source.connect(ctx.destination);
+
+      // Track this source for potential interruption
+      activeSourcesRef.current.add(source);
+      source.onended = () => {
+        activeSourcesRef.current.delete(source);
+      };
 
       // Schedule playback to avoid gaps/overlaps
       const startTime = Math.max(ctx.currentTime, nextPlayTimeRef.current);
@@ -232,7 +255,10 @@ const Playground = () => {
           try {
             const msg = JSON.parse(event.data);
 
-            if (msg.type === 'state') {
+            if (msg.type === 'playback_clear_buffer') {
+              // Server says to clear audio buffer (user interrupted)
+              stopPlayback();
+            } else if (msg.type === 'state') {
               // State updates: listening, speaking, thinking, etc.
               if (msg.state === 'listening') {
                 setAgentStatus("listening");
@@ -269,6 +295,16 @@ const Playground = () => {
 
   // Cleanup voice call resources
   const cleanupVoiceCall = useCallback(() => {
+    // Stop any playing audio
+    activeSourcesRef.current.forEach((source) => {
+      try {
+        source.stop();
+      } catch {
+        // Already stopped
+      }
+    });
+    activeSourcesRef.current.clear();
+
     if (voiceProcessorRef.current) {
       voiceProcessorRef.current.disconnect();
       voiceProcessorRef.current = null;
