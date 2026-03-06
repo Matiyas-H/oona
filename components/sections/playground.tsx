@@ -111,8 +111,8 @@ const Playground = () => {
       const startTime = Math.max(ctx.currentTime, nextPlayTimeRef.current);
       source.start(startTime);
       nextPlayTimeRef.current = startTime + audioBuffer.duration;
-    } catch (err) {
-      console.error("[Voice Agent] Audio playback error:", err);
+    } catch {
+      // Audio playback error - silently ignore
     }
   }, []);
 
@@ -123,7 +123,6 @@ const Playground = () => {
     setIsStartingCall(true);
     setAgentStatus("connecting");
     setError(null);
-    console.log("[Voice Agent] Starting call...");
 
     try {
       // Get microphone access first
@@ -136,11 +135,9 @@ const Playground = () => {
         },
       });
       voiceStreamRef.current = stream;
-      console.log("[Voice Agent] Got microphone access");
 
       // Create call via API
       const agentId = "cmfealzvc00028e6g8mmumwh5";
-      console.log("[Voice Agent] Creating call with agentId:", agentId);
 
       const response = await fetch('/api/voice/call', {
         method: 'POST',
@@ -151,7 +148,6 @@ const Playground = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        console.error("[Voice Agent] API error:", data);
         if (response.status === 429) {
           const retryTime = formatRetryTime(data.retryAfter || 60);
           setError(`Daily limit reached. Please try again in ${retryTime}.`);
@@ -159,23 +155,25 @@ const Playground = () => {
         throw new Error('Failed to create call');
       }
 
-      console.log("[Voice Agent] Call created, WebSocket URL:", data.websocketUrl);
-
       // Connect to WebSocket
       const ws = new WebSocket(data.websocketUrl);
       ws.binaryType = 'arraybuffer';
       voiceWsRef.current = ws;
 
-      ws.onopen = () => {
-        console.log("[Voice Agent] WebSocket connected");
+      ws.onopen = async () => {
         setAgentStatus("listening");
         setIsStartingCall(false);
 
         // Start sending audio - use native sample rate and resample
         const audioContext = new AudioContext();
         voiceAudioContextRef.current = audioContext;
+
+        // Ensure AudioContext is running (may be suspended due to autoplay policy)
+        if (audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
+
         const nativeSampleRate = audioContext.sampleRate;
-        console.log("[Voice Agent] Native sample rate:", nativeSampleRate);
 
         const source = audioContext.createMediaStreamSource(stream);
         // Use larger buffer for better resampling
@@ -197,16 +195,9 @@ const Playground = () => {
           return result;
         };
 
-        let audioChunkCount = 0;
         processor.onaudioprocess = (event) => {
           if (ws.readyState === WebSocket.OPEN) {
             const inputData = event.inputBuffer.getChannelData(0);
-
-            // Check if there's actual audio (not silence)
-            let maxVal = 0;
-            for (let i = 0; i < inputData.length; i++) {
-              maxVal = Math.max(maxVal, Math.abs(inputData[i]));
-            }
 
             // Resample to 16kHz
             const resampled = resample(inputData, nativeSampleRate, 16000);
@@ -219,17 +210,16 @@ const Playground = () => {
             }
 
             ws.send(pcm16.buffer);
-
-            audioChunkCount++;
-            if (audioChunkCount % 50 === 0) {
-              console.log(`[Voice Agent] Sent ${audioChunkCount} chunks, last maxVal: ${maxVal.toFixed(4)}, bytes: ${pcm16.buffer.byteLength}`);
-            }
           }
         };
 
         source.connect(processor);
-        // Don't connect to destination to avoid feedback
-        processor.connect(audioContext.createGain());
+        // Connect to destination via a muted gain node to keep audio graph active
+        // (ScriptProcessorNode requires being connected to process audio)
+        const muteGain = audioContext.createGain();
+        muteGain.gain.value = 0;
+        processor.connect(muteGain);
+        muteGain.connect(audioContext.destination);
       };
 
       ws.onmessage = async (event) => {
@@ -241,7 +231,6 @@ const Playground = () => {
           // JSON message
           try {
             const msg = JSON.parse(event.data);
-            console.log("[Voice Agent] Message:", msg);
 
             if (msg.type === 'state') {
               // State updates: listening, speaking, thinking, etc.
@@ -250,34 +239,24 @@ const Playground = () => {
               } else if (msg.state === 'speaking') {
                 setAgentStatus("speaking");
               }
-            } else if (msg.type === 'error') {
-              console.error("[Voice Agent] Server error:", msg);
-            } else if (msg.type === 'call_started') {
-              console.log("[Voice Agent] Call started:", msg);
-            } else if (msg.type === 'client_tool_invocation') {
-              // Handle tool calls if needed
-              console.log("[Voice Agent] Tool invocation:", msg);
             }
-          } catch (err) {
-            console.error("[Voice Agent] Failed to parse message:", err);
+          } catch {
+            // Failed to parse message - ignore
           }
         }
       };
 
-      ws.onerror = (err) => {
-        console.error("[Voice Agent] WebSocket error:", err);
+      ws.onerror = () => {
         setAgentStatus("disconnected");
         setIsStartingCall(false);
       };
 
-      ws.onclose = (event) => {
-        console.log("[Voice Agent] WebSocket closed - code:", event.code, "reason:", event.reason, "wasClean:", event.wasClean);
+      ws.onclose = () => {
         setAgentStatus("disconnected");
         cleanupVoiceCall();
       };
 
     } catch (err) {
-      console.error("[Voice Agent] Error starting call:", err);
       setAgentStatus("disconnected");
       setIsStartingCall(false);
       cleanupVoiceCall();
@@ -394,7 +373,7 @@ const Playground = () => {
       wsRef.current = ws;
 
       ws.onopen = () => {
-        console.log("Connected to STT service");
+        // Connected to STT service
       };
 
       ws.onmessage = (event) => {
@@ -419,7 +398,6 @@ const Playground = () => {
           }
         } else if (data.type === "error") {
           // Don't show raw errors to user - just stop gracefully
-          console.error("STT error:", data.error);
           setIsConnecting(false);
           cleanupRecording();
         }
@@ -427,16 +405,12 @@ const Playground = () => {
 
       ws.onerror = () => {
         // Silent fail - don't show connection errors
-        console.error("WebSocket connection error");
         setIsConnecting(false);
         cleanupRecording();
       };
 
-      ws.onclose = (event) => {
-        // Only log, don't show errors for normal closes or short sessions
-        if (event.code !== 1000) {
-          console.log("Disconnected from STT service:", event.code);
-        }
+      ws.onclose = () => {
+        // Silent close
       };
     } catch (err) {
       setIsConnecting(false);
@@ -527,9 +501,8 @@ const Playground = () => {
       }
 
       setFinalTranscript(data.transcript);
-    } catch (err) {
+    } catch {
       // Silent fail - don't show raw errors
-      console.error("Transcription error:", err);
     } finally {
       setIsProcessing(false);
     }
