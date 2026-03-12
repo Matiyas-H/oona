@@ -64,7 +64,7 @@ const itemVariants = {
 
 const DeploymentOptions = () => {
   return (
-    <section className="bg-[#1a1a1a] py-24 md:py-32">
+    <section id="deployment" className="bg-[#1a1a1a] py-24 md:py-32">
       <div className="container max-w-6xl">
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">

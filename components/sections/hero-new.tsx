@@ -6,7 +6,7 @@ import { ArrowRight, FileAudio, AudioLines } from "lucide-react";
 
 const HeroNew = () => {
   return (
-    <section className="relative min-h-[90vh] overflow-hidden bg-[#FAFAF9] pb-16 pt-24 md:pb-24 md:pt-32">
+    <section id="hero" className="relative min-h-[90vh] overflow-hidden bg-[#FAFAF9] pb-16 pt-24 md:pb-24 md:pt-32">
       {/* Subtle grid texture */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.015]"

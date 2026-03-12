@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 
-const faqData = [
+// FAQ data exported so voice control can access it
+export const faqData = [
   {
     id: "1",
     question: "What makes Omnia different from traditional STT services?",
@@ -46,8 +47,26 @@ const faqData = [
 const FAQNew = () => {
   const [openId, setOpenId] = useState<string | null>(null);
 
+  // Listen for voice control events to open FAQ items
+  useEffect(() => {
+    const handleOpenFaq = (event: CustomEvent<{ faqId: string }>) => {
+      const { faqId } = event.detail;
+      setOpenId(faqId);
+      // Scroll to FAQ section
+      const faqSection = document.getElementById("faq");
+      if (faqSection) {
+        faqSection.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
+    window.addEventListener("openFaqItem", handleOpenFaq as EventListener);
+    return () => {
+      window.removeEventListener("openFaqItem", handleOpenFaq as EventListener);
+    };
+  }, []);
+
   return (
-    <section className="bg-[#FAFAF9] py-24 md:py-32">
+    <section id="faq" className="bg-[#FAFAF9] py-24 md:py-32">
       <div className="container max-w-3xl">
         {/* Header */}
         <div className="mb-16 text-center">

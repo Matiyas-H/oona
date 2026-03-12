@@ -139,7 +139,7 @@ const PricingSection = () => {
   const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("monthly");
 
   return (
-    <section className="bg-[#FAFAF9] py-24 md:py-32">
+    <section id="pricing" className="bg-[#FAFAF9] py-24 md:py-32">
       <div className="container max-w-7xl">
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">

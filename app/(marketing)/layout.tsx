@@ -4,6 +4,7 @@ import { marketingConfig } from "@/config/marketing";
 import { getCurrentUser } from "@/lib/session";
 import { NavBar } from "@/components/layout/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { LandingVoiceControl } from "@/components/voice/landing-voice-control";
 
 interface MarketingLayoutProps {
   children: React.ReactNode;
@@ -21,6 +22,7 @@ export default async function MarketingLayout({
       </Suspense>
       <main className="flex-1">{children}</main>
       <SiteFooter />
+      <LandingVoiceControl />
     </div>
   );
 }

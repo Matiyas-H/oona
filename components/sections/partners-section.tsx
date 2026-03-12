@@ -25,7 +25,7 @@ const partners = [
 
 const PartnersSection = () => {
   return (
-    <section className="border-t border-[#1a1a1a]/10 bg-white py-16 md:py-20">
+    <section id="partners" className="border-t border-[#1a1a1a]/10 bg-white py-16 md:py-20">
       <div className="container max-w-6xl">
         <div className="flex flex-col items-center gap-10 md:flex-row md:justify-between md:gap-8">
           {/* Left text */}

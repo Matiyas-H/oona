@@ -9,6 +9,16 @@ type Tab = "transcribe" | "agent";
 type TranscribeMode = "live" | "upload";
 type AgentStatus = "disconnected" | "connecting" | "listening" | "speaking";
 
+// Expose playground control functions globally for voice control
+declare global {
+  interface Window {
+    playgroundControl?: {
+      switchTab: (tab: Tab) => void;
+      setTranscribeMode: (mode: TranscribeMode) => void;
+    };
+  }
+}
+
 // Format retry time in a human-friendly way
 const formatRetryTime = (seconds: number): string => {
   if (seconds < 60) {
@@ -25,6 +35,28 @@ const formatRetryTime = (seconds: number): string => {
 const Playground = () => {
   const [activeTab, setActiveTab] = useState<Tab>("transcribe");
   const [transcribeMode, setTranscribeMode] = useState<TranscribeMode>("live");
+
+  // Expose control functions for voice control
+  useEffect(() => {
+    window.playgroundControl = {
+      switchTab: (tab: Tab) => {
+        setActiveTab(tab);
+        // Scroll to playground
+        const el = document.getElementById("playground");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      },
+      setTranscribeMode: (mode: TranscribeMode) => {
+        setActiveTab("transcribe");
+        setTranscribeMode(mode);
+        const el = document.getElementById("playground");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      },
+    };
+
+    return () => {
+      delete window.playgroundControl;
+    };
+  }, []);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -566,7 +598,7 @@ const Playground = () => {
   };
 
   return (
-    <section className="bg-[#1a1a1a] py-24 md:py-32">
+    <section id="playground" className="bg-[#1a1a1a] py-24 md:py-32">
       <div className="container max-w-5xl">
         {/* Header */}
         <div className="mb-12 text-center md:mb-16">

@@ -69,7 +69,7 @@ const itemVariants = {
 
 const Capabilities = () => {
   return (
-    <section className="bg-[#FAFAF9] py-24 md:py-32">
+    <section id="features" className="bg-[#FAFAF9] py-24 md:py-32">
       <div className="container max-w-6xl">
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
