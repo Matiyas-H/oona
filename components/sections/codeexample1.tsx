@@ -265,7 +265,7 @@ const Codeexample1 = () => {
             <div className="flex flex-wrap gap-3">
               <Button size="lg" className="w-fit" asChild>
                 <a
-                  href="https://dashboard.omnia-voice.com/docs"
+                  href="https://docs.omnia-voice.com/agents"
                   className="flex items-center gap-2"
                 >
                   Read the docs

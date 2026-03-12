@@ -70,7 +70,7 @@ const CodeSection = () => {
   };
 
   return (
-    <section className="bg-white py-24 md:py-32">
+    <section id="code" className="bg-white py-24 md:py-32">
       <div className="container max-w-6xl">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left content */}
@@ -90,7 +90,7 @@ const CodeSection = () => {
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
-                href="https://stt.omnia-voice.com/docs"
+                href="https://dashboard.omnia-voice.com/login"
                 className="group inline-flex items-center gap-2 bg-[#1a1a1a] px-6 py-3 text-sm font-medium tracking-wide text-white transition-all hover:bg-[#333]"
               >
                 Read the docs
