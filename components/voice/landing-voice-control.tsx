@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Mic, MicOff, X, Loader2 } from "lucide-react";
+import { Mic, MicOff, X, Loader2, Send } from "lucide-react";
 
 type Status = "idle" | "connecting" | "listening" | "speaking" | "error";
 
@@ -9,6 +9,7 @@ export function LandingVoiceControl() {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [transcript, setTranscript] = useState("");
+  const [textInput, setTextInput] = useState("");
 
   // WebSocket and audio refs
   const wsRef = useRef<WebSocket | null>(null);
@@ -19,6 +20,70 @@ export function LandingVoiceControl() {
   const nextPlayTimeRef = useRef<number>(0);
   const activeSourcesRef = useRef<Set<AudioBufferSourceNode>>(new Set());
 
+  // Add visual feedback - highlight the section
+  const highlightSection = useCallback((element: HTMLElement) => {
+    element.classList.add("luna-highlight");
+    setTimeout(() => {
+      element.classList.remove("luna-highlight");
+    }, 1500);
+  }, []);
+
+  // Send context update to Luna (state awareness)
+  const sendContextUpdate = useCallback((message: string) => {
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({
+        type: "user_text_message",
+        text: `[System: ${message}]`,
+        urgency: "later"
+      }));
+    }
+  }, []);
+
+  // Track current visible section
+  const currentSectionRef = useRef<string | null>(null);
+
+  // Scroll listener for state awareness
+  useEffect(() => {
+    const sections = ["hero", "playground", "features", "code", "deployment", "pricing", "faq", "partners", "contact"];
+
+    const handleScroll = () => {
+      // Only track if connected
+      if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
+
+      const scrollY = window.scrollY + window.innerHeight / 3;
+
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          const sectionTop = window.scrollY + rect.top;
+          const sectionBottom = sectionTop + rect.height;
+
+          if (scrollY >= sectionTop && scrollY < sectionBottom) {
+            if (currentSectionRef.current !== sectionId) {
+              currentSectionRef.current = sectionId;
+              sendContextUpdate(`User scrolled to ${sectionId} section`);
+            }
+            break;
+          }
+        }
+      }
+    };
+
+    // Debounce scroll handler
+    let timeoutId: NodeJS.Timeout;
+    const debouncedScroll = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(handleScroll, 300);
+    };
+
+    window.addEventListener("scroll", debouncedScroll);
+    return () => {
+      window.removeEventListener("scroll", debouncedScroll);
+      clearTimeout(timeoutId);
+    };
+  }, [sendContextUpdate]);
+
   // Tool handlers - these control the page
   const handleTool = useCallback((toolName: string, params: any) => {
     switch (toolName) {
@@ -28,26 +93,45 @@ export function LandingVoiceControl() {
           const element = document.getElementById(sectionId);
           if (element) {
             element.scrollIntoView({ behavior: "smooth" });
+            currentSectionRef.current = sectionId;
+            // Highlight after scroll completes
+            setTimeout(() => highlightSection(element), 600);
           }
         }
-        break;
+        // Return rich context in tool result
+        return `Navigated to ${sectionId} section. User is now viewing this section.`;
       case "openFaqItem":
         const faqId = params?.faqId || params?.id;
         if (faqId) {
           // Dispatch custom event to open FAQ item
           window.dispatchEvent(new CustomEvent("openFaqItem", { detail: { faqId } }));
+          // Highlight the FAQ section
+          setTimeout(() => {
+            const faqSection = document.getElementById("faq");
+            if (faqSection) highlightSection(faqSection);
+          }, 600);
         }
         break;
       case "switchPlaygroundTab":
         const tab = params?.tab;
         if (tab && window.playgroundControl) {
           window.playgroundControl.switchTab(tab);
+          // Highlight playground section
+          setTimeout(() => {
+            const playground = document.getElementById("playground");
+            if (playground) highlightSection(playground);
+          }, 600);
         }
         break;
       case "setTranscribeMode":
         const mode = params?.mode;
         if (mode && window.playgroundControl) {
           window.playgroundControl.setTranscribeMode(mode);
+          // Highlight playground section
+          setTimeout(() => {
+            const playground = document.getElementById("playground");
+            if (playground) highlightSection(playground);
+          }, 600);
         }
         break;
       case "openDocs":
@@ -58,6 +142,18 @@ export function LandingVoiceControl() {
         break;
       case "openContact":
         window.open("/contact", "_blank");
+        break;
+      case "endSession":
+        // Send hang_up and close after a brief delay
+        setTimeout(() => {
+          if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+            wsRef.current.send(JSON.stringify({ type: "hang_up" }));
+          }
+          // Close panel after hang up
+          setTimeout(() => {
+            setIsOpen(false);
+          }, 500);
+        }, 1000);
         break;
     }
   }, []);
@@ -254,8 +350,17 @@ export function LandingVoiceControl() {
                 setStatus("speaking");
               }
             } else if (msg.type === "transcript") {
-              if (msg.role === "user" && msg.text) {
-                setTranscript(msg.text);
+              if (msg.role === "agent") {
+                if (msg.text) {
+                  // Full text received - use it
+                  setTranscript(msg.text);
+                } else if (msg.delta) {
+                  // Streaming delta - append it
+                  setTranscript(prev => prev + msg.delta);
+                }
+              } else if (msg.role === "user") {
+                // Clear transcript when user starts speaking
+                setTranscript("");
               }
             } else if (msg.type === "client_tool_invocation") {
               // Execute tool IMMEDIATELY - don't wait
@@ -312,6 +417,23 @@ export function LandingVoiceControl() {
     }
   };
 
+  // Send text message
+  const sendTextMessage = () => {
+    if (!textInput.trim()) return;
+    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
+
+    // Stop any current playback when user sends a message
+    stopPlayback();
+
+    wsRef.current.send(JSON.stringify({
+      type: "user_text_message",
+      text: textInput.trim(),
+    }));
+
+    setTranscript(textInput.trim());
+    setTextInput("");
+  };
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -334,7 +456,7 @@ export function LandingVoiceControl() {
         aria-label="Voice control"
       >
         <Mic className="size-5" />
-        <span className="text-sm font-medium">Ask Luna</span>
+        <span className="text-sm font-medium">Voice Guide</span>
       </button>
     );
   }
@@ -368,10 +490,10 @@ export function LandingVoiceControl() {
         </button>
       </div>
 
-      {/* Transcript */}
+      {/* Luna's response */}
       {transcript && (
-        <div className="mb-4 rounded-lg bg-[#1a1a1a]/5 p-3">
-          <p className="text-sm text-[#1a1a1a]/70">"{transcript}"</p>
+        <div className="mb-4 rounded-lg bg-[#2D5A27]/5 p-3">
+          <p className="text-sm text-[#1a1a1a]/80">{transcript}</p>
         </div>
       )}
 
@@ -398,9 +520,30 @@ export function LandingVoiceControl() {
         </button>
       </div>
 
+      {/* Text input - only show when connected */}
+      {(status === "listening" || status === "speaking") && (
+        <div className="mt-4 flex gap-2">
+          <input
+            type="text"
+            value={textInput}
+            onChange={(e) => setTextInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendTextMessage()}
+            placeholder="Or type a message..."
+            className="flex-1 rounded-lg border border-[#1a1a1a]/10 bg-[#1a1a1a]/5 px-3 py-2 text-sm text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 focus:border-[#2D5A27] focus:outline-none"
+          />
+          <button
+            onClick={sendTextMessage}
+            disabled={!textInput.trim()}
+            className="flex size-9 items-center justify-center rounded-lg bg-[#2D5A27] text-white transition-all hover:bg-[#2D5A27]/90 disabled:bg-[#1a1a1a]/10 disabled:text-[#1a1a1a]/40"
+          >
+            <Send className="size-4" />
+          </button>
+        </div>
+      )}
+
       {/* Helper text */}
       <p className="mt-4 text-center text-xs text-[#1a1a1a]/40">
-        {status === "idle" && "I can answer questions and control this page"}
+        {status === "idle" && "Ask questions or navigate by voice"}
         {status === "connecting" && "Setting up..."}
         {status === "listening" && "Try: \"Show me pricing\""}
         {status === "speaking" && ""}
@@ -412,7 +555,7 @@ export function LandingVoiceControl() {
         <div className="mt-4 space-y-1">
           <p className="text-[10px] font-medium uppercase tracking-wide text-[#1a1a1a]/30">Try saying</p>
           <div className="flex flex-wrap gap-1">
-            {["What's the pricing?", "Show me features", "Languages?"].map((cmd) => (
+            {["What's the latency?", "Go to pricing", "Show me features"].map((cmd) => (
               <span key={cmd} className="rounded-full bg-[#1a1a1a]/5 px-2 py-0.5 text-[10px] text-[#1a1a1a]/50">
                 {cmd}
               </span>
