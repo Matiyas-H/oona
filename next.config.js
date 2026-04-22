@@ -65,6 +65,32 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["@prisma/client"],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/.well-known/agent-skills/index.json",
+        destination: "/api/well-known/agent-skills",
+      },
+    ];
+  },
+  async headers() {
+    const linkHeader = [
+      '</sitemap.xml>; rel="sitemap"; type="application/xml"',
+      '</.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json"',
+      '</llm.txt>; rel="describedby"; type="text/plain"',
+      '</docs>; rel="service-doc"; type="text/html"',
+    ].join(", ");
+
+    return [
+      {
+        source: "/",
+        headers: [
+          { key: "Link", value: linkHeader },
+          { key: "Vary", value: "Accept" },
+        ],
+      },
+    ];
+  },
 }
 
 const withContentlayer = createContentlayerPlugin({
