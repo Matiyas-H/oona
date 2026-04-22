@@ -1,0 +1,87 @@
+---
+title: "When Voice AI Actually Makes Sense — and How We Ship It With Nitor"
+description: "Nitor's article on when voice AI makes sense lays out the strategic case. Here's the companion view from the infrastructure side — what we at Omnia Voice are building underneath, and how the Omnia + Nitor partnership turns that decision into production."
+date: "2026-04-22"
+image: "/images/blog/blog-post-4.jpg"
+authors:
+  - "omnia-voice"
+---
+
+Our partner [Nitor](https://www.nitor.com) recently published a clear, no-hype piece on a question every technology leader eventually asks: **[When does voice AI actually make sense?](https://nitor.com/en/articles/when-does-voice-ai-actually-make-sense)**
+
+It's worth reading in full. The short version: voice isn't always the right interface — but when the alternative is a queue, a keypad menu, or a form nobody fills out, a well-built voice layer changes the economics of the interaction.
+
+We agree. And because Nitor builds on Omnia Voice inside real production systems for clients like Finnair, DNA, OP Financial Group, and Kesko, we see the other side of that decision — what it takes to actually ship it once the strategy is clear.
+
+This post is the companion view. Nitor covers _when_. We'll cover _how_.
+
+## The strategic layer: what Nitor gets right
+
+Read Nitor's article for the full argument, but three points stand out.
+
+**Voice AI is not an interface redesign. It's an operational redesign.** The ROI shows up in call-deflection, 24/7 coverage, language coverage, and the shift from "someone has to pick up" to "every call gets answered, instantly." That's not UX polish — it's capacity.
+
+**It has to solve a real problem.** Voice for the sake of voice produces demos, not outcomes. The good use cases cluster around customer service, IT support, appointment booking, and regulated workflows where voice is the default channel whether you like it or not.
+
+**Integration is the hard part.** A voice agent that can't read your CRM, create a ticket, or hand off to a human is a gimmick. The work isn't the voice — it's the plumbing behind the voice.
+
+That framing is correct. And it's also a useful lens for talking about the architecture underneath.
+
+## The infrastructure layer: what changes when the stack is audio-native
+
+Most voice AI today is assembled from three separate systems: a speech-to-text model, a language model, and a text-to-speech model, chained together. Each handoff costs latency and loses information — tone, hesitation, overlap, pacing — that is part of how humans actually talk.
+
+Omnia Voice is built differently. Audio connects directly to the language model through a multimodal projection layer, with GPU-optimized TTS integrated into the same stack. No separate transcription step.
+
+What that means in practice:
+
+- **~250 ms first response**, versus 500–1000 ms for typical cascade architectures. That's the difference between a conversation and a walkie-talkie exchange.
+- **Processing starts while the user is still speaking** — because the model is reading the audio, not waiting for a finished transcript.
+- **50+ languages**, with strong performance across English and Nordic languages, and seamless mid-conversation switching.
+- **Same API across cloud, dedicated, and self-hosted deployments.** No code changes to migrate from our cloud to your cloud to on-premise.
+
+Those aren't marketing numbers. They are the numbers that decide whether a voice agent feels human or feels like IVR-with-extra-steps. Nitor's article is right that voice AI only works when it _feels_ right — and latency is usually where that feeling lives or dies.
+
+## The delivery layer: what the Omnia + Nitor partnership actually does
+
+This is where the two articles fit together.
+
+Nitor is a 300-person digital engineering company based in Helsinki and Tampere. They do the architecture, integration, and long-term engineering support that turns a capability into a running service inside real enterprise environments. They know what a production Nordic deployment actually looks like — the security review, the data residency rules, the call-routing rules, the handoff to a human operator at 2 AM.
+
+Omnia Voice provides the speech layer: the audio-native model, the streaming API, the voice agents, and the self-host option for workloads that can't leave a regulated perimeter. EU data residency is the default. Self-hosting is a real option, not a sales slide.
+
+Together that covers the full stack:
+
+| Layer | Responsibility |
+| --- | --- |
+| Strategy and discovery | Nitor — framing the problem, picking the right use case |
+| Integration and architecture | Nitor — CRM, ticketing, call routing, telephony, hand-off logic |
+| Voice model and runtime | Omnia Voice — audio-native LLM, streaming API, TTS |
+| Deployment and compliance | Omnia Voice — cloud, dedicated, or on-premise. EU data residency. |
+| Ongoing engineering support | Nitor — the unglamorous work that keeps production running |
+
+The reason this combination works is that each side owns a real layer. Nitor does not resell generic voice APIs, and we don't pretend to do integration engineering at Finnair scale. The split is honest, and it is how you ship voice AI that actually runs.
+
+## So: when does voice AI make sense for you?
+
+Our short answer, aligned with Nitor's: **when your current phone channel is a cost center you wish would disappear, or a capacity ceiling you can't hire your way past.** That's most support lines, most booking flows, most after-hours IT desks, and an increasing share of regulated customer service.
+
+It makes _less_ sense when the interaction is naturally text-first, when the caller volume is trivial, or when the value per call is too low to justify the integration work.
+
+Nitor's article is the more complete strategic read. Start there:
+
+[**When does voice AI actually make sense? — Nitor**](https://nitor.com/en/articles/when-does-voice-ai-actually-make-sense)
+
+If the answer is "yes, for us," we'd like to help you ship it.
+
+## Talk to us
+
+- Try the voice agent demo on the [Omnia Voice homepage](https://omnia-voice.com) — it's running the same infrastructure production customers use.
+- For an integration scoped to your systems, talk to [Nitor](https://www.nitor.com).
+- Or [contact us directly](https://omnia-voice.com/contact) and we'll pull the right people in together.
+
+## Further reading
+
+- Nitor, [_When does voice AI actually make sense?_](https://nitor.com/en/articles/when-does-voice-ai-actually-make-sense) — the strategic case.
+- Omnia Voice, [_How Voice AI Transformed 24/7 IT Support Into a Fast, Frictionless Experience_](/blog/always-on-voice-ai-it-support) — what the "how" looks like in a real Nordic deployment.
+- Omnia Voice, [pricing and plans](/pricing) — the practical economics.
