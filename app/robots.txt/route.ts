@@ -11,59 +11,23 @@ const BLOCKED_PATHS = [
   "/auth/",
 ];
 
-const AI_TRAINING_BOTS = [
-  "GPTBot",
-  "ChatGPT-User",
-  "OAI-SearchBot",
-  "ClaudeBot",
-  "Claude-Web",
-  "anthropic-ai",
-  "Claude-SearchBot",
-  "Claude-User",
-  "Google-Extended",
-  "PerplexityBot",
-  "Perplexity-User",
-  "cohere-ai",
-  "Cohere-training-data-crawler",
-  "CCBot",
-  "Bytespider",
-  "Applebot-Extended",
-  "Amazonbot",
-  "Meta-ExternalAgent",
-  "FacebookBot",
-  "DuckAssistBot",
-  "AI2Bot",
-  "Diffbot",
-  "ImagesiftBot",
-  "omgili",
-  "Timpibot",
-  "YouBot",
-];
-
 function buildRobotsTxt(): string {
   const lines: string[] = [];
 
-  // Content Signals (contentsignals.org) — declares AI usage preferences
+  // Content Signals (contentsignals.org) — declares AI usage preferences.
+  // Public content is open to search, AI retrieval, and AI training.
   lines.push("# Content Signals — https://contentsignals.org");
-  lines.push("Content-Signal: search=yes, ai-input=yes, ai-train=no");
+  lines.push("Content-Signal: search=yes, ai-input=yes, ai-train=yes");
   lines.push("");
 
-  // Default rules for all well-behaved crawlers
+  // Single rule set for all crawlers (search, AI retrieval, AI training).
+  // Only private/auth paths are off-limits.
   lines.push("User-agent: *");
   for (const path of BLOCKED_PATHS) {
     lines.push(`Disallow: ${path}`);
   }
   lines.push("Allow: /");
   lines.push("");
-
-  // Explicit rules for AI training crawlers — opt out of training,
-  // but allow retrieval-style bots by keeping default rules above.
-  // Per policy: no use of site content for model training.
-  for (const bot of AI_TRAINING_BOTS) {
-    lines.push(`User-agent: ${bot}`);
-    lines.push("Disallow: /");
-    lines.push("");
-  }
 
   lines.push(`Sitemap: ${BASE_URL}/sitemap.xml`);
   lines.push(`Host: ${BASE_URL}`);
