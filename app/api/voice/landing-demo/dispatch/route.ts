@@ -41,8 +41,12 @@ export async function POST(request: Request) {
     // Public https URL Ultravox uses to call /confirm back. On the deployed site
     // this is the real domain; for local testing set LUNA_DEMO_PUBLIC_URL to a
     // tunnel. Ultravox only accepts https tool callback URLs.
+    // On a Vercel preview, VERCEL_URL holds this deployment's own host (no
+    // scheme) — use it so the asker's callback hits THIS preview, not prod.
+    const vercelUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "";
     const baseUrl =
       process.env.LUNA_DEMO_PUBLIC_URL ||
+      vercelUrl ||
       process.env.NEXT_PUBLIC_APP_URL ||
       process.env.NEXTAUTH_URL ||
       "https://omnia-voice.com";
