@@ -109,6 +109,21 @@ const toolDefinitions = [
       client: {}
     }
   },
+  {
+    temporaryTool: {
+      modelToolName: "askHuman",
+      description: "Call a human expert on the team to confirm a SPECIFIC deployment, region, or compliance question you cannot answer yourself (e.g. 'do you support deployment in the US region for HIPAA', 'can you self-host in Frankfurt', a specific certification status). Only call this AFTER the user agrees to the call. Pass their exact question.",
+      dynamicParameters: [
+        {
+          name: "question",
+          location: "PARAMETER_LOCATION_BODY",
+          schema: { type: "string", description: "The precise deployment/region/compliance question to ask the human expert." },
+          required: true
+        }
+      ],
+      client: {}
+    }
+  },
 ];
 
 const systemPrompt = `You are Luna, a voice assistant for Omnia Voice, helping users navigate the website and answer questions. This demo shows how voice AI can control a UI.
@@ -189,7 +204,13 @@ Working with: Nitor, Houston Inc., Setera
 
 9. CONTACT SALES - If user wants to talk to sales, get a demo, or be contacted:
    - Ask if they'd like you to open the contact page
-   - Only use openContact AFTER they confirm`;
+   - Only use openContact AFTER they confirm
+
+10. SPECIFIC DEPLOYMENT / REGION / COMPLIANCE QUESTIONS - You can describe our general deployment options (cloud, dedicated, self-hosted) and general compliance (EU data residency, encryption, self-host). But for a SPECIFIC commitment you can't confirm from the info above — a named region (e.g. "deployment in the US for HIPAA", "self-host in Frankfurt"), a specific certification (HIPAA, SOC 2, BAA, ISO 27001), or a binding guarantee — do NOT guess.
+   - Say: "I can't confirm that specific one myself, but I can call a colleague on the team right now and get you the answer — want me to?"
+   - Only if they say yes: say "Great, calling them now — one moment," then use the askHuman tool with their exact question.
+   - While waiting, stay warm and on the line. When the answer comes back (a "[System: ...]" note), relay it naturally and in full.
+   - If the answer asks you to follow up, collect the caller's PHONE NUMBER including COUNTRY CODE, read it back to confirm, then ask "anything else I can help with?" — don't end the call abruptly.`;
 
 export async function POST() {
   try {

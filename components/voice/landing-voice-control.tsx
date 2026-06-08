@@ -20,6 +20,13 @@ export function LandingVoiceControl() {
   const nextPlayTimeRef = useRef<number>(0);
   const activeSourcesRef = useRef<Set<AudioBufferSourceNode>>(new Set());
 
+  // --- Human escalation (askHuman → outbound call → answer back into the call) ---
+  const callIdRef = useRef<string | null>(null);
+  const escIdRef = useRef<string>("");
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const micMutedRef = useRef<boolean>(false);
+  const [checkingTeam, setCheckingTeam] = useState(false);
+
   // Add visual feedback - highlight the section
   const highlightSection = useCallback((element: HTMLElement) => {
     element.classList.add("luna-highlight");
@@ -143,6 +150,24 @@ export function LandingVoiceControl() {
       case "openContact":
         window.open("/contact", "_blank");
         break;
+      case "askHuman": {
+        const question = params?.question || "a deployment question";
+        // Fresh token per escalation; clear any stale answer first.
+        const escId = `${Date.now()}-${Math.round(performance.now())}`;
+        escIdRef.current = escId;
+        setCheckingTeam(true);
+        // Mute the mic while the outbound call runs so room/page audio doesn't
+        // bleed into Luna's call.
+        micMutedRef.current = true;
+        fetch("/api/voice/landing-demo/confirm", { method: "DELETE" }).catch(() => {});
+        fetch("/api/voice/landing-demo/dispatch", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question, callId: callIdRef.current, escId }),
+        }).catch((e) => console.error("dispatch failed", e));
+        startAnswerPoll(escId);
+        break;
+      }
       case "endSession":
         // Send hang_up and close after a brief delay
         setTimeout(() => {
@@ -157,6 +182,42 @@ export function LandingVoiceControl() {
         break;
     }
   }, []);
+
+  // Poll /confirm for the expert's answer. When it arrives, send it INTO the
+  // live call over the WebSocket we already own (same mechanism as the scroll
+  // context-awareness), then unmute. Only accept the matching escalation id.
+  // Function declaration (hoisted) so handleTool above can call it.
+  function startAnswerPoll(escId: string) {
+    if (pollRef.current) clearInterval(pollRef.current);
+    let tries = 0;
+    pollRef.current = setInterval(async () => {
+      tries++;
+      try {
+        const r = await fetch("/api/voice/landing-demo/confirm");
+        const d = await r.json();
+        if (d.answer && d.escId === escId && escIdRef.current === escId) {
+          if (pollRef.current) clearInterval(pollRef.current);
+          micMutedRef.current = false;
+          setCheckingTeam(false);
+          // Deliver the expert's answer to Luna over the existing socket.
+          if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+            wsRef.current.send(JSON.stringify({
+              type: "user_text_message",
+              text: `[System: the team confirmed — "${d.answer}". Relay this to the visitor faithfully and in full. If it asks to collect contact details, actually ask the visitor for their phone number including country code and read it back to confirm — not email. Then ask if there's anything else.]`,
+              urgency: "immediate",
+            }));
+          }
+        }
+      } catch {
+        /* ignore */
+      }
+      if (tries > 60 && pollRef.current) {
+        clearInterval(pollRef.current);
+        micMutedRef.current = false;
+        setCheckingTeam(false);
+      }
+    }, 1500);
+  }
 
   // Stop all currently playing audio (for interruption)
   const stopPlayback = useCallback(() => {
@@ -244,6 +305,11 @@ export function LandingVoiceControl() {
       wsRef.current = null;
     }
     nextPlayTimeRef.current = 0;
+    // Reset escalation state so a new session starts clean.
+    if (pollRef.current) clearInterval(pollRef.current);
+    micMutedRef.current = false;
+    escIdRef.current = "";
+    setCheckingTeam(false);
   }, [stopPlayback]);
 
   // Start voice session
@@ -272,7 +338,8 @@ export function LandingVoiceControl() {
         throw new Error("Failed to create call");
       }
 
-      const { websocketUrl } = await response.json();
+      const { websocketUrl, callId } = await response.json();
+      callIdRef.current = callId || null;
 
       // Connect to WebSocket
       const ws = new WebSocket(websocketUrl);
@@ -311,6 +378,8 @@ export function LandingVoiceControl() {
         };
 
         processor.onaudioprocess = (event) => {
+          // Muted while the outbound expert call is happening.
+          if (micMutedRef.current) return;
           if (ws.readyState === WebSocket.OPEN) {
             const inputData = event.inputBuffer.getChannelData(0);
             const resampled = resample(inputData, nativeSampleRate, 16000);
@@ -475,11 +544,15 @@ export function LandingVoiceControl() {
             "bg-gray-300"
           }`} />
           <span className="text-sm font-medium text-[#1a1a1a]/70">
-            {status === "idle" && "Luna"}
-            {status === "connecting" && "Connecting..."}
-            {status === "listening" && "Luna is listening..."}
-            {status === "speaking" && "Luna"}
-            {status === "error" && "Connection error"}
+            {checkingTeam ? "📞 Checking with the team…" : (
+              <>
+                {status === "idle" && "Luna"}
+                {status === "connecting" && "Connecting..."}
+                {status === "listening" && "Luna is listening..."}
+                {status === "speaking" && "Luna"}
+                {status === "error" && "Connection error"}
+              </>
+            )}
           </span>
         </div>
         <button
