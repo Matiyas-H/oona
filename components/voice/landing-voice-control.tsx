@@ -151,6 +151,13 @@ export function LandingVoiceControl() {
         window.open("/contact", "_blank");
         break;
       case "askHuman": {
+        // HARD GUARD: never place the call unless the model asserts the user
+        // explicitly confirmed. If it tries to call without consent, refuse and
+        // tell Luna to ask first — the phone must never ring before a "yes".
+        const confirmed = params?.userConfirmed === true || params?.userConfirmed === "true";
+        if (!confirmed) {
+          return "Do NOT call yet — you have not gotten the user's agreement. First ASK the user 'would you like me to call the team?' and WAIT for them to say yes. Only then call askHuman with userConfirmed=true.";
+        }
         const question = params?.question || "a deployment question";
         // Fresh token per escalation; clear any stale answer first.
         const escId = `${Date.now()}-${Math.round(performance.now())}`;
@@ -166,7 +173,7 @@ export function LandingVoiceControl() {
           body: JSON.stringify({ question, callId: callIdRef.current, escId }),
         }).catch((e) => console.error("dispatch failed", e));
         startAnswerPoll(escId);
-        break;
+        return "Calling the team now — hold on, relaying the answer when it comes back.";
       }
       case "endSession":
         // Send hang_up and close after a brief delay
@@ -436,15 +443,17 @@ export function LandingVoiceControl() {
               const toolName = msg.toolName;
               const params = msg.parameters || {};
 
-              // Run tool synchronously for instant UI response
-              handleTool(toolName, params);
+              // Run tool synchronously for instant UI response. Use the tool's
+              // own return value as the result so refusals/guards reach Luna
+              // (e.g. askHuman refusing to call before the user said yes).
+              const toolResult = handleTool(toolName, params);
 
               // Send tool result back to the WebSocket immediately
               if (ws.readyState === WebSocket.OPEN) {
                 ws.send(JSON.stringify({
                   type: "client_tool_result",
                   invocationId: msg.invocationId,
-                  result: "Done",
+                  result: typeof toolResult === "string" ? toolResult : "Done",
                 }));
               }
             }

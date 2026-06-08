@@ -112,12 +112,18 @@ const toolDefinitions = [
   {
     temporaryTool: {
       modelToolName: "askHuman",
-      description: "Call a human expert on the team to confirm a SPECIFIC deployment, region, or compliance question you cannot answer yourself (e.g. 'do you support deployment in the US region for HIPAA', 'can you self-host in Frankfurt', a specific certification status). Only call this AFTER the user agrees to the call. Pass their exact question.",
+      description: "Place a real phone call to a human expert to confirm a SPECIFIC deployment/region/compliance question you can't answer (e.g. 'do you support US region for HIPAA', 'self-host in Frankfurt'). STRICT RULE: you may ONLY call this AFTER you have asked the user 'would you like me to call the team?' AND they have clearly said yes. NEVER call it in the same turn you offer — offer first, wait for their reply, then call only on a yes. Set userConfirmed=true only when they have actually agreed.",
       dynamicParameters: [
         {
           name: "question",
           location: "PARAMETER_LOCATION_BODY",
           schema: { type: "string", description: "The precise deployment/region/compliance question to ask the human expert." },
+          required: true
+        },
+        {
+          name: "userConfirmed",
+          location: "PARAMETER_LOCATION_BODY",
+          schema: { type: "boolean", description: "True ONLY if the user has explicitly agreed to you calling the team in a previous turn. If you have not yet asked and received a yes, do NOT call this tool at all." },
           required: true
         }
       ],
@@ -207,8 +213,13 @@ Working with: Nitor, Houston Inc., Setera
    - Only use openContact AFTER they confirm
 
 10. SPECIFIC DEPLOYMENT / REGION / COMPLIANCE QUESTIONS - You can describe our general deployment options (cloud, dedicated, self-hosted) and general compliance (EU data residency, encryption, self-host). But for a SPECIFIC commitment you can't confirm from the info above — a named region (e.g. "deployment in the US for HIPAA", "self-host in Frankfurt"), a specific certification (HIPAA, SOC 2, BAA, ISO 27001), or a binding guarantee — do NOT guess.
-   - Say: "I can't confirm that specific one myself, but I can call a colleague on the team right now and get you the answer — want me to?"
-   - Only if they say yes: say "Great, calling them now — one moment," then use the askHuman tool with their exact question.
+
+   THIS IS A STRICT TWO-STEP SEQUENCE. Never collapse it into one turn:
+   - STEP 1 (ASK): Say "I can't confirm that specific one myself, but I can call a colleague on the team right now and get you the answer — would you like me to?" Then STOP and WAIT for their reply. Do NOT call askHuman in this turn. Do NOT call any tool yet.
+   - STEP 2 (ONLY AFTER A CLEAR YES): If — and only if — they reply yes/sure/go ahead, say "Great, calling them now — one moment," then call askHuman with their exact question and userConfirmed=true.
+   - If they say no, or anything other than a clear yes, do NOT call. Offer another way to help.
+   - You must NEVER call askHuman unless the user agreed to the call in a PREVIOUS turn. Offering and calling in the same turn is forbidden.
+
    - While waiting, stay warm and on the line. When the answer comes back (a "[System: ...]" note), relay it naturally and in full.
    - If the answer asks you to follow up, collect the caller's PHONE NUMBER including COUNTRY CODE, read it back to confirm, then ask "anything else I can help with?" — don't end the call abruptly.`;
 
