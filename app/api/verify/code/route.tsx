@@ -1,15 +1,9 @@
 // api/verify/code/route.ts
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { Twilio } from "twilio";
 
 import { prisma } from "@/lib/db";
-import { purchaseNumber } from "@/lib/twilio";
-
-const twilioClient = new Twilio(
-  process.env.TWILIO_ACCOUNT_SID!,
-  process.env.TWILIO_AUTH_TOKEN!,
-);
+import { getTwilioClient, purchaseNumber } from "@/lib/twilio";
 
 // Helper to format phone number consistently
 function formatPhoneNumber(phoneNumber: string, countryCode: string) {
@@ -26,7 +20,7 @@ function formatPhoneNumber(phoneNumber: string, countryCode: string) {
 // Helper to verify code with Twilio
 async function verifyCodeWithTwilio(phoneNumber: string, code: string) {
   try {
-    const verification = await twilioClient.verify.v2
+    const verification = await getTwilioClient().verify.v2
       .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
       .verificationChecks.create({
         to: phoneNumber,

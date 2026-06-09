@@ -2,7 +2,8 @@
 import { Twilio } from 'twilio'
 import { prisma } from "@/lib/db"
 
-// Validate environment variables at startup
+// Required environment variables. Validated lazily at request time (not at
+// import time) so a missing var never crashes the production build.
 const requiredEnvVars = [
   'TWILIO_ACCOUNT_SID',
   'TWILIO_AUTH_TOKEN',
@@ -11,17 +12,24 @@ const requiredEnvVars = [
   'TWILIO_ADDRESS_SID'
 ] as const
 
-for (const envVar of requiredEnvVars) {
-  if (!process.env[envVar]) {
-    throw new Error(`Missing required environment variable: ${envVar}`)
-  }
-}
+let _twilioClient: Twilio | null = null
 
-export const twilioClient = new Twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN,
-  
-)
+// Lazily construct (and validate) the Twilio client on first use.
+export function getTwilioClient(): Twilio {
+  if (_twilioClient) return _twilioClient
+
+  for (const envVar of requiredEnvVars) {
+    if (!process.env[envVar]) {
+      throw new Error(`Missing required environment variable: ${envVar}`)
+    }
+  }
+
+  _twilioClient = new Twilio(
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN,
+  )
+  return _twilioClient
+}
 
 // Helper to log failed purchases
 async function logFailedPurchase(params: {
@@ -59,6 +67,8 @@ function formatPhoneNumber(number: string): string {
 async function searchForNumber(countryIsoCode: string) {
   const numberType = countryIsoCode === 'FI' ? 'mobile' : 'local'
   console.log(`Searching for ${numberType} number in ${countryIsoCode}`)
+
+  const twilioClient = getTwilioClient()
 
   try {
     if (countryIsoCode === 'FI') {
@@ -150,6 +160,7 @@ export async function purchaseNumber(params: {
     console.log(`Found available ${numberType} number:`, availableNumbers[0].phoneNumber)
 
     // Purchase the number with webhook configuration
+    const twilioClient = getTwilioClient()
     let purchasedNumber;
     try {
       if (country.isoCode === 'FI') {
@@ -218,6 +229,7 @@ export async function purchaseNumber(params: {
 export async function releaseNumber(number: string) {
   if (process.env.NODE_ENV === 'production') {
     try {
+      const twilioClient = getTwilioClient()
       const formattedNumber = formatPhoneNumber(number)
       const numbers = await twilioClient.incomingPhoneNumbers
         .list({ phoneNumber: formattedNumber })

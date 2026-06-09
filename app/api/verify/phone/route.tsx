@@ -1,15 +1,9 @@
 // app/api/verify/phone/route.ts
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { Twilio } from "twilio";
 
 import { prisma } from "@/lib/db";
-
-// Initialize Twilio client
-const twilioClient = new Twilio(
-  process.env.TWILIO_ACCOUNT_SID!,
-  process.env.TWILIO_AUTH_TOKEN!,
-);
+import { getTwilioClient } from "@/lib/twilio";
 
 export async function POST(request: Request) {
   try {
@@ -56,7 +50,7 @@ export async function POST(request: Request) {
     });
 
     // Start verification
-    const verification = await twilioClient.verify.v2
+    const verification = await getTwilioClient().verify.v2
       .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
       .verifications.create({
         to: formattedNumber,
