@@ -60,8 +60,14 @@ const Playground = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [processingLabel, setProcessingLabel] = useState("Transcribing...");
   const [finalTranscript, setFinalTranscript] = useState("");
   const [interimTranscript, setInterimTranscript] = useState("");
+  const [speakerTurns, setSpeakerTurns] = useState<
+    { speaker: string; transcript: string }[] | null
+  >(null);
+  const [diarize, setDiarize] = useState(false);
+  const [diarizeLanguage, setDiarizeLanguage] = useState("en-US");
   const [error, setError] = useState<string | null>(null);
 
   // Voice agent state
@@ -527,13 +533,87 @@ const Playground = () => {
   // Alias for clarity in UI
   const stopRecording = cleanupRecording;
 
+  // Files above this go through the signed-URL batch flow (Vercel API routes
+  // reject bodies over ~4.5MB)
+  const SYNC_UPLOAD_LIMIT = 4 * 1024 * 1024;
+
+  // Batch flow: init -> PUT directly to storage -> start -> poll.
+  // No size limits, and supports speaker diarization.
+  const transcribeViaBatch = async (file: File, contentType: string) => {
+    setProcessingLabel("Uploading...");
+
+    const initResponse = await fetch("/api/stt/batch-init", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contentType,
+        languages: diarize ? diarizeLanguage : "auto",
+        diarization: diarize,
+      }),
+    });
+    const init = await initResponse.json();
+
+    if (!initResponse.ok) {
+      if (initResponse.status === 429) {
+        const retryTime = formatRetryTime(init.retryAfter || 60);
+        setError(`Daily limit reached. Please try again in ${retryTime}.`);
+      }
+      return;
+    }
+
+    // Upload straight to storage - bytes never touch our API routes
+    const uploadResponse = await fetch(init.uploadUrl, {
+      method: "PUT",
+      headers: { "Content-Type": init.uploadContentType },
+      body: file,
+    });
+    if (!uploadResponse.ok) {
+      setError("Upload failed. Please try again.");
+      return;
+    }
+
+    const startResponse = await fetch("/api/stt/batch-start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ operationId: init.operationId }),
+    });
+    if (!startResponse.ok) {
+      setError("Failed to start transcription. Please try again.");
+      return;
+    }
+
+    setProcessingLabel("Transcribing... (longer files take a few minutes)");
+
+    // Poll up to ~6 minutes
+    for (let i = 0; i < 120; i++) {
+      await new Promise((r) => setTimeout(r, 3000));
+      const statusResponse = await fetch(
+        `/api/stt/batch-status?id=${init.operationId}`
+      );
+      const status = await statusResponse.json();
+
+      if (status.status === "completed") {
+        setFinalTranscript(status.transcript || "");
+        setSpeakerTurns(status.speakerTurns?.length ? status.speakerTurns : null);
+        return;
+      }
+      if (status.status === "error" || !statusResponse.ok) {
+        setError("Transcription failed. Please try a different file.");
+        return;
+      }
+    }
+    setError("Transcription timed out. Please try a shorter file.");
+  };
+
   // Handle file upload
   const handleFileUpload = async (file: File) => {
     try {
       setError(null);
       setFinalTranscript("");
       setInterimTranscript("");
+      setSpeakerTurns(null);
       setIsProcessing(true);
+      setProcessingLabel("Transcribing...");
 
       const contentTypes: Record<string, string> = {
         "audio/wav": "audio/wav",
@@ -544,11 +624,21 @@ const Playground = () => {
         "audio/flac": "audio/flac",
         "audio/ogg": "audio/ogg",
         "audio/webm": "audio/webm",
+        "audio/mp4": "audio/mp4",
+        "audio/x-m4a": "audio/mp4",
+        "audio/aac": "audio/mp4",
       };
 
       const contentType = contentTypes[file.type] || "audio/raw";
 
-      // Use server-side proxy for transcription
+      // Large files and diarization go through the batch flow;
+      // m4a too (only batch auto-detects its codec)
+      if (diarize || file.size > SYNC_UPLOAD_LIMIT || contentType === "audio/mp4") {
+        await transcribeViaBatch(file, contentType);
+        return;
+      }
+
+      // Small files: synchronous transcription (faster)
       const response = await fetch("/api/stt/transcribe", {
         method: "POST",
         headers: {
@@ -594,6 +684,7 @@ const Playground = () => {
   const clearTranscript = () => {
     setFinalTranscript("");
     setInterimTranscript("");
+    setSpeakerTurns(null);
     setError(null);
   };
 
@@ -736,8 +827,42 @@ const Playground = () => {
                     className="hidden"
                   />
                   <p className="mt-4 text-xs text-white/30">
-                    MP3, WAV, FLAC, OGG, WebM
+                    MP3, WAV, FLAC, OGG, WebM, M4A
                   </p>
+
+                  {/* Speaker diarization option */}
+                  <div
+                    className="mt-4 flex items-center gap-3"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <label className="flex cursor-pointer items-center gap-2 text-xs text-white/50">
+                      <input
+                        type="checkbox"
+                        checked={diarize}
+                        onChange={(e) => setDiarize(e.target.checked)}
+                        className="size-3.5 cursor-pointer accent-[#2D5A27]"
+                      />
+                      Identify speakers
+                    </label>
+                    {diarize && (
+                      <select
+                        value={diarizeLanguage}
+                        onChange={(e) => setDiarizeLanguage(e.target.value)}
+                        className="border border-white/10 bg-[#0d0d0d] px-2 py-1 text-xs text-white/60 focus:outline-none"
+                      >
+                        <option value="en-US">English (US)</option>
+                        <option value="en-GB">English (UK)</option>
+                        <option value="de-DE">German</option>
+                        <option value="es-ES">Spanish</option>
+                        <option value="fr-FR">French</option>
+                        <option value="it-IT">Italian</option>
+                        <option value="pt-BR">Portuguese</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="ja-JP">Japanese</option>
+                        <option value="ko-KR">Korean</option>
+                      </select>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -745,7 +870,7 @@ const Playground = () => {
               {isProcessing && (
                 <div className="mb-6 flex items-center justify-center gap-2 text-white/60">
                   <Loader2 className="size-4 animate-spin" />
-                  <span className="text-sm">Transcribing...</span>
+                  <span className="text-sm">{processingLabel}</span>
                 </div>
               )}
 
@@ -766,11 +891,27 @@ const Playground = () => {
                     >
                       <X className="size-4" />
                     </button>
-                    <p className="pr-6 font-mono text-sm leading-relaxed text-white/80">
-                      {finalTranscript}
-                      {finalTranscript && interimTranscript && " "}
-                      <span className="text-white/50">{interimTranscript}</span>
-                    </p>
+                    {speakerTurns ? (
+                      <div className="space-y-3 pr-6">
+                        {speakerTurns.map((turn, i) => (
+                          <p
+                            key={i}
+                            className="font-mono text-sm leading-relaxed text-white/80"
+                          >
+                            <span className="mr-2 text-[#7aa874]">
+                              Speaker {turn.speaker}:
+                            </span>
+                            {turn.transcript}
+                          </p>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="pr-6 font-mono text-sm leading-relaxed text-white/80">
+                        {finalTranscript}
+                        {finalTranscript && interimTranscript && " "}
+                        <span className="text-white/50">{interimTranscript}</span>
+                      </p>
+                    )}
                   </div>
                 ) : (
                   <p className="font-mono text-sm text-white/30">
