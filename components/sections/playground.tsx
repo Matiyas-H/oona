@@ -66,7 +66,6 @@ const Playground = () => {
   const [speakerTurns, setSpeakerTurns] = useState<
     { speaker: string; transcript: string }[] | null
   >(null);
-  const [diarize, setDiarize] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Voice agent state
@@ -532,12 +531,8 @@ const Playground = () => {
   // Alias for clarity in UI
   const stopRecording = cleanupRecording;
 
-  // Files above this go through the signed-URL batch flow (Vercel API routes
-  // reject bodies over ~4.5MB)
-  const SYNC_UPLOAD_LIMIT = 4 * 1024 * 1024;
-
   // Batch flow: init -> PUT directly to storage -> start -> poll.
-  // No size limits, and supports speaker diarization.
+  // No size limits; language auto-detected; speakers always identified.
   const transcribeViaBatch = async (file: File, contentType: string) => {
     setProcessingLabel("Uploading...");
 
@@ -547,7 +542,7 @@ const Playground = () => {
       body: JSON.stringify({
         contentType,
         languages: "auto",
-        diarization: diarize,
+        diarization: true,
       }),
     });
     const init = await initResponse.json();
@@ -630,34 +625,9 @@ const Playground = () => {
 
       const contentType = contentTypes[file.type] || "audio/raw";
 
-      // Large files and diarization go through the batch flow;
-      // m4a too (only batch auto-detects its codec)
-      if (diarize || file.size > SYNC_UPLOAD_LIMIT || contentType === "audio/mp4") {
-        await transcribeViaBatch(file, contentType);
-        return;
-      }
-
-      // Small files: synchronous transcription (faster)
-      const response = await fetch("/api/stt/transcribe", {
-        method: "POST",
-        headers: {
-          "Content-Type": contentType,
-        },
-        body: file,
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        if (response.status === 429) {
-          const retryTime = formatRetryTime(data.retryAfter || 60);
-          setError(`Daily limit reached. Please try again in ${retryTime}.`);
-        }
-        // Silent fail for other errors
-        return;
-      }
-
-      setFinalTranscript(data.transcript);
+      // All uploads go through the batch flow: no size limits,
+      // auto language detection, speakers always identified
+      await transcribeViaBatch(file, contentType);
     } catch {
       // Silent fail - don't show raw errors
     } finally {
@@ -826,24 +796,8 @@ const Playground = () => {
                     className="hidden"
                   />
                   <p className="mt-4 text-xs text-white/30">
-                    MP3, WAV, FLAC, OGG, WebM, M4A
+                    MP3, WAV, FLAC, OGG, WebM, M4A · any language · speakers identified automatically
                   </p>
-
-                  {/* Speaker diarization option */}
-                  <div
-                    className="mt-4 flex items-center gap-3"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <label className="flex cursor-pointer items-center gap-2 text-xs text-white/50">
-                      <input
-                        type="checkbox"
-                        checked={diarize}
-                        onChange={(e) => setDiarize(e.target.checked)}
-                        className="size-3.5 cursor-pointer accent-[#2D5A27]"
-                      />
-                      Identify speakers
-                    </label>
-                  </div>
                 </div>
               )}
 
