@@ -67,7 +67,6 @@ const Playground = () => {
     { speaker: string; transcript: string }[] | null
   >(null);
   const [diarize, setDiarize] = useState(false);
-  const [diarizeLanguage, setDiarizeLanguage] = useState("en-US");
   const [error, setError] = useState<string | null>(null);
 
   // Voice agent state
@@ -547,7 +546,7 @@ const Playground = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contentType,
-        languages: diarize ? diarizeLanguage : "auto",
+        languages: "auto",
         diarization: diarize,
       }),
     });
@@ -844,24 +843,6 @@ const Playground = () => {
                       />
                       Identify speakers
                     </label>
-                    {diarize && (
-                      <select
-                        value={diarizeLanguage}
-                        onChange={(e) => setDiarizeLanguage(e.target.value)}
-                        className="border border-white/10 bg-[#0d0d0d] px-2 py-1 text-xs text-white/60 focus:outline-none"
-                      >
-                        <option value="en-US">English (US)</option>
-                        <option value="en-GB">English (UK)</option>
-                        <option value="de-DE">German</option>
-                        <option value="es-ES">Spanish</option>
-                        <option value="fr-FR">French</option>
-                        <option value="it-IT">Italian</option>
-                        <option value="pt-BR">Portuguese</option>
-                        <option value="hi-IN">Hindi</option>
-                        <option value="ja-JP">Japanese</option>
-                        <option value="ko-KR">Korean</option>
-                      </select>
-                    )}
                   </div>
                 </div>
               )}
