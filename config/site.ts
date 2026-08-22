@@ -28,6 +28,7 @@ export const footerLinks: SidebarNavItem[] = [
   {
     title: "Content",
     items: [
+      { title: "Docs", href: "https://guide.omnia-voice.com" },
       { title: "Blog", href: "/blog" },
       { title: "Healthcare AI", href: "/blog/ai-voice-automation-healthcare-transformation" },
       { title: "IT Support AI", href: "/blog/ai-voice-automation-it-support-jira-integration" },
