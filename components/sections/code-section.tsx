@@ -90,7 +90,7 @@ const CodeSection = () => {
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
-                href="https://dashboard.omnia-voice.com/login"
+                href="https://guide.omnia-voice.com"
                 className="group inline-flex items-center gap-2 bg-[#1a1a1a] px-6 py-3 text-sm font-medium tracking-wide text-white transition-all hover:bg-[#333]"
               >
                 Read the docs
