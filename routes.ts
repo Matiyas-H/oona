@@ -1,14 +1,32 @@
 /**
- * An array of routes that are accessible to the public
- * These routes do not require authentication
+ * The complete allowlist of publicly reachable paths.
+ *
+ * The middleware denies by default: a path is served only if it appears here
+ * (exactly, or as a `/prefix/...` child). Anything else returns a hard 404.
+ * Adding a marketing page therefore means adding it here too — that is
+ * deliberate, so nothing reaches the public web by accident.
+ *
+ * Two entries were removed once we found them serving starter-kit boilerplate
+ * to crawlers under our own brand:
+ *
+ *   /docs    Was rendering the shadcn "Taxonomy" template docs ("Welcome to the
+ *            Next SaaS Stripe Starter documentation").
+ *
+ *   /guides  Was rendering the template's own tutorials ("using-next-auth-next-13",
+ *            "build-blog-using-contentlayer-mdx"). Nothing of ours lives there.
+ *
+ * Both are now 301'd to guide.omnia-voice.com in next.config.js, and both are
+ * excluded from the middleware matcher so the redirect fires before the
+ * deny-by-default 404 below can shadow it. They must NOT be listed here.
+ *
+ * app/(docs)/ and content/docs|guides are now unreachable and can be deleted.
+ *
  * @type {string[]}
  */
 export const publicRoutes = [
   "/",
   "/blog",
   "/contact",
-  "/docs",
-  "/guides",
   "/partners",
   "/pricing",
   "/privacy",

@@ -11,6 +11,28 @@ import {
 
 const { auth: middleware } = NextAuth(authConfig)
 
+const NOT_FOUND_HTML = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Page not found — Omnia Voice</title>
+<style>
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+       background:#FAFAF9;color:#1a1a1a;
+       font:400 16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+  main{text-align:center;padding:2rem}
+  h1{font-size:3rem;margin:0 0 .5rem;letter-spacing:-.02em}
+  p{margin:0 0 1.5rem;color:rgba(26,26,26,.6)}
+  a{display:inline-block;padding:.75rem 1.5rem;background:#1a1a1a;color:#fff;
+    text-decoration:none;font-size:.875rem;letter-spacing:.02em}
+  a:hover{background:#333}
+</style></head>
+<body><main>
+  <h1>404</h1>
+  <p>That page doesn't exist.</p>
+  <a href="/">Back to Omnia Voice</a>
+</main></body></html>`
+
 function prefersMarkdown(accept: string | null): boolean {
   if (!accept) return false;
   // Parse Accept header and compare q-values for text/markdown vs text/html
@@ -65,19 +87,42 @@ export default middleware((req: NextRequest & { auth: Session | null }): Respons
     return;
   }
   
-  // Check if the route is public
-  const isPublicRoute = publicRoutes.some(route => 
+  // Deny by default. A path is served only if `publicRoutes` lists it, either
+  // exactly or as the parent of a `/prefix/...` child. Everything else is
+  // refused — stale routes, half-finished pages, anything we never meant to
+  // publish. Publishing a new page means adding it to publicRoutes on purpose.
+  const isPublicRoute = publicRoutes.some(route =>
     nextUrl.pathname === route || nextUrl.pathname.startsWith(route + '/')
   );
-  
+
   if (!isPublicRoute) {
-    return Response.redirect(new URL('/', nextUrl));
+    // 404 — deliberately NOT a redirect to "/".
+    //
+    // Redirecting sent crawlers to a page that answers 200, which search
+    // engines read as a soft 404 and may keep indexed under the original URL.
+    // That is how the shadcn starter-kit boilerplate at /docs and /guides
+    // stayed in Google under our own brand: every one of those paths answered
+    // 200, so nothing ever told a crawler to drop them.
+    //
+    // A hard 404 plus `X-Robots-Tag: noindex` is the signal that actually
+    // removes them.
+    return new NextResponse(NOT_FOUND_HTML, {
+      status: 404,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'X-Robots-Tag': 'noindex, nofollow',
+        'Cache-Control': 'public, max-age=0, must-revalidate',
+      },
+    });
   }
-  
+
   return;
 })
 
 // Optionally, don't invoke Middleware on some paths
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|images|favicon.ico|robots.txt|sitemap.xml|llm.txt|note.txt|site.webmanifest|\\.well-known).*)'],
+  // `docs` and `guides` are 301'd to guide.omnia-voice.com in next.config.js.
+  // They are excluded here so the redirect fires before auth middleware runs —
+  // otherwise the deny-by-default 404 below would shadow it.
+  matcher: ['/((?!api|_next/static|_next/image|images|favicon.ico|robots.txt|sitemap.xml|docs|guides|llm.txt|note.txt|site.webmanifest|\\.well-known).*)'],
 }

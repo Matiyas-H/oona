@@ -65,6 +65,24 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["@prisma/client"],
   },
+  async redirects() {
+    // Documentation lives at guide.omnia-voice.com (Mintlify, repo
+    // Matiyas-H/documentation). /docs and /guides on this domain previously
+    // served the shadcn starter-kit boilerplate — "Welcome to the Next SaaS
+    // Stripe Starter documentation" — which was publicly indexed under our
+    // brand. Both are now permanently redirected to the real docs.
+    //
+    // A 301 rather than a proxy: one canonical hostname, no duplicate content
+    // split across two domains, and no dependency on an upstream rewrite
+    // target staying correct.
+    return [
+      { source: "/docs", destination: "https://guide.omnia-voice.com", permanent: true },
+      { source: "/docs/:path*", destination: "https://guide.omnia-voice.com/:path*", permanent: true },
+      { source: "/guides", destination: "https://guide.omnia-voice.com", permanent: true },
+      { source: "/guides/:path*", destination: "https://guide.omnia-voice.com", permanent: true },
+    ];
+  },
+
   async rewrites() {
     return [
       {
