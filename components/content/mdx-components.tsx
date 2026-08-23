@@ -7,6 +7,7 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 import { cn } from "@/lib/utils";
 import { MdxCard } from "@/components/content/mdx-card";
 import { Callout } from "@/components/shared/callout";
+import { CookieSettings } from "@/components/cookie-settings";
 
 const components = {
   h1: ({ className, ...props }) => (
@@ -151,6 +152,7 @@ const components = {
   ),
   Image: (props: ImageProps) => <NextImage {...props} />,
   Callout,
+  CookieSettings,
   Card: MdxCard,
 };
 

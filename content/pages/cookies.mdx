@@ -1,0 +1,82 @@
+---
+title: Cookie Policy
+description: Every cookie omnia-voice.com sets, what it is for, and how to turn the optional one off.
+---
+
+**Last updated:** August 23, 2026
+
+This site sets five cookies. One of them is optional. There are no third-party
+trackers, no advertising pixels, and no data broker relationships — everything
+below is set by us, stored by us, and used by us alone.
+
+<CookieSettings />
+
+## What we set
+
+| Cookie | Purpose | Expires | Optional? |
+| --- | --- | --- | --- |
+| `ov_attr` | Records which campaign, search, or link brought you here, so we can tell which marketing is worth paying for. Written once, on your first visit. | 90 days | **Yes** — off unless you accept |
+| `ov_consent` | Remembers the answer you gave to the banner. | 1 year if you accept, 6 months if you decline | No |
+| `ov_region` | Records whether you are somewhere we must ask before setting `ov_attr`. Holds `eu` or `row` — not your country, not your IP address. | 30 days | No |
+| `__Host-authjs.csrf-token` | Protects sign-in forms against cross-site request forgery. | Session | No |
+| `__Secure-authjs.callback-url` | Returns you to the right page after signing in. | Session | No |
+
+Signing in sets an additional session cookie for as long as you stay signed in.
+
+## Where we ask
+
+In the EEA, the UK, and Switzerland, `ov_attr` is not stored unless you accept
+it. Elsewhere it is on by default, because no equivalent opt-in rule applies to
+a first-party cookie used solely for our own measurement — but the control above
+turns it off anywhere, and turning it off deletes it.
+
+If we cannot tell where you are, we ask. Being asked unnecessarily costs us a
+little measurement; not asking someone who should have been asked is the mistake
+worth avoiding.
+
+## Why the others are not optional
+
+European law asks what a cookie is *for*, not who owns the domain. A cookie is
+exempt from consent only when it is strictly necessary for something you asked
+for. Protecting a sign-in form and remembering where to send you afterwards
+qualify. So does remembering that you said no — a record of your refusal is what
+makes the refusal stick, and asking permission to store it would be circular.
+The same goes for `ov_region`: knowing whether you must be asked is what makes
+asking possible.
+
+Measuring marketing does not qualify, however first-party it is. That is why
+`ov_attr` waits.
+
+## What `ov_attr` contains
+
+The campaign identifiers that were in the link you arrived on — `gclid` and any
+`utm_*` parameters — plus the page you landed on, the site that referred you,
+and a timestamp. If you arrive with none of those and no external referrer,
+nothing is written at all.
+
+It holds your **first** visit, not your most recent. Someone who finds us
+through an ad, leaves, and returns a week later via a search was brought here by
+the ad, and overwriting it would credit the wrong thing.
+
+If you create an account, these values are copied onto your user record so we
+can connect a campaign to a customer. If you never sign up, the cookie expires
+after 90 days and that is the end of it.
+
+## What it is not
+
+`ov_attr` cannot follow you to other websites. It is readable only on
+`omnia-voice.com` and its subdomains, which is how the marketing site and the
+dashboard share it without any cross-domain tracking script. We do not sell it,
+share it with advertising networks, or use it to build a profile of you.
+
+## Changing your mind
+
+Use the control above — it takes effect immediately, and turning the cookie off
+deletes it. You can also clear cookies for this site in your browser, which
+resets everything including the record of your answer, so you will be asked
+again on your next visit.
+
+## Questions
+
+Write to [privacy@omnia-voice.com](mailto:privacy@omnia-voice.com). Our
+[Privacy Policy](/privacy) covers everything else we process and why.
