@@ -70,6 +70,31 @@ export function setConsent(state: ConsentState): void {
   if (typeof window === "undefined") return;
   const days = state === "granted" ? DAYS_GRANTED : DAYS_DENIED;
   writeCookie(CONSENT_COOKIE, state, days * 24 * 60 * 60);
+  syncGoogleConsent(state);
+}
+
+/**
+ * Tell the Google tag what just changed.
+ *
+ * Called from setConsent rather than from the banner, so every route that can
+ * change consent — the banner, the control on /cookies, anything added later —
+ * updates the tag without having to remember to. The banner and the ad tag
+ * disagreeing is exactly the bug this prevents.
+ *
+ * No-ops when there is no tag, which is the normal state until someone sets
+ * NEXT_PUBLIC_GOOGLE_ADS_ID.
+ */
+function syncGoogleConsent(state: ConsentState): void {
+  const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+  if (typeof gtag !== "function") return;
+
+  const value = state === "granted" ? "granted" : "denied";
+  gtag("consent", "update", {
+    ad_storage: value,
+    ad_user_data: value,
+    ad_personalization: value,
+    analytics_storage: value,
+  });
 }
 
 /**
