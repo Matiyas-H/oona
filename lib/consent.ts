@@ -16,6 +16,13 @@
  *     said no" is necessary to honour the refusal. Asking consent to store the
  *     refusal would be circular.
  *
+ * WHERE it is asked is decided in middleware, which reads the visitor's country
+ * and writes ov_region. Consent is an EEA/UK/Swiss requirement; the rest of the
+ * world has no equivalent opt-in rule for a first-party cookie used only for our
+ * own measurement, so asking there costs attribution and buys nothing. An
+ * unknown region resolves to "ask" — see middleware.ts for why the uncertain
+ * case always takes the expensive side.
+ *
  * Retention differs by answer on purpose. A yes is remembered for a year. A no
  * is remembered for six months and then we may ask once more — long enough not
  * to nag, short enough that a refusal is not treated as permanent silence.
@@ -73,4 +80,34 @@ export function setConsent(state: ConsentState): void {
 export function clearConsent(): void {
   if (typeof window === "undefined") return;
   writeCookie(CONSENT_COOKIE, "", 0);
+}
+
+export const REGION_COOKIE = "ov_region";
+
+/**
+ * Does this visitor have to be asked? Anything other than an explicit "row"
+ * means yes, so a missing cookie — middleware skipped, cookie cleared, someone
+ * poking at devtools — lands on asking rather than on storing.
+ */
+export function consentRequired(): boolean {
+  if (typeof document === "undefined") return true;
+  const raw = document.cookie
+    .split("; ")
+    .find((c) => c.startsWith(`${REGION_COOKIE}=`))
+    ?.split("=")[1];
+  return raw !== "row";
+}
+
+/**
+ * What actually governs storage, combining the explicit answer with the
+ * regional default.
+ *
+ * An explicit choice always wins, in both directions: someone outside the EEA
+ * who turns the cookie off on /cookies stays off. Silence means no in a region
+ * that requires asking, and yes in one that does not.
+ */
+export function effectiveConsent(): ConsentState {
+  const explicit = readConsent();
+  if (explicit) return explicit;
+  return consentRequired() ? "denied" : "granted";
 }

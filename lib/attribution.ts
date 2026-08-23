@@ -29,7 +29,7 @@
  * is the honest cost of not writing anything first and asking later.
  */
 
-import { readConsent } from "@/lib/consent";
+import { consentRequired, effectiveConsent, readConsent } from "@/lib/consent";
 
 export const ATTRIBUTION_COOKIE = "ov_attr";
 const MAX_AGE_DAYS = 90;
@@ -147,7 +147,7 @@ export function captureAttribution(): Attribution | null {
   const data = collectAttribution();
   if (!data) return null;
 
-  if (readConsent() === "granted") {
+  if (effectiveConsent() === "granted") {
     writeAttribution(data);
     return data;
   }
@@ -159,7 +159,7 @@ export function captureAttribution(): Attribution | null {
 /** Called when consent is granted, to commit whatever the landing page said. */
 export function flushPendingAttribution(): Attribution | null {
   if (typeof window === "undefined") return null;
-  if (readConsent() !== "granted") return null;
+  if (effectiveConsent() !== "granted") return null;
   if (readAttribution()) return null;
 
   // Prefer what we held from the landing page; fall back to the current URL for

@@ -11,6 +11,70 @@ import {
 
 const { auth: middleware } = NextAuth(authConfig)
 
+/**
+ * Where consent is legally required before storing the attribution cookie:
+ * the EEA (EU 27 + Iceland, Liechtenstein, Norway), the UK under PECR, and
+ * Switzerland. Everywhere else has no equivalent opt-in rule for a first-party
+ * cookie used only for our own measurement.
+ */
+const CONSENT_REQUIRED_COUNTRIES = new Set([
+  // EU 27
+  "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR",
+  "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK",
+  "SI", "ES", "SE",
+  // EEA
+  "IS", "LI", "NO",
+  // UK (PECR) and Switzerland
+  "GB", "CH",
+]);
+
+const REGION_COOKIE = "ov_region";
+
+/**
+ * Tell the browser whether this visitor has to be asked before we store the
+ * attribution cookie.
+ *
+ * FAILS SAFE, DELIBERATELY. An unreadable, missing, or unrecognised country
+ * resolves to "eu", meaning ask. Geolocation is not perfect — VPNs, corporate
+ * proxies, and travellers all defeat it — and the two ways of being wrong are
+ * not equal. Asking someone who did not need to be asked costs a little
+ * attribution. NOT asking someone who did is the failure that gets you fined.
+ * So every uncertain case takes the expensive side.
+ *
+ * This lives in middleware rather than the layout on purpose. Reading headers()
+ * in a server component would opt the whole marketing tree out of static
+ * generation, and /[...slug] — every comparison page we are about to buy ads
+ * for — is prerendered today. Middleware keeps those pages on the CDN.
+ *
+ * Written once per browser, not per request, so a cached page is not re-cookied
+ * on every hit.
+ */
+function withRegionCookie(req: NextRequest): NextResponse {
+  const res = NextResponse.next();
+
+  if (req.cookies.get(REGION_COOKIE)) return res;
+
+  const country =
+    (req as NextRequest & { geo?: { country?: string } }).geo?.country ||
+    req.headers.get("x-vercel-ip-country") ||
+    null;
+
+  const region =
+    country && !CONSENT_REQUIRED_COUNTRIES.has(country.toUpperCase())
+      ? "row"
+      : "eu";
+
+  res.cookies.set(REGION_COOKIE, region, {
+    path: "/",
+    sameSite: "lax",
+    httpOnly: false, // the banner is client-side and has to read this
+    secure: req.nextUrl.protocol === "https:",
+    maxAge: 60 * 60 * 24 * 30,
+  });
+
+  return res;
+}
+
 const NOT_FOUND_HTML = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -116,7 +180,7 @@ export default middleware((req: NextRequest & { auth: Session | null }): Respons
     });
   }
 
-  return;
+  return withRegionCookie(req);
 })
 
 // Optionally, don't invoke Middleware on some paths

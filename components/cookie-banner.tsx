@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { readConsent, setConsent } from "@/lib/consent";
+import { consentRequired, readConsent, setConsent } from "@/lib/consent";
 import { deleteAttribution, flushPendingAttribution } from "@/lib/attribution";
 
 /**
@@ -30,8 +30,11 @@ export function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // No recorded answer yet — ask.
-    if (!readConsent()) setVisible(true);
+    // Ask only where consent is required, and only if unanswered. Outside the
+    // EEA/UK/CH there is no opt-in rule for this cookie, so a banner there would
+    // cost attribution on paid traffic and buy nothing. /cookies still lets
+    // anyone turn it off.
+    if (consentRequired() && !readConsent()) setVisible(true);
   }, []);
 
   if (!visible) return null;

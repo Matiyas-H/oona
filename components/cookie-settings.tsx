@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { ConsentState, readConsent, setConsent } from "@/lib/consent";
+import { ConsentState, effectiveConsent, setConsent } from "@/lib/consent";
 import { deleteAttribution, flushPendingAttribution } from "@/lib/attribution";
 
 /**
@@ -19,7 +19,7 @@ export function CookieSettings() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setState(readConsent());
+    setState(effectiveConsent());
     setMounted(true);
   }, []);
 
@@ -34,12 +34,13 @@ export function CookieSettings() {
     setState(granted ? "granted" : "denied");
   };
 
+  // effectiveConsent() always resolves, so this reflects what is actually
+  // happening rather than only what was explicitly clicked — which matters
+  // outside the EEA, where the cookie is on unless someone turns it off here.
   const label =
     state === "granted"
       ? "Analytics cookie: on. We can see which campaign brought you here."
-      : state === "denied"
-        ? "Analytics cookie: off. Nothing but sign-in and security cookies are stored."
-        : "You have not answered yet, so nothing beyond sign-in and security cookies is stored.";
+      : "Analytics cookie: off. Nothing but sign-in and security cookies are stored.";
 
   return (
     <div className="not-prose my-6 rounded-lg border p-5">

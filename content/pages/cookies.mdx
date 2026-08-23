@@ -5,10 +5,9 @@ description: Every cookie omnia-voice.com sets, what it is for, and how to turn 
 
 **Last updated:** August 23, 2026
 
-This site sets four cookies. One of them is optional, and it is off until you
-say otherwise. There are no third-party trackers, no advertising pixels, and no
-data broker relationships — everything below is set by us, stored by us, and
-used by us alone.
+This site sets five cookies. One of them is optional. There are no third-party
+trackers, no advertising pixels, and no data broker relationships — everything
+below is set by us, stored by us, and used by us alone.
 
 <CookieSettings />
 
@@ -18,18 +17,32 @@ used by us alone.
 | --- | --- | --- | --- |
 | `ov_attr` | Records which campaign, search, or link brought you here, so we can tell which marketing is worth paying for. Written once, on your first visit. | 90 days | **Yes** — off unless you accept |
 | `ov_consent` | Remembers the answer you gave to the banner. | 1 year if you accept, 6 months if you decline | No |
+| `ov_region` | Records whether you are somewhere we must ask before setting `ov_attr`. Holds `eu` or `row` — not your country, not your IP address. | 30 days | No |
 | `__Host-authjs.csrf-token` | Protects sign-in forms against cross-site request forgery. | Session | No |
 | `__Secure-authjs.callback-url` | Returns you to the right page after signing in. | Session | No |
 
 Signing in sets an additional session cookie for as long as you stay signed in.
 
-## Why the last three are not optional
+## Where we ask
+
+In the EEA, the UK, and Switzerland, `ov_attr` is not stored unless you accept
+it. Elsewhere it is on by default, because no equivalent opt-in rule applies to
+a first-party cookie used solely for our own measurement — but the control above
+turns it off anywhere, and turning it off deletes it.
+
+If we cannot tell where you are, we ask. Being asked unnecessarily costs us a
+little measurement; not asking someone who should have been asked is the mistake
+worth avoiding.
+
+## Why the others are not optional
 
 European law asks what a cookie is *for*, not who owns the domain. A cookie is
 exempt from consent only when it is strictly necessary for something you asked
 for. Protecting a sign-in form and remembering where to send you afterwards
 qualify. So does remembering that you said no — a record of your refusal is what
 makes the refusal stick, and asking permission to store it would be circular.
+The same goes for `ov_region`: knowing whether you must be asked is what makes
+asking possible.
 
 Measuring marketing does not qualify, however first-party it is. That is why
 `ov_attr` waits.
