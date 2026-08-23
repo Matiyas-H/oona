@@ -31,6 +31,7 @@ export const publicRoutes = [
   "/pricing",
   "/privacy",
   "/terms",
+  "/cookies",
 
   // Comparison pages. Served by app/(marketing)/[...slug] from
   // content/pages/*.mdx. Listed individually rather than behind a prefix

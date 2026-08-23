@@ -14,7 +14,22 @@
  * and it is what lets us answer "which campaign produced a paying customer"
  * without a vendor in the middle — which matters rather a lot for a company
  * that sells EU data residency.
+ *
+ * CONSENT: none of that makes the cookie exempt. ePrivacy 5(3) asks what a
+ * cookie is FOR, not who owns the domain, and measuring campaigns is not
+ * strictly necessary — so nothing is written until the visitor says yes. See
+ * lib/consent.ts.
+ *
+ * The awkward case this has to survive: someone lands on /?gclid=X, the banner
+ * appears, they read a page or two, and only then click Accept. By that point
+ * the URL no longer carries the parameters. So collection and storage are
+ * separated — what the landing URL said is held in memory the moment the page
+ * loads, and only committed to a cookie if consent arrives. Client-side
+ * navigation keeps that memory; a hard reload before answering loses it, which
+ * is the honest cost of not writing anything first and asking later.
  */
+
+import { readConsent } from "@/lib/consent";
 
 export const ATTRIBUTION_COOKIE = "ov_attr";
 const MAX_AGE_DAYS = 90;
@@ -69,11 +84,12 @@ function cookieDomain(host: string): string | null {
   return host.endsWith("omnia-voice.com") ? ".omnia-voice.com" : null;
 }
 
-export function captureAttribution(): Attribution | null {
+/**
+ * Read what the current URL and referrer say. Pure: touches no storage, so it
+ * is safe to run before a consent decision exists.
+ */
+function collectAttribution(): Attribution | null {
   if (typeof window === "undefined") return null;
-
-  // First touch wins.
-  if (readAttribution()) return null;
 
   const url = new URL(window.location.href);
   const data: Attribution = {};
@@ -95,6 +111,10 @@ export function captureAttribution(): Attribution | null {
   data.landing_page = clamp(url.pathname, 300);
   data.first_seen = new Date().toISOString();
 
+  return data;
+}
+
+function writeAttribution(data: Attribution): void {
   const parts = [
     `${ATTRIBUTION_COOKIE}=${encodeURIComponent(JSON.stringify(data))}`,
     "Path=/",
@@ -105,5 +125,60 @@ export function captureAttribution(): Attribution | null {
   if (domain) parts.push(`Domain=${domain}`, "Secure");
 
   document.cookie = parts.join("; ");
+}
+
+/**
+ * What the landing URL said, held in memory only. Not storage under ePrivacy —
+ * nothing is persisted to the device — so it is allowed to exist while the
+ * visitor is still deciding.
+ */
+let pending: Attribution | null = null;
+
+/**
+ * Run on mount. Writes immediately if consent already exists, otherwise holds
+ * the result for flushPendingAttribution() to commit later.
+ */
+export function captureAttribution(): Attribution | null {
+  if (typeof window === "undefined") return null;
+
+  // First touch wins, and an existing cookie means consent was already given.
+  if (readAttribution()) return null;
+
+  const data = collectAttribution();
+  if (!data) return null;
+
+  if (readConsent() === "granted") {
+    writeAttribution(data);
+    return data;
+  }
+
+  pending = data;
+  return null;
+}
+
+/** Called when consent is granted, to commit whatever the landing page said. */
+export function flushPendingAttribution(): Attribution | null {
+  if (typeof window === "undefined") return null;
+  if (readConsent() !== "granted") return null;
+  if (readAttribution()) return null;
+
+  // Prefer what we held from the landing page; fall back to the current URL for
+  // the case where consent was granted on the very first paint.
+  const data = pending ?? collectAttribution();
+  if (!data) return null;
+
+  writeAttribution(data);
+  pending = null;
   return data;
+}
+
+/** Called on refusal or withdrawal. Drops what was held and what was stored. */
+export function deleteAttribution(): void {
+  if (typeof window === "undefined") return;
+  pending = null;
+
+  const parts = [`${ATTRIBUTION_COOKIE}=`, "Path=/", "Max-Age=0", "SameSite=Lax"];
+  const domain = cookieDomain(window.location.hostname);
+  if (domain) parts.push(`Domain=${domain}`, "Secure");
+  document.cookie = parts.join("; ");
 }
