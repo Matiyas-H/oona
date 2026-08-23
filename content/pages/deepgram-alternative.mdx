@@ -1,46 +1,53 @@
 ---
 title: "Omnia Voice vs Deepgram"
-description: "Deepgram is a mature speech-to-text platform. Omnia is transcription plus everything that happens after it."
+description: "Deepgram is a mature speech platform with its own voice agents. Where Omnia differs is architecture, residency and where it can run."
 ---
 
-Deepgram is one of the most established speech-to-text providers available, with
-the scale and operational maturity that implies. If transcription is genuinely
-all you need, they are a strong and safe choice.
+Deepgram is one of the most established speech providers available, with the
+scale and operational maturity that implies. They also ship a Voice Agent API of
+their own, so this is not a comparison between a transcription vendor and an
+agent platform.
 
-The question worth asking is whether transcription is all you need.
+Start with the part that is not close: **for transcription alone, Deepgram is far
+cheaper than we are.** Their streaming and batch rates run at a fraction of a
+cent per minute against our $0.04. If raw speech-to-text at volume is what you
+are buying, buy theirs — we would be a poor recommendation and an expensive one.
+
+What follows is about everything else.
 
 ## Choose Deepgram if
 
-- You need speech-to-text and nothing beyond it
+- **You need speech-to-text and nothing beyond it** — they are several times
+  cheaper per minute than us, and that gap does not close at volume
 - You are processing very large batch volumes and want a specialist
 - Vendor scale and a long operating history are decisive for you
-- You are building your own conversational layer and want the STT piece only
+- Your audio is English or another language where their models are strongest
 
 ## Choose Omnia if
 
-- **You want the conversation, not only the transcript**
-- **You would rather buy one system than assemble four**
-- You want the option to run it yourself, or to keep audio inside the EU
-- You would rather buy one thing than assemble three
+- **You need EU data residency by default**, not as a regional configuration
+- **You want the option to run the whole thing on your own infrastructure**
+- Your callers speak Finnish, Swedish, Norwegian or Danish
+- You want one per-minute rate rather than one that moves with model choice
 
 ---
 
-## Transcription, and what comes after
+## Where the two actually differ
 
-Deepgram converts audio to text extremely well. To build a voice agent on top,
-you then add a language model, a text-to-speech vendor, telephony, and the
-orchestration that holds them together — and you own the latency and the failure
-modes where they meet.
+Both of us will answer a phone and hold a conversation. The differences that
+survive a procurement review are narrower than a feature list suggests, and all
+three are structural rather than incremental.
 
-Omnia does transcription too, at **$0.04/minute**, batch or streaming, with the
-same 50+ languages. If that is all you want, it is there and it is not an
-afterthought.
+**Residency.** EU data residency is our default rather than a region you select.
+For a European buyer that is usually the shortest conversation on this page.
 
-What it also does is the rest: audio to reasoning without a transcription step in
-the middle, tools that call your systems mid-conversation, documents the agent
-can answer from, and telephony you bring yourself. One vendor rather than four.
+**Self-hosting.** Ours runs in production on customer infrastructure today, with
+the same API as our cloud, so moving does not change integration code.
 
-## One system, not an assembly
+**Nordic depth.** Finnish, Swedish, Norwegian and Danish are a core focus rather
+than entries in a supported-languages list.
+
+## Architecture
 
 Omnia connects audio directly to the reasoning layer. There is no speech-to-text
 stage in the middle, which is where the round-trip time goes and where nuance
@@ -99,25 +106,29 @@ acquired, pivoted, or sunset a service, a self-hosted customer keeps running.
 
 | | Omnia Voice | Deepgram |
 | --- | --- | --- |
-| Speech to text | Yes, $0.04/min | Yes, core product |
+| Speech to text | Yes, $0.04/min | Yes, core product, far cheaper |
 | Batch and streaming | Both | Both |
-| Full conversational agents | Yes | — |
-| Tools calling your systems | Yes | — |
-| Telephony integration | Bring your own | — |
+| Full conversational agents | Yes | Yes, Voice Agent API |
+| Voice agent rate | $0.08 / min flat | ~$0.056–$0.163 / min by tier |
+| Tools calling your systems | Yes | Yes |
+| Telephony integration | Bring your own | Bring your own |
 | Nordic language depth | Core focus | Supported |
 | Self-hosted | Yes | Available |
 | EU data residency | Yes | Region-dependent |
 | Vendor scale | Smaller | Larger |
 
 <Callout type="info">
-  Verify the right-hand column against Deepgram's current documentation.
+  Checked against their published pricing in August 2026. Verify the right-hand column
+  against Deepgram's current documentation before deciding.
 </Callout>
 
 ## The honest summary
 
-For transcription alone at very large scale, Deepgram's maturity is a real
-argument and we would not pretend otherwise.
+For transcription alone, at any scale, Deepgram is cheaper and we have said so
+twice on this page because it is true.
 
-If what you are actually building is something that answers the phone and does
-something about it, you would be assembling that yourself on top of them. That is
-the thing we already built.
+Where we would argue for ourselves is narrower and more specific: European audio
+that has to stay in Europe, a deployment that may need to move onto your own
+hardware, Nordic languages spoken at conversational pace, and one rate you can
+forecast before launch. If none of those are live concerns for you, their
+maturity is a perfectly good reason to choose them.
