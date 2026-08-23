@@ -19,11 +19,10 @@ you otherwise.
 ## Choose Omnia if
 
 - **You need the agent to understand, not only to speak**
-- **You want a forecastable per-minute cost**, billed per conversation rather
-  than per character generated
+- **You want one rate that already includes the reasoning**, rather than a voice
+  rate with the model billed on top
 - **You need it to act** — call your APIs mid-conversation, look things up, hand
   off to a person
-- You want a forecastable per-minute cost
 - You need EU residency or self-hosting
 
 ---
@@ -81,8 +80,17 @@ whole game.
 | Transcription only | **$0.04 / minute** |
 | High volume | **as low as $0.04 / minute** — agreed with our team |
 
-Recognition, reasoning and synthesis in one number, billed per minute of
-conversation rather than per character of generated speech.
+Recognition, reasoning and synthesis in one number.
+
+ElevenLabs Agents also bills per call minute, and its headline rate is the same
+$0.08. The difference is what the number covers: theirs is the voice layer, with
+**the language model and any telephony billed separately on top**, and minutes
+bundled into plan tiers rather than sold flat. Exceeding your concurrency limit
+bills at **$0.16/minute** — double — until you are back under it.
+
+So the comparison is not $0.08 against $0.08. It is one predictable number
+against a rate that depends on which model you chose and how many calls arrived
+at once.
 
 The first two rates are self-serve: sign up and start. The volume rate is
 negotiated rather than unlocked automatically, so [talk to us](/contact) if you
@@ -110,13 +118,15 @@ acquired, pivoted, or sunset a service, a self-hosted customer keeps running.
 | Understanding accents on a phone line | Core design goal | — |
 | Mid-call language switching | Yes | — |
 | Tools calling your systems | Yes | Yes |
-| Pricing unit | Per minute of conversation | Per usage of synthesis |
+| Pricing unit | Per minute of conversation | Per minute of conversation |
+| What the rate covers | Recognition, reasoning, synthesis | Voice layer; LLM billed separately |
+| Over concurrency limit | Same rate | $0.16 / min |
 | Self-hosted | Yes | — |
 | EU data residency | Yes | — |
 
 <Callout type="info">
-  Verify the right-hand column against their current documentation. ElevenLabs
-  ships quickly.
+  Checked against their published pricing in August 2026. ElevenLabs ships quickly, so
+  verify the right-hand column against their current documentation.
 </Callout>
 
 ## The honest summary
