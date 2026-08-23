@@ -6,6 +6,7 @@ import { NavBar } from "@/components/layout/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { AttributionCapture } from "@/components/attribution-capture";
 import { CookieBanner } from "@/components/cookie-banner";
+import { GoogleTag } from "@/components/google-tag";
 import { LandingVoiceControl } from "@/components/voice/landing-voice-control";
 
 interface MarketingLayoutProps {
@@ -27,6 +28,7 @@ export default async function MarketingLayout({
       <SiteFooter />
       <LandingVoiceControl />
       <CookieBanner />
+      <GoogleTag />
     </div>
   );
 }
