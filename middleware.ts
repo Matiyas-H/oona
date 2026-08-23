@@ -124,5 +124,11 @@ export const config = {
   // `docs` and `guides` are 301'd to guide.omnia-voice.com in next.config.js.
   // They are excluded here so the redirect fires before auth middleware runs —
   // otherwise the deny-by-default 404 below would shadow it.
-  matcher: ['/((?!api|_next/static|_next/image|images|favicon.ico|robots.txt|sitemap.xml|docs|guides|llm.txt|note.txt|site.webmanifest|\\.well-known).*)'],
+  //
+  // `llms.txt` / `llms-full.txt` / `llm.txt` are static files in public/ that
+  // describe the site to language models. They are excluded because
+  // publicRoutes does not list them, so the deny-by-default 404 would otherwise
+  // hide them from exactly the readers they exist for — which is what was
+  // happening to /llms.txt.
+  matcher: ['/((?!api|_next/static|_next/image|images|favicon.ico|robots.txt|sitemap.xml|docs|guides|llms\\.txt|llms-full\\.txt|llm\\.txt|note.txt|site.webmanifest|\\.well-known).*)'],
 }

@@ -95,8 +95,12 @@ const nextConfig = {
     const linkHeader = [
       '</sitemap.xml>; rel="sitemap"; type="application/xml"',
       '</.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json"',
+      // Advertised the way documentation platforms do, so an agent fetching the
+      // homepage discovers the index without having to guess the filename.
+      '</llms.txt>; rel="llms-txt"; type="text/plain"',
+      '</llms-full.txt>; rel="llms-full-txt"; type="text/plain"',
       '</llm.txt>; rel="describedby"; type="text/plain"',
-      '</docs>; rel="service-doc"; type="text/html"',
+      '<https://guide.omnia-voice.com>; rel="service-doc"; type="text/html"',
     ].join(", ");
 
     return [

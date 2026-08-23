@@ -5,8 +5,12 @@ const site_url = env.NEXT_PUBLIC_APP_URL;
 
 export const siteConfig: SiteConfig = {
   name: "Omnia Voice",
+  // Feeds <meta name="description">, og:description and twitter:description
+  // via app/layout.tsx. It was an empty string, so Next omitted the tags
+  // entirely — every page shipped with no description and every shared link
+  // rendered a blank card.
   description:
-    "",
+    "Build voice AI agents that answer the phone, use your tools, and speak 50+ languages. Audio-native, ~250ms response, EU-hosted or self-hosted.",
   url: site_url,
   ogImage: `${site_url}/og.jpg`,
   links: {

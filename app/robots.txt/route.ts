@@ -1,6 +1,8 @@
 export const dynamic = "force-static";
 
-const BASE_URL = "https://omnia-voice.com";
+// www, matching the canonical the apex redirects to. Declaring the apex here
+// pointed Host: and Sitemap: at a URL that 301s.
+const BASE_URL = "https://www.omnia-voice.com";
 
 const BLOCKED_PATHS = [
   "/dashboard",
@@ -31,6 +33,16 @@ function buildRobotsTxt(): string {
 
   lines.push(`Sitemap: ${BASE_URL}/sitemap.xml`);
   lines.push(`Host: ${BASE_URL}`);
+  lines.push("");
+
+  // Point language models at the structured description of this site and at
+  // the developer documentation. Assistants increasingly read robots.txt to
+  // find these, and the docs live on a separate host they would not otherwise
+  // discover from here.
+  lines.push("# For language models");
+  lines.push(`# Index:         ${BASE_URL}/llms.txt`);
+  lines.push(`# Full text:     ${BASE_URL}/llms-full.txt`);
+  lines.push("# Documentation: https://guide.omnia-voice.com");
   lines.push("");
 
   return lines.join("\n");

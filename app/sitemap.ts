@@ -1,8 +1,10 @@
 import { MetadataRoute } from "next";
-import { allPosts, allPages, allDocs, allGuides } from "contentlayer/generated";
+import { allPosts, allPages } from "contentlayer/generated";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://omnia-voice.com";
+  // www, matching the canonical. The apex 301s here, so declaring the apex
+  // pointed every sitemap entry at a redirect.
+  const baseUrl = "https://www.omnia-voice.com";
 
   // Static pages
   const staticPages = [
@@ -64,21 +66,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  // Docs
-  const docs = allDocs.map((doc) => ({
-    url: `${baseUrl}${doc.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
+  // /docs and /guides are deliberately absent. They mapped over the shadcn
+  // starter-kit content that used to be served here, and every one of those
+  // URLs now 301s to guide.omnia-voice.com — so listing them asked crawlers to
+  // spend budget on ~15 redirects and kept the dead URLs alive in the index.
+  //
+  // The real documentation is a separate Mintlify site with its own sitemap at
+  // https://guide.omnia-voice.com/sitemap.xml.
 
-  // Guides
-  const guides = allGuides.map((guide) => ({
-    url: `${baseUrl}${guide.slug}`,
-    lastModified: guide.date ? new Date(guide.date) : new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
-
-  return [...staticPages, ...blogPosts, ...docs, ...guides];
+  return [...staticPages, ...blogPosts];
 }

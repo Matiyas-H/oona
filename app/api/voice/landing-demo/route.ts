@@ -80,7 +80,7 @@ const toolDefinitions = [
   {
     temporaryTool: {
       modelToolName: "openDocs",
-      description: "Open the documentation page in new tab. Only use AFTER user confirms.",
+      description: "Open the developer documentation at guide.omnia-voice.com in a new tab. Only use AFTER user confirms.",
       dynamicParameters: [],
       client: {}
     }
@@ -125,6 +125,9 @@ Omnia Voice is an audio-native speech AI platform based in Helsinki, Finland. Tw
 - Dense and MoE Models: Choose architecture for your workload. Dense for consistency, MoE for efficiency at scale.
 - Regulated-Ready: End-to-end encryption, EU data residency, self-host option for complete data sovereignty.
 - Your Infrastructure: Run on our cloud, your cloud, or on-premise. Same API everywhere.
+
+=== DOCUMENTATION ===
+Developer documentation lives at guide dot omnia dash voice dot com. It covers quickstarts for the browser, inbound phone, outbound calls and bringing your own telephony; agents, tools and corpora; the JavaScript SDK; and a full API reference with an interactive playground. If someone asks how to build something, how the API works, or where the docs are, offer to open it.
 
 === DEPLOYMENT OPTIONS ===
 - Cloud: Fully managed, GPU-optimized, auto-scaling, monitored around the clock. Pay-per-minute. Start free in minutes.

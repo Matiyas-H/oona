@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Mic, MicOff, X, Loader2, Send } from "lucide-react";
+import { trackFunnel } from "@/lib/track";
 
 type Status = "idle" | "connecting" | "listening" | "speaking" | "error";
 
@@ -135,7 +136,11 @@ export function LandingVoiceControl() {
         }
         break;
       case "openDocs":
-        window.open("https://docs.omnia-voice.com", "_blank");
+        // guide.omnia-voice.com, NOT docs.omnia-voice.com — the latter is a
+        // different product's documentation (an LLM inference gateway) that
+        // happens to sit on the same brand domain. Sending a visitor there
+        // from the voice site is the worst possible answer to "show me docs".
+        window.open("https://guide.omnia-voice.com", "_blank");
         break;
       case "openDashboard":
         window.open("https://dashboard.omnia-voice.com/login", "_blank");
@@ -248,6 +253,7 @@ export function LandingVoiceControl() {
 
   // Start voice session
   const startSession = async () => {
+    trackFunnel("voice_guide_started");
     setStatus("connecting");
     setTranscript("");
 
@@ -451,12 +457,15 @@ export function LandingVoiceControl() {
     // Floating button with label
     return (
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          trackFunnel("voice_guide_opened");
+          setIsOpen(true);
+        }}
         className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-[#2D5A27] py-3 pl-4 pr-5 text-white shadow-lg transition-all hover:scale-105 hover:bg-[#2D5A27]/90"
         aria-label="Voice control"
       >
         <Mic className="size-5" />
-        <span className="text-sm font-medium">Voice Guide</span>
+        <span className="text-sm font-medium">Ask Luna to show you around</span>
       </button>
     );
   }

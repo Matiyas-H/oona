@@ -1,0 +1,49 @@
+# Omnia Voice
+
+> Build voice AI agents that answer the phone, use your tools, and speak 50+ languages. Audio-native models for real-time conversation and transcription, from Helsinki.
+
+Omnia Voice is a platform for building voice AI agents — AI that holds a real
+spoken conversation over the phone or in the browser, calls your APIs mid-call,
+and answers from your own documents. Standalone speech-to-text is available
+without an agent.
+
+Audio connects directly to the reasoning layer rather than passing through a
+separate transcription step, which is where the ~250ms first-response time comes
+from. Traditional pipelines chain speech-to-text, a language model, and
+text-to-speech, and typically land at 500–1000ms.
+
+Run it on our cloud, dedicated capacity, or your own infrastructure. All data is
+hosted in the EU.
+
+## Documentation
+
+- [Docs home](https://guide.omnia-voice.com): Full documentation for the voice API
+- [Quickstart](https://guide.omnia-voice.com/quickstart): Four paths — browser, inbound phone, outbound, or your own telephony
+- [API reference](https://guide.omnia-voice.com/api-reference/introduction): Every endpoint, with an interactive playground
+- [Agents](https://guide.omnia-voice.com/concepts/agents): Personality, voice, language, and call behaviour
+- [Tools](https://guide.omnia-voice.com/tools/overview): Let an agent call your APIs and control the call
+- [Corpora](https://guide.omnia-voice.com/concepts/corpora): Ground answers in your own documents
+- [Telephony](https://guide.omnia-voice.com/telephony/overview): Our numbers, or bring your own carrier
+- [JavaScript SDK](https://guide.omnia-voice.com/voice-sdk/overview): Browser and React, or raw WebSocket
+- [Speech to text](https://guide.omnia-voice.com/speech-to-text/overview): Batch files or live streaming
+- [Worked examples](https://guide.omnia-voice.com/examples/clinic-agent): Complete builds, start to finish
+- [FAQ](https://guide.omnia-voice.com/faq): Short answers to common questions
+
+## Product
+
+- [Homepage](https://omnia-voice.com): What the platform does, with a live playground
+- [Pricing](https://omnia-voice.com/pricing): Plans from free to enterprise, from $0.08/minute
+- [Dashboard](https://dashboard.omnia-voice.com): Manage agents, tools, numbers, and billing
+- [Sign up](https://dashboard.omnia-voice.com/register): Free tier, no credit card
+
+## Company
+
+- [Partners](https://omnia-voice.com/partners): Nitor, Houston Inc., and Setera Communications
+- [Blog](https://omnia-voice.com/blog): Writing on voice AI in production
+- [Contact](https://omnia-voice.com/contact): Talk to us
+
+## Optional
+
+- [Full description](https://omnia-voice.com/llms-full.txt): Capabilities, pricing tiers, and partners in detail
+- [Terms](https://omnia-voice.com/terms)
+- [Privacy](https://omnia-voice.com/privacy)
