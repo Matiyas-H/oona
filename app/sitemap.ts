@@ -66,6 +66,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  // Comparison pages. Live but unlisted until now, which meant they could not
+  // rank — and a comparison page that does not rank is a page nobody reads.
+  const comparisons = [
+    "vapi-alternative",
+    "retell-alternative",
+    "bland-alternative",
+    "elevenlabs-alternative",
+    "deepgram-alternative",
+    "openai-realtime-alternative",
+  ].map((slug) => ({
+    url: `${baseUrl}/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   // /docs and /guides are deliberately absent. They mapped over the shadcn
   // starter-kit content that used to be served here, and every one of those
   // URLs now 301s to guide.omnia-voice.com — so listing them asked crawlers to
@@ -74,5 +90,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // The real documentation is a separate Mintlify site with its own sitemap at
   // https://guide.omnia-voice.com/sitemap.xml.
 
-  return [...staticPages, ...blogPosts];
+  return [...staticPages, ...comparisons, ...blogPosts];
 }
