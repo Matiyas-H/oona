@@ -42,6 +42,7 @@ export const footerLinks: SidebarNavItem[] = [
     title: "Legal",
     items: [
       { title: "Privacy Policy", href: "/privacy" },
+      { title: "Cookie Policy", href: "/cookies" },
       { title: "Terms & Conditions", href: "/terms" },
     ],
   },
