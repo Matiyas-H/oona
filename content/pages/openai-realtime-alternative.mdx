@@ -1,0 +1,132 @@
+---
+title: "Omnia Voice vs OpenAI Realtime"
+description: "The Realtime API is excellent and entirely hosted. Everything here follows from that one fact."
+---
+
+OpenAI's Realtime API is a strong piece of engineering with the model quality you
+would expect. For prototyping a voice experience quickly, it is hard to beat.
+
+It is also completely hosted, on their infrastructure, with their models, at
+their prices. Every difference on this page follows from that.
+
+## Choose OpenAI Realtime if
+
+- You want the fastest possible path from idea to a talking prototype
+- Their model quality is your primary criterion
+- You are already deep in their ecosystem
+- Hosted-only is not a constraint for you
+
+## Choose Omnia if
+
+- **You cannot send audio to a third-party US API** — regulator, DPO, or customer
+  contract
+- **You want to run it yourself**, on your own infrastructure or on-premise
+- You want telephony you own rather than an integration you assemble
+- You want a per-minute cost that does not change when a vendor reprices
+
+---
+
+## One system, not an assembly
+
+Omnia connects audio directly to the reasoning layer. There is no speech-to-text
+stage in the middle, which is where the round-trip time goes and where nuance
+gets dropped. One design decision, two consequences worth having:
+
+**Speed.** About 250 milliseconds to first response, because processing starts
+while the caller is still speaking rather than after a transcript is finished.
+
+**Robustness.** Accents, proper nouns, and callers who switch language
+mid-sentence survive, because there is no transcription step to flatten them
+first. That is what 50+ languages means in practice — not a list on a pricing
+page, but comprehension over a narrowband phone line, at conversational pace.
+
+## Agents that act
+
+An agent that talks well and cannot do anything is an answering machine. Ours
+call your systems mid-conversation, with credentials encrypted at rest and never
+returned by the API, static parameters the model never sees, read-only lookups
+run eagerly so they do not become dead air, and a deferred pattern for work that
+cannot finish inside a timeout without stranding the caller.
+
+## Hosted-only is the constraint
+
+You cannot self-host the Realtime API. You cannot bring your own models. You
+cannot keep the audio inside the EU as a guarantee rather than a configuration.
+Those are not gaps in the product, they are what the product is.
+
+For a lot of teams that is completely fine. For a Finnish healthcare provider, a
+bank, or a public-sector body, it ends the conversation before features are
+discussed.
+
+Omnia runs three ways on the same API — our cloud, dedicated capacity, or
+entirely your own infrastructure. Moving between them does not change your
+integration code.
+
+And self-hosting is an exit route as much as a deployment choice. If we were
+acquired or changed direction, a self-hosted customer keeps running. **You cannot
+be orphaned by us.** A hosted-only API cannot offer that, by construction.
+
+## Telephony
+
+Realtime gives you a real-time audio API. Putting it on a phone line is work you
+do — a carrier, a media bridge, and the glue between them.
+
+Omnia treats the phone as a first-class case. Assign a number and an agent
+answers it, or bring your own carrier — Twilio, Telnyx, Plivo, or a SIP trunk —
+and stream to a WebSocket we hand you. **Your phone bill stays yours**, at your
+rates, unresold.
+
+## Cost
+
+| | |
+| --- | --- |
+| Voice agents | **$0.08 / minute** |
+| Transcription only | **$0.04 / minute** |
+| At volume | **as low as $0.04–0.05 / minute** |
+
+Per minute of conversation, in one number, on a rate you can forecast. Hosted
+model pricing is set by the vendor and changes when they decide it does.
+
+## Where it runs
+
+Cloud, dedicated GPU capacity, or entirely your own infrastructure — the same API
+across all three, so moving does not change your integration code. EU data
+residency is the default rather than a configuration.
+
+Self-hosting is also an exit route, not only a deployment preference. If we were
+acquired, pivoted, or sunset a service, a self-hosted customer keeps running.
+**You cannot be orphaned by us.**
+
+
+## Who runs this
+
+Veikkaus, Elisa, Eltel Networks and MySpeaker run on Omnia in production, and our
+partners deliver it for their own clients — Nitor for Finnair, Posti and OP
+Financial Group; Houston Inc. for Telia and Wärtsilä. Setera provides the
+telephony layer beneath, across more than fifty countries.
+
+## Side by side
+
+| | Omnia Voice | OpenAI Realtime |
+| --- | --- | --- |
+| Self-hosted | Yes | — |
+| Bring your own models | Self-hosted | — |
+| EU data residency | Yes | — |
+| Telephony | First-class, bring your own | Build it yourself |
+| Pricing unit | Per minute, forecastable | Token and audio based |
+| Mid-call language switching | Yes | Yes |
+| Model quality | Strong | Excellent |
+| Time to first prototype | Fast | Fastest |
+
+<Callout type="info">
+  Verify the right-hand column against OpenAI's current documentation.
+</Callout>
+
+## The honest summary
+
+If you are prototyping and hosting is not a constraint, use Realtime — it will be
+quicker and the models are excellent.
+
+If you are shipping something that has to run in the EU, or on your own hardware,
+or on a phone line, or at a cost you can put in a forecast, that is where this
+becomes a different conversation.

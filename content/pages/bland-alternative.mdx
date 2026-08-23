@@ -1,0 +1,141 @@
+---
+title: "Omnia Voice vs Bland"
+description: "Both of us take enterprise seriously and both offer self-hosting. Where we differ is the architecture, who owns the phone bill, and where the audio lives."
+---
+
+Bland targets security-conscious enterprises, and does it credibly — self-hosted
+models, low latency, compliance. Of everyone in this category their positioning
+is closest to ours, which makes this the most useful comparison on the site and
+the hardest one to write without slipping into noise.
+
+So here is the honest version. Not "we are enterprise too" — we have enterprise
+customers in production today, including self-hosted deployments — but where the
+two systems genuinely differ.
+
+## Choose Bland if
+
+- You want the larger, better-funded vendor, and vendor scale is a decisive
+  factor in your procurement
+- You want a single all-inclusive invoice covering telephony as well as the AI
+- You are buying primarily for the US market
+
+Those are real. Scale matters in a procurement process, and a single invoice is
+genuinely simpler to buy.
+
+## Choose Omnia if
+
+- **You want telephony to stay yours** — your carrier, your negotiated rates,
+  unresold
+- **Your audio has to stay in the EU**, as a default rather than a configuration
+- **Your callers are not all English speakers**, and accents, names and mid-call
+  switching have to survive a phone line
+- You want the AI cost to be one forecastable number
+
+---
+
+## One system, not an assembly
+
+Omnia connects audio directly to the reasoning layer. There is no speech-to-text
+stage in the middle, which is where round-trip time goes and where nuance gets
+dropped. One design decision, two consequences worth having:
+
+**Speed.** About 250 milliseconds to first response, because processing starts
+while the caller is still speaking rather than after a transcript is finished.
+
+**Robustness.** Accents, proper nouns, and callers who switch language
+mid-sentence survive, because there is no transcription step to flatten them
+first. That is what 50+ languages means in practice — not a list on a pricing
+page, but comprehension over a narrowband phone line, at conversational pace.
+
+<Callout type="info">
+  This is the claim you can check fastest. Open the demo and speak to it in the
+  language your callers actually use.
+</Callout>
+
+## Enterprise, concretely
+
+"Enterprise-ready" is a claim everyone makes, so here is what it means here.
+
+**Real enterprises, in production.** Veikkaus, Elisa, Eltel Networks and
+MySpeaker run on Omnia today, alongside deployments delivered through our
+partners.
+
+**Self-hosting is in production, not on a roadmap.** Enterprise customers run
+Omnia inside their own infrastructure today. The same API serves our cloud,
+dedicated GPU capacity, and a fully self-hosted deployment — moving between them
+does not change integration code.
+
+**EU data residency is the default**, not a region you select. For a European
+regulator, a DPO, or a customer contract that forbids audio leaving the
+jurisdiction, that is the difference between being on a shortlist and not.
+
+**The telephony layer beneath us is enterprise infrastructure.** Our partner
+Setera operates cloud PBX and SIP across more than fifty countries for
+organisations including Nokia, DHL and Microsoft. Voice AI that cannot survive
+contact with real enterprise telephony is a demo.
+
+**Integration partners with their own reputations.** Nitor — three hundred
+engineers, delivering for Finnair, Posti and OP Financial Group — builds on this
+platform. Houston Inc. deploys it for Telia and Wärtsilä. Those firms staked
+their own delivery on it.
+
+## Cost, and who owns the phone bill
+
+Both of us reject per-component pricing. We differ on telephony.
+
+| | |
+| --- | --- |
+| Voice agents | **$0.08 / minute** |
+| Transcription only | **$0.04 / minute** |
+| At volume | **as low as $0.04–0.05 / minute** |
+
+One number covering speech recognition, reasoning and speech synthesis.
+
+**Telephony is not included and we do not resell it.** Bring Twilio, Telnyx,
+Setera, or the SIP trunks you already have, and pay them directly.
+
+This is a genuine trade-off rather than a straight win. An all-inclusive model is
+simpler to buy — one invoice, one vendor, one renewal. Ours means two
+relationships, and in exchange your call costs are whatever you already
+negotiated with nobody's margin on top.
+
+For an enterprise with existing carrier contracts and multi-country SIP, that is
+usually decisive. For a team starting from nothing, it may not be.
+
+## Self-hosting as an exit route
+
+Worth stating plainly, and it applies to both of us: self-hosting is not only a
+deployment preference, it is insurance. If a vendor is acquired, pivots, or
+sunsets a service, a self-hosted customer keeps running.
+
+That is a good reason to prefer either Bland or Omnia over a purely hosted
+platform — and a fair question to put to both of us in procurement.
+
+## Side by side
+
+| | Omnia Voice | Bland |
+| --- | --- | --- |
+| Architecture | Audio direct to reasoning | Pipeline |
+| Conversational languages | 50+, Nordic and Spanish depth | Primarily English |
+| Mid-call language switching | Yes | — |
+| Self-hosted | In production today | Yes |
+| EU data residency | Default | Available |
+| Telephony | Yours, unresold | Included |
+| Pricing model | One rate for the AI | All-inclusive |
+| Enterprise customers in production | Yes | Yes |
+| Vendor scale | Smaller | Larger |
+| Primary market | Europe and Nordics | US |
+
+<Callout type="info">
+  Verify the right-hand column against Bland's current documentation before
+  deciding.
+</Callout>
+
+## The honest summary
+
+If vendor scale and a single all-inclusive invoice decide it for you, Bland is a
+serious answer and this page will not talk you out of it.
+
+If your audio has to stay in Europe, your callers do not all speak English, or
+you would rather keep the carrier relationship and the rates you already
+negotiated — that is where the two systems actually part company.
