@@ -1,0 +1,168 @@
+---
+title: "Omnia Voice vs Vapi"
+description: "An honest comparison. Where Vapi is the better choice, where Omnia is, and what a call actually costs on each."
+---
+
+Vapi is a developer platform for building voice agents, and a good one. API-first,
+strong documentation, a large community, and plenty of third-party examples. If
+you want to choose every component yourself and wire them together, that is
+exactly what it is for.
+
+Omnia is built the other way round. This page is about what that difference
+actually means.
+
+## Choose Vapi if
+
+- You want to pick each piece yourself — a specific speech-to-text model, a
+  specific LLM, a specific voice vendor — and own how they fit together
+- You want the largest ecosystem and the most community examples
+- You are comfortable with cost being a function of that assembly
+- Hosted-only suits you
+
+Those are real advantages. If they describe you, Vapi is the right tool.
+
+## Choose Omnia if
+
+- **You want a cost you can forecast before you run traffic**
+- **You want one system rather than five you assemble**
+- **You need to run it on your own infrastructure**, or keep audio in the EU
+
+---
+
+## What a call costs
+
+The difference here is structural, not a question of who is cheaper.
+
+**Vapi** charges a platform rate, and then the pieces you assemble on top meter
+separately — speech-to-text, the language model, text-to-speech, and telephony,
+each from its own vendor at its own price. The figure on the pricing page is the
+platform. The invoice is the platform plus four other things.
+
+That is the honest consequence of a modular design, and modularity is the point
+of Vapi. It also means you cannot put a number in a forecast until you have run
+real traffic, and that your unit economics move whenever one of those vendors
+reprices.
+
+**Omnia** charges one rate for the AI:
+
+| | |
+| --- | --- |
+| Voice agents | **$0.08 / minute** |
+| Transcription only | **$0.04 / minute** |
+| At volume | **as low as $0.04–0.05 / minute** |
+
+One number covering speech recognition, reasoning and speech synthesis, because
+they are not separate purchases.
+
+**Telephony is not included, and we do not resell it.** Bring Twilio, Telnyx,
+Setera or a SIP trunk you already have, and pay them their rates directly. Your
+phone bill stays your phone bill, at whatever you already negotiated.
+
+We would rather say that plainly than claim "all-inclusive" and let you find the
+asterisk later.
+
+## One system, not five
+
+Vapi's flexibility comes from letting you assemble the stack. The cost of
+assembly is that you own the seams — the latency where the pieces meet, the
+failure modes when one is slow, and the debugging when a caller is misheard and
+you have to work out which stage lost them.
+
+Omnia connects audio directly to the reasoning layer. There is no
+speech-to-text stage in the middle, which is where the round-trip time goes and
+where nuance gets dropped. That single design decision produces two things worth
+having:
+
+**Speed.** About 250 milliseconds to first response, because processing starts
+while the caller is still speaking rather than after a transcript is finished.
+
+**Robustness.** Accents, proper nouns, and callers who switch language
+mid-sentence survive, because there is no transcription step to flatten them
+first. In practice that is what 50+ languages means — not a list on a pricing
+page, but comprehension over a narrowband phone line, in Finnish or Spanish, at
+conversational pace.
+
+<Callout type="info">
+  This is the claim on this page you can check in thirty seconds. Open the demo
+  and speak to it in the language your callers actually use. We would rather you
+  did that than take our word.
+</Callout>
+
+## Agents that act
+
+Both platforms support tools. Worth knowing what ours carry:
+
+- **Credentials encrypted at rest**, decrypted only while a single call's payload
+  is assembled, never returned by the API
+- **Static parameters** the model never sees — tenant IDs and account scoping a
+  caller cannot talk the agent out of
+- **Read-only tools run eagerly** while the agent is still speaking, so a lookup
+  does not become dead air
+- **A deferred pattern** for work that cannot finish inside the timeout, without
+  stranding the caller in silence
+
+Table-stakes function calling is table stakes. The details above are what decides
+whether an agent is usable on a real phone line.
+
+## Where it runs
+
+Vapi is hosted. That is the product, and for most teams it is the right answer.
+
+Omnia runs three ways on the same API — our cloud, dedicated GPU capacity, or
+entirely your own infrastructure, cloud or on-premise. Moving between them does
+not change your integration code. EU data residency is the default rather than a
+configuration.
+
+Self-hosting is also an exit route, not only a deployment preference. If we were
+acquired, pivoted, or sunset a service, a self-hosted customer keeps running.
+**You cannot be orphaned by us.** A hosted-only platform cannot make that
+offer, by construction.
+
+
+## Who runs this
+
+Veikkaus, Elisa, Eltel Networks and MySpeaker run on Omnia in production, and our
+partners deliver it for their own clients — Nitor for Finnair, Posti and OP
+Financial Group; Houston Inc. for Telia and Wärtsilä. Setera provides the
+telephony layer beneath, across more than fifty countries.
+
+## Side by side
+
+| | Omnia Voice | Vapi |
+| --- | --- | --- |
+| Architecture | Audio direct to reasoning | Assembled pipeline |
+| First response | ~250ms | Depends on your stack |
+| Pricing model | One rate for the AI | Platform fee + per component |
+| Forecastable before launch | Yes | Depends on your assembly |
+| Telephony | Bring your own, unresold | Bring your own |
+| Conversational languages | 50+, Nordic and Spanish depth | Primarily English |
+| Mid-call language switching | Yes | — |
+| Self-hosted | Yes | — |
+| EU data residency | Default | — |
+| Bring your own models | Self-hosted | Yes |
+| Component choice | Fewer decisions | Full control |
+| Ecosystem size | Smaller | Larger |
+
+<Callout type="info">
+  Vapi ships quickly. Verify the right-hand column against their current
+  documentation before deciding — we would rather you checked than trusted a
+  table on our own website.
+</Callout>
+
+## Migrating
+
+Both model the same primitives: an agent with a prompt, a voice, tools, and a way
+to reach it. Moving usually means recreating the agent configuration, repointing
+your tool webhooks — the shapes differ, the concepts do not — and pointing your
+existing carrier at a new WebSocket URL.
+
+Your phone numbers do not move, because they were never ours to hold.
+
+## The honest summary
+
+If you want to choose every component and own the stack you assemble, Vapi gives
+you that and a larger community to do it with.
+
+If you would rather have one system with a cost you can put in a forecast, that
+runs where you need it to run and copes with callers who do not all sound the
+same — that is the trade we made.

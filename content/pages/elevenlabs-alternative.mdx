@@ -1,0 +1,122 @@
+---
+title: "Omnia Voice vs ElevenLabs Agents"
+description: "ElevenLabs makes the best synthetic voices available. Speaking a language and holding a conversation in it are different problems."
+---
+
+ElevenLabs built the best synthetic voices in the industry. That is not a
+concession, it is simply true, and their agents product inherits it.
+
+If how your agent *sounds* is the deciding factor, this page will not persuade
+you otherwise.
+
+## Choose ElevenLabs if
+
+- Voice quality is your primary criterion
+- You want the largest voice library, including cloning
+- You are already using them for synthesis and want agents in the same place
+- Brand voice matters more to you than conversational behaviour
+
+## Choose Omnia if
+
+- **You need the agent to understand, not only to speak**
+- **You want a forecastable per-minute cost**, billed per conversation rather
+  than per character generated
+- **You need it to act** — call your APIs mid-conversation, look things up, hand
+  off to a person
+- You want a forecastable per-minute cost
+- You need EU residency or self-hosting
+
+---
+
+## One system, not an assembly
+
+Omnia connects audio directly to the reasoning layer. There is no speech-to-text
+stage in the middle, which is where the round-trip time goes and where nuance
+gets dropped. One design decision, two consequences worth having:
+
+**Speed.** About 250 milliseconds to first response, because processing starts
+while the caller is still speaking rather than after a transcript is finished.
+
+**Robustness.** Accents, proper nouns, and callers who switch language
+mid-sentence survive, because there is no transcription step to flatten them
+first. That is what 50+ languages means in practice — not a list on a pricing
+page, but comprehension over a narrowband phone line, at conversational pace.
+
+## Speaking a language is not conversing in one
+
+This is the distinction the whole page turns on.
+
+ElevenLabs advertises thousands of voices across 70+ languages. That is
+**synthesis** — producing natural speech in a language, and they are excellent at
+it.
+
+Understanding a caller with a regional accent over a narrowband phone line,
+recognising a name, noticing they have switched language mid-sentence, and
+responding inside 250 milliseconds is a different problem. Omnia is built around
+that one: audio goes directly to reasoning, with no transcription step in between
+to lose the nuance.
+
+A demo will separate these faster than any table. Ours is on the homepage.
+
+## Doing things, not only saying them
+
+An agent that talks well and cannot act is a very good answering machine.
+
+Omnia agents call your systems mid-conversation — check real stock, book a real
+slot, write to your CRM — with your credentials, your timeouts, and parameters
+the model never sees. They read your documents. They hand off to a human when
+they should.
+
+If your use case is genuinely conversational rather than transactional, this
+matters less. If a caller ever needs a real answer from a real system, it is the
+whole game.
+
+## Cost
+
+**Omnia** charges one rate for the AI:
+
+| | |
+| --- | --- |
+| Voice agents | **$0.08 / minute** |
+| Transcription only | **$0.04 / minute** |
+| At volume | **as low as $0.04–0.05 / minute** |
+
+Recognition, reasoning and synthesis in one number, billed per minute of
+conversation rather than per character of generated speech.
+
+**Telephony is your own**, unresold.
+
+## Where it runs
+
+Cloud, dedicated GPU capacity, or entirely your own infrastructure — the same API
+across all three, so moving does not change your integration code. EU data
+residency is the default rather than a configuration.
+
+Self-hosting is also an exit route, not only a deployment preference. If we were
+acquired, pivoted, or sunset a service, a self-hosted customer keeps running.
+**You cannot be orphaned by us.**
+
+## Side by side
+
+| | Omnia Voice | ElevenLabs Agents |
+| --- | --- | --- |
+| Built around | Conversation | Voice synthesis |
+| Voice quality and library | Good | Best in class |
+| Voice cloning | Available | Extensive |
+| Understanding accents on a phone line | Core design goal | — |
+| Mid-call language switching | Yes | — |
+| Tools calling your systems | Yes | Yes |
+| Pricing unit | Per minute of conversation | Per usage of synthesis |
+| Self-hosted | Yes | — |
+| EU data residency | Yes | — |
+
+<Callout type="info">
+  Verify the right-hand column against their current documentation. ElevenLabs
+  ships quickly.
+</Callout>
+
+## The honest summary
+
+If you want the finest voice, they have it. If you want an agent that understands
+a Finnish caller, looks up their order, and books them in — that is a different
+product, and it is the one we built.

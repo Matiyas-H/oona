@@ -31,6 +31,21 @@ export const publicRoutes = [
   "/pricing",
   "/privacy",
   "/terms",
+
+  // Comparison pages. Served by app/(marketing)/[...slug] from
+  // content/pages/*.mdx. Listed individually rather than behind a prefix
+  // because the slugs are the search terms people actually type
+  // ("vapi alternative"), and a /compare/ prefix would bury that.
+  //
+  // Deny-by-default means a new comparison page is invisible until it is added
+  // here. That is deliberate: a page reaches the public web because someone
+  // decided it should, not because a file appeared in a directory.
+  "/vapi-alternative",
+  "/retell-alternative",
+  "/bland-alternative",
+  "/elevenlabs-alternative",
+  "/deepgram-alternative",
+  "/openai-realtime-alternative",
 ];
 
 /**

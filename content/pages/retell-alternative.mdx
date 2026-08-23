@@ -1,0 +1,131 @@
+---
+title: "Omnia Voice vs Retell"
+description: "Retell is built for call centres. Omnia is a platform you build on. Which one you want depends on whether you're buying a product or a foundation."
+---
+
+Retell positions itself explicitly as a voice agent platform **for phone call
+centres**, and it is good at that. If what you have is a call centre and what you
+want is to automate parts of it, that focus is a feature, not a limitation.
+
+Omnia is a platform you build on. The difference is less about capability than
+about who is expected to do the assembling.
+
+## Choose Retell if
+
+- You are automating an existing call centre and want something shaped for that
+- You want workflows, dashboards and agent management out of the box
+- Your operation runs in English
+- You would rather buy a product than build on a foundation
+
+## Choose Omnia if
+
+- **You are building a product**, not automating a call centre
+- **You want one system with a forecastable cost**, not a per-component bill
+- You need the agent embedded in *your* application — a web app, a mobile app,
+  your own telephony — rather than in a platform's console
+- You want to run it on your own infrastructure
+
+---
+
+## Product or platform
+
+This is the real fork.
+
+Retell gives you a call centre shaped thing. That is genuinely faster if your
+problem is call-centre shaped.
+
+Omnia gives you an API, an SDK, tools that call your systems, and a WebSocket you
+can bridge to anything. It expects you to build the product. That is slower on
+day one and better on day ninety, if what you are making is not a call centre.
+
+If you are an agency deploying voice for clients — as several of ours are — this
+matters. You are building something to hand over, not adopting something to
+operate.
+
+## One system, not an assembly
+
+Omnia connects audio directly to the reasoning layer. There is no speech-to-text
+stage in the middle, which is where the round-trip time goes and where nuance
+gets dropped. One design decision, two consequences worth having:
+
+**Speed.** About 250 milliseconds to first response, because processing starts
+while the caller is still speaking rather than after a transcript is finished.
+
+**Robustness.** Accents, proper nouns, and callers who switch language
+mid-sentence survive, because there is no transcription step to flatten them
+first. That is what 50+ languages means in practice — not a list on a pricing
+page, but comprehension over a narrowband phone line, at conversational pace.
+
+## Agents that act
+
+An agent that talks well and cannot do anything is an answering machine. Ours
+call your systems mid-conversation, with credentials encrypted at rest and never
+returned by the API, static parameters the model never sees, read-only lookups
+run eagerly so they do not become dead air, and a deferred pattern for work that
+cannot finish inside a timeout without stranding the caller.
+
+## Language, as a consequence
+
+Retell operates primarily in English. Their own comparison content is translated
+into a dozen languages; the agents are a separate question.
+
+Omnia holds a conversation in 50+ languages, with real depth in the Nordic
+languages and Spanish. Language is detected rather than declared, and an agent
+switches mid-call because the caller did — not because it was configured to.
+
+<Callout type="info">
+  Check this rather than believe it. Open the demo and speak to it in the
+  language your callers use.
+</Callout>
+
+## Cost
+
+**Omnia** charges one rate for the AI:
+
+| | |
+| --- | --- |
+| Voice agents | **$0.08 / minute** |
+| Transcription only | **$0.04 / minute** |
+| At volume | **as low as $0.04–0.05 / minute** |
+
+Speech recognition, reasoning and speech synthesis in a single number.
+
+**Telephony is your own.** Bring Twilio, Telnyx, Setera or an existing SIP trunk
+and pay them directly. We do not resell your phone bill or mark it up.
+
+## Where it runs
+
+Cloud, dedicated GPU capacity, or entirely your own infrastructure — the same API
+across all three, so moving does not change your integration code. EU data
+residency is the default rather than a configuration.
+
+Self-hosting is also an exit route, not only a deployment preference. If we were
+acquired, pivoted, or sunset a service, a self-hosted customer keeps running.
+**You cannot be orphaned by us.**
+
+## Side by side
+
+| | Omnia Voice | Retell |
+| --- | --- | --- |
+| Shaped for | Building a product | Automating a call centre |
+| Pricing model | One rate for the AI | Per-component |
+| Telephony | Bring your own, no markup | Bring your own |
+| Conversational languages | 50+, Nordic and Spanish depth | Primarily English |
+| Mid-call language switching | Yes | — |
+| Self-hosted | Yes | — |
+| EU data residency | Yes | — |
+| Embed in your own app | SDK, WebSocket, REST | Platform-centric |
+| Call-centre tooling out of the box | — | Yes |
+
+<Callout type="info">
+  Verify the right-hand column against Retell's current documentation. Their
+  product moves quickly and we would rather you checked than trusted a table on
+  our site.
+</Callout>
+
+## The honest summary
+
+If you run a call centre, Retell is shaped for you and Omnia will feel like
+building. If you are making something — a product, a client deployment, an agent
+inside your own app — and especially if your callers do not all speak English,
+that is the case for Omnia.
