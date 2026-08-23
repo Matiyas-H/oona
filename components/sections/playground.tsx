@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mic, MicOff, Upload, Phone, PhoneOff, Headphones, X, Loader2 } from "lucide-react";
+import { trackFunnel } from "@/lib/track";
 // Note: MicOff kept for STT mode, PhoneOff for agent end button
 
 type Tab = "transcribe" | "agent";
@@ -35,6 +36,26 @@ const formatRetryTime = (seconds: number): string => {
 const Playground = () => {
   const [activeTab, setActiveTab] = useState<Tab>("transcribe");
   const [transcribeMode, setTranscribeMode] = useState<TranscribeMode>("live");
+
+  // Did the visitor actually get here? Fires once, on arrival, so the
+  // reached -> started ratio is measurable rather than guessed at.
+  const reachedRef = useRef(false);
+  useEffect(() => {
+    const el = document.getElementById("playground");
+    if (!el || reachedRef.current) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting && !reachedRef.current) {
+          reachedRef.current = true;
+          trackFunnel("playground_reached");
+          io.disconnect();
+        }
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   // Expose control functions for voice control
   useEffect(() => {
@@ -177,6 +198,7 @@ const Playground = () => {
 
   // Start voice agent call
   const startAgentCall = async () => {
+    trackFunnel("playground_started", { mode: "agent" });
     if (isStartingCall) return; // Prevent double clicks
 
     setIsStartingCall(true);
@@ -410,6 +432,7 @@ const Playground = () => {
 
   // Start live recording
   const startRecording = useCallback(async () => {
+    trackFunnel("playground_started", { mode: "transcribe" });
     try {
       setError(null);
       setFinalTranscript("");

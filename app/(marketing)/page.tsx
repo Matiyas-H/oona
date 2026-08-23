@@ -1,6 +1,7 @@
 // New redesigned components
 import { HeroNew } from "@/components/sections/hero-new";
 import { Playground } from "@/components/sections/playground";
+import { ProductSplit } from "@/components/sections/product-split";
 import { IntroNew } from "@/components/sections/intro-new";
 import { Capabilities } from "@/components/sections/capabilities";
 import { CodeSection } from "@/components/sections/code-section";
@@ -16,6 +17,7 @@ export default async function IndexPage() {
     <>
       <HeroNew />
       <Playground />
+      <ProductSplit />
       <IntroNew />
       <Capabilities />
       <CodeSection />
