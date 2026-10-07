@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight, Copy, Check } from "lucide-react";
 
-const codeExamples = [
+export const codeExamples = [
   {
     id: "transcribe",
     label: "Transcribe",
@@ -74,7 +74,7 @@ const CodeSection = () => {
       <div className="container max-w-6xl">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left content */}
-          <div className="flex flex-col justify-center">
+          <div className="flex min-w-0 flex-col justify-center">
             <span className="text-xs font-medium tracking-wide text-[#1a1a1a]/40">
               DEVELOPER EXPERIENCE
             </span>
@@ -100,7 +100,7 @@ const CodeSection = () => {
           </div>
 
           {/* Right code block */}
-          <div className="flex flex-col">
+          <div className="flex min-w-0 flex-col">
             {/* Tabs */}
             <div className="flex gap-1 border-b border-[#1a1a1a]/10">
               {codeExamples.map((example) => (

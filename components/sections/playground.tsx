@@ -33,7 +33,7 @@ const formatRetryTime = (seconds: number): string => {
   }
 };
 
-const Playground = () => {
+const Playground = ({ header }: { header?: React.ReactNode }) => {
   const [activeTab, setActiveTab] = useState<Tab>("transcribe");
   const [transcribeMode, setTranscribeMode] = useState<TranscribeMode>("live");
 
@@ -683,7 +683,8 @@ const Playground = () => {
   return (
     <section id="playground" className="bg-[#1a1a1a] py-24 md:py-32">
       <div className="container max-w-5xl">
-        {/* Header */}
+        {/* Header — a page can supply its own in place of this one */}
+        {header ?? (
         <div className="mb-12 text-center md:mb-16">
           <span className="text-xs font-medium tracking-wide text-white/40">
             PLAYGROUND
@@ -695,6 +696,7 @@ const Playground = () => {
             Test our transcription accuracy or talk to a voice agent.
           </p>
         </div>
+        )}
 
         {/* Tabs */}
         <div className="mx-auto mb-8 flex max-w-md overflow-hidden border border-white/10">

@@ -7,7 +7,7 @@ import { Check, ArrowRight, Infinity } from "lucide-react";
 
 type BillingPeriod = "monthly" | "yearly";
 
-const plans = [
+export const plans = [
   {
     name: "Free",
     description: "Try it out",
@@ -132,7 +132,7 @@ const plans = [
 
 const formatNumber = (num: number | string): string => {
   if (typeof num === "string") return num;
-  return num.toLocaleString();
+  return num.toLocaleString("en-US");
 };
 
 const PricingSection = () => {

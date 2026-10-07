@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Cloud, Server, Building2, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-const deploymentOptions = [
+export const deploymentOptions = [
   {
     id: "hosted",
     icon: Cloud,

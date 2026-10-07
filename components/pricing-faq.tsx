@@ -7,7 +7,7 @@ import {
 
 import { HeaderSection } from "./shared/header-section";
 
-const pricingFaqData = [
+export const pricingFaqData = [
   {
     id: "item-1",
     question: "What do I get with the free plan?",
