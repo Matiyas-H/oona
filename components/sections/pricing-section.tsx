@@ -132,7 +132,7 @@ const plans = [
 
 const formatNumber = (num: number | string): string => {
   if (typeof num === "string") return num;
-  return num.toLocaleString();
+  return num.toLocaleString("en-US");
 };
 
 const PricingSection = () => {
