@@ -16,7 +16,8 @@ export type FunnelEvent =
   | "playground_reached"
   | "playground_started"
   | "voice_guide_opened"
-  | "voice_guide_started";
+  | "voice_guide_started"
+  | "redesign_preview_opened";
 
 export function trackFunnel(
   event: FunnelEvent,
