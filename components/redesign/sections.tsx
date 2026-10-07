@@ -226,9 +226,9 @@ export function Pricing({ as = "h2" }: { as?: "h1" | "h2" }) {
             <thead>
               <tr className="border-b border-[color:var(--ov-line)] text-[13px] text-[color:var(--ov-muted)]">
                 <th className="py-4 pl-12 pr-4 font-normal">Plan</th>
-                <th className="px-4 py-4 font-normal">Price</th>
+                <th className="p-4 font-normal">Price</th>
                 {planColumns.map((c) => (
-                  <th key={c.key} className="px-4 py-4 font-normal">
+                  <th key={c.key} className="p-4 font-normal">
                     {c.label}
                   </th>
                 ))}
@@ -335,7 +335,7 @@ export function Pricing({ as = "h2" }: { as?: "h1" | "h2" }) {
           })}
         </ul>
 
-        <p className="border-t border-[color:var(--ov-line)] px-5 py-5 text-sm text-[color:var(--ov-muted)] md:px-12">
+        <p className="border-t border-[color:var(--ov-line)] p-5 text-sm text-[color:var(--ov-muted)] md:px-12">
           All plans include EU data residency, API access, and documentation.{" "}
           <Link
             href="/contact"

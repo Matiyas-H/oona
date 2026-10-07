@@ -12,7 +12,7 @@ export function Hero() {
   return (
     <section id="hero" className="border-b border-[color:var(--ov-line)]">
       <style>{waveCss}</style>
-      <div className="mx-auto max-w-[1280px] border-x border-[color:var(--ov-line)]">
+      <div className="mx-auto max-w-screen-xl border-x border-[color:var(--ov-line)]">
         <div className="px-5 pb-16 pt-20 md:px-12 md:pb-24 md:pt-28">
           <h1 className="max-w-[16ch] font-heading text-[3.25rem] leading-[0.95] tracking-[-0.02em] md:text-[6.5rem]">
             Voice AI, built <br className="hidden md:block" />

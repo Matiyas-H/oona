@@ -169,7 +169,7 @@ const linkClass =
 
 export function WordmarkFooter() {
   return (
-    <footer className="mx-auto max-w-[1280px] border-x border-[color:var(--ov-line)]">
+    <footer className="mx-auto max-w-screen-xl border-x border-[color:var(--ov-line)]">
       <div className="grid grid-cols-2 gap-px bg-[color:var(--ov-line)] md:grid-cols-4">
         {columns.map((col) => (
           <div key={col.title} className="bg-[color:var(--ov-ground)] px-5 py-10 md:px-10">
@@ -203,7 +203,7 @@ export function WordmarkFooter() {
         <Wordmark layout="stacked" className="sm:hidden" />
       </div>
 
-      <div className="flex flex-wrap justify-between gap-4 border-t border-[color:var(--ov-line)] px-5 py-5 text-[13px] text-[color:var(--ov-muted)] md:px-10">
+      <div className="flex flex-wrap justify-between gap-4 border-t border-[color:var(--ov-line)] p-5 text-[13px] text-[color:var(--ov-muted)] md:px-10">
         <span>© {new Date().getFullYear()} Omnia Voice Oy</span>
         <Link href="/cookies" className={linkClass}>
           Cookie settings

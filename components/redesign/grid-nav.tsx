@@ -40,7 +40,7 @@ export function GridNav() {
     <header className="sticky top-0 z-40 border-b border-[color:var(--ov-line)] bg-[color:var(--ov-ground-glass)] backdrop-blur">
       <nav
         aria-label="Main"
-        className="mx-auto flex h-14 max-w-[1280px] border-x border-[color:var(--ov-line)]"
+        className="mx-auto flex h-14 max-w-screen-xl border-x border-[color:var(--ov-line)]"
       >
         <Link
           href="/redesign"
@@ -108,7 +108,7 @@ export function GridNav() {
               />
               <span
                 className={`absolute left-0 top-[10px] h-[2px] w-5 bg-[color:var(--ov-text)] transition-transform ${
-                  menuOpen ? "-translate-y-[5px] -rotate-45" : ""
+                  menuOpen ? "translate-y-[-5px] -rotate-45" : ""
                 }`}
               />
             </span>

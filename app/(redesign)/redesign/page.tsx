@@ -40,7 +40,7 @@ export default function RedesignPreviewPage() {
         <section id="contact" className="border-b border-[color:var(--ov-line)]">
           <div className={`${frame} grid md:grid-cols-[minmax(0,1fr)_auto]`}>
             <div className="px-5 py-14 md:px-12 md:py-20">
-              <h2 className="font-heading text-[2.5rem] leading-[1] tracking-[-0.01em] md:text-[4.5rem]">
+              <h2 className="font-heading text-[2.5rem] leading-none tracking-[-0.01em] md:text-[4.5rem]">
                 Start on our cloud.
                 <br />
                 Move when you&apos;re ready.

@@ -35,7 +35,7 @@ export function ProductRows() {
 
   return (
     <section className="border-b border-[color:var(--ov-line)]">
-      <div className="mx-auto max-w-[1280px] border-x border-[color:var(--ov-line)]">
+      <div className="mx-auto max-w-screen-xl border-x border-[color:var(--ov-line)]">
         <h2 className="border-b border-[color:var(--ov-line)] px-5 py-14 font-heading text-[2.25rem] leading-[1.05] tracking-[-0.01em] md:px-12 md:py-20 md:text-[3.5rem]">
           One audio-native model.
           <br />
@@ -156,7 +156,7 @@ function Row({
           field === "green" ? "bg-[color:var(--ov-field)]" : "bg-[color:var(--ov-field-alt)]"
         }`}
       >
-        <div className="w-full max-w-[520px] ov-panel border border-black/30 bg-[color:var(--ov-ground)] shadow-[8px_8px_0_rgba(0,0,0,0.25)]">
+        <div className="ov-panel w-full max-w-[520px] border border-black/30 bg-[color:var(--ov-ground)] shadow-[8px_8px_0_rgba(0,0,0,0.25)]">
           {children}
         </div>
       </div>
