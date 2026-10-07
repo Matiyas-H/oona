@@ -47,6 +47,10 @@ export const publicRoutes = [
   "/elevenlabs-alternative",
   "/deepgram-alternative",
   "/openai-realtime-alternative",
+
+  // Public preview of the redesign, opened from the banner on the live site.
+  // Its layout sets noindex, so it never competes with the pages it previews.
+  "/redesign",
 ];
 
 /**

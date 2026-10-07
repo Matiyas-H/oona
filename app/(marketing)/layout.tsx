@@ -8,6 +8,7 @@ import { AttributionCapture } from "@/components/attribution-capture";
 import { CookieBanner } from "@/components/cookie-banner";
 import { GoogleTag } from "@/components/google-tag";
 import { LandingVoiceControl } from "@/components/voice/landing-voice-control";
+import { RedesignBanner } from "@/components/redesign-banner";
 
 interface MarketingLayoutProps {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ export default async function MarketingLayout({
 
   return (
     <div className="flex min-h-screen flex-col overflow-x-hidden">
+      <RedesignBanner />
       <Suspense fallback="...">
         <AttributionCapture />
         <NavBar user={user} items={marketingConfig.mainNav} scroll={true} />

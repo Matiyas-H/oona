@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Globe, Layers, Radio, Lock, Cpu, Clock } from "lucide-react";
 
-const capabilities = [
+export const capabilities = [
   {
     icon: Globe,
     title: "50+ Languages",

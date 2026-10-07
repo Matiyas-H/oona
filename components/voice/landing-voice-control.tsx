@@ -1,12 +1,26 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Mic, MicOff, X, Loader2, Send } from "lucide-react";
 import { trackFunnel } from "@/lib/track";
 
 type Status = "idle" | "connecting" | "listening" | "speaking" | "error";
 
-export function LandingVoiceControl() {
+export function LandingVoiceControl({
+  sectionPages = {},
+}: {
+  /**
+   * Where to find sections that are not on the current page, e.g.
+   * { pricing: "/pricing" }. Mount this in a layout so the session survives
+   * the navigation. Omitted, Luna only scrolls within the page.
+   */
+  sectionPages?: Record<string, string>;
+} = {}) {
+  const router = useRouter();
+  // A ref because the tool handler is bound once, when the session starts.
+  const sectionPagesRef = useRef(sectionPages);
+  sectionPagesRef.current = sectionPages;
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [transcript, setTranscript] = useState("");
@@ -85,6 +99,19 @@ export function LandingVoiceControl() {
     };
   }, [sendContextUpdate]);
 
+  // Open the page that holds a section when it is not on this one. Returns
+  // whether it navigated.
+  const goToSectionPage = useCallback(
+    (sectionId: string) => {
+      const href = sectionPagesRef.current[sectionId];
+      if (!href || document.getElementById(sectionId)) return false;
+      router.push(href);
+      currentSectionRef.current = sectionId;
+      return true;
+    },
+    [router],
+  );
+
   // Tool handlers - these control the page
   const handleTool = useCallback((toolName: string, params: any) => {
     switch (toolName) {
@@ -97,6 +124,8 @@ export function LandingVoiceControl() {
             currentSectionRef.current = sectionId;
             // Highlight after scroll completes
             setTimeout(() => highlightSection(element), 600);
+          } else if (goToSectionPage(sectionId)) {
+            return `Opened the ${sectionId} page. User is now viewing it.`;
           }
         }
         // Return rich context in tool result
@@ -104,8 +133,12 @@ export function LandingVoiceControl() {
       case "openFaqItem":
         const faqId = params?.faqId || params?.id;
         if (faqId) {
-          // Dispatch custom event to open FAQ item
-          window.dispatchEvent(new CustomEvent("openFaqItem", { detail: { faqId } }));
+          // Dispatch custom event to open FAQ item, after loading the page
+          // that holds the FAQ if it is not this one
+          const openFaq = () =>
+            window.dispatchEvent(new CustomEvent("openFaqItem", { detail: { faqId } }));
+          if (goToSectionPage("faq")) setTimeout(openFaq, 900);
+          else openFaq();
           // Highlight the FAQ section
           setTimeout(() => {
             const faqSection = document.getElementById("faq");
@@ -115,7 +148,9 @@ export function LandingVoiceControl() {
         break;
       case "switchPlaygroundTab":
         const tab = params?.tab;
-        if (tab && window.playgroundControl) {
+        if (tab && !window.playgroundControl && goToSectionPage("playground")) {
+          setTimeout(() => window.playgroundControl?.switchTab(tab), 900);
+        } else if (tab && window.playgroundControl) {
           window.playgroundControl.switchTab(tab);
           // Highlight playground section
           setTimeout(() => {
@@ -126,7 +161,9 @@ export function LandingVoiceControl() {
         break;
       case "setTranscribeMode":
         const mode = params?.mode;
-        if (mode && window.playgroundControl) {
+        if (mode && !window.playgroundControl && goToSectionPage("playground")) {
+          setTimeout(() => window.playgroundControl?.setTranscribeMode(mode), 900);
+        } else if (mode && window.playgroundControl) {
           window.playgroundControl.setTranscribeMode(mode);
           // Highlight playground section
           setTimeout(() => {
@@ -161,7 +198,7 @@ export function LandingVoiceControl() {
         }, 1000);
         break;
     }
-  }, []);
+  }, [goToSectionPage, highlightSection]);
 
   // Stop all currently playing audio (for interruption)
   const stopPlayback = useCallback(() => {
